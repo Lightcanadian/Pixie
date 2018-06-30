@@ -71,6 +71,7 @@ import com.lilithsthrone.game.character.npc.dominion.Lumi;
 import com.lilithsthrone.game.character.npc.dominion.Nyan;
 import com.lilithsthrone.game.character.npc.dominion.Pazu;
 import com.lilithsthrone.game.character.npc.dominion.Pix;
+import com.lilithsthrone.game.character.npc.dominion.Pixie;
 import com.lilithsthrone.game.character.npc.dominion.Ralph;
 import com.lilithsthrone.game.character.npc.dominion.ReindeerOverseer;
 import com.lilithsthrone.game.character.npc.dominion.Rose;
@@ -1063,6 +1064,7 @@ public class Game implements Serializable, XMLSaving {
 			addNPC(new Jules(), false);
 			addNPC(new Kruger(), false);
 			addNPC(new Kalahari(), false);
+			addNPC(new Pixie(), false);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2850,6 +2852,10 @@ public class Game implements Serializable, XMLSaving {
 
 	public NPC getGenericAndrogynousNPC() {
 		return (NPC) this.getNPCById(getUniqueNPCId(GenericAndrogynousNPC.class));
+	}
+	
+	public NPC getPixie() {
+		return (NPC) this.getNPCById(getUniqueNPCId(Pixie.class));
 	}
 	
 	public List<NPC> getOffspring() {

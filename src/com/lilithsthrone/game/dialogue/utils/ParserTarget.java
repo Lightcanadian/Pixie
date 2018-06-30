@@ -244,6 +244,17 @@ public enum ParserTarget {
 		}
 	},
 	
+	PIXIE(Util.newArrayListOfValues("pixie"), "") {
+		public String getDescription() {
+			return Main.game.getPixie().getDescription();
+		}
+
+		@Override
+		public GameCharacter getCharacter(String tag) {
+			return Main.game.getPixie();
+		}
+	},
+	
 	BRAX(Util.newArrayListOfValues("brax"), "") {
 		public String getDescription() {
 			return Main.game.getBrax().getDescription();
