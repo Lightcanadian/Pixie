@@ -1064,7 +1064,7 @@ public class Game implements Serializable, XMLSaving {
 			addNPC(new Jules(), false);
 			addNPC(new Kruger(), false);
 			addNPC(new Kalahari(), false);
-			addNPC(new Pixie(), false);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

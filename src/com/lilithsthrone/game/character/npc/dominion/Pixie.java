@@ -39,6 +39,8 @@ import com.lilithsthrone.world.places.PlaceType;
 public class Pixie extends NPC {
 	private static final long serialVersionUID = 1L;	
 	
+	private boolean concealement=true;
+	
 	public Pixie() {
 		this(false);
 	}
@@ -107,7 +109,7 @@ public class Pixie extends NPC {
 			
 			this.setPlayerKnowsName(false);
 			//-----LOCATION-----//
-			this.setLocation(WorldType.LILAYAS_HOUSE_FIRST_FLOOR, PlaceType.LILAYA_HOME_ROOM_PLAYER);//For debuggin she spawn in our room at the beginning
+			this.setLocation(Main.game.getPlayer().getLocation());//For debuggin she spawn in our room at the beginning
 		}
 
 	}
@@ -129,5 +131,14 @@ public class Pixie extends NPC {
 	@Override
 	public DialogueNodeOld getEncounterDialogue() {
 		return null;
+	}
+	
+	@Override
+	public boolean isRaceConcealed() {
+		return concealement;
+	}
+	
+	public void setRaceConceal(boolean conceal)	{
+		concealement = conceal;	
 	}
 }

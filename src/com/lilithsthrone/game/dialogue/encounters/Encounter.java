@@ -27,6 +27,7 @@ import com.lilithsthrone.game.character.race.Subspecies;
 import com.lilithsthrone.game.dialogue.DialogueFlagValue;
 import com.lilithsthrone.game.dialogue.DialogueNodeOld;
 import com.lilithsthrone.game.dialogue.npcDialogue.SlaveDialogue;
+import com.lilithsthrone.game.dialogue.npcDialogue.dominion.PixieDialogue;
 import com.lilithsthrone.game.inventory.ItemTag;
 import com.lilithsthrone.game.inventory.Rarity;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
@@ -177,7 +178,8 @@ public enum Encounter {
 			new Value<EncounterType, Float>(EncounterType.DOMINION_ALLEY_ATTACK, 15f),
 			new Value<EncounterType, Float>(EncounterType.DOMINION_FIND_ITEM, 3f),
 			new Value<EncounterType, Float>(EncounterType.DOMINION_FIND_CLOTHING, 2f),
-			new Value<EncounterType, Float>(EncounterType.DOMINION_FIND_WEAPON, 1f))) {
+			new Value<EncounterType, Float>(EncounterType.DOMINION_FIND_WEAPON, 1f),
+			new Value<EncounterType, Float>(EncounterType.DOMINION_PIXIE_MEETING, 14f))) {
 
 		@Override
 		protected DialogueNodeOld initialiseEncounter(EncounterType node) {
@@ -255,6 +257,9 @@ public enum Encounter {
 				
 				Main.game.getActiveWorld().getCell(Main.game.getPlayer().getLocation()).getInventory().addWeapon(randomWeapon);
 				return DominionEncounterDialogue.ALLEY_FIND_WEAPON;
+			
+			} else if(node == EncounterType.DOMINION_PIXIE_MEETING) {
+				return PixieDialogue.PIXIE_FIRST_MEETING;
 				
 			} else {
 				return null;
