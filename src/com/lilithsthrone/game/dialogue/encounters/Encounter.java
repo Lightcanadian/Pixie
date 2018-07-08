@@ -258,8 +258,17 @@ public enum Encounter {
 				Main.game.getActiveWorld().getCell(Main.game.getPlayer().getLocation()).getInventory().addWeapon(randomWeapon);
 				return DominionEncounterDialogue.ALLEY_FIND_WEAPON;
 			
-			} else if(node == EncounterType.DOMINION_PIXIE_MEETING) {
-				return PixieDialogue.PIXIE_FIRST_MEETING;
+			} else if(node == EncounterType.DOMINION_PIXIE_MEETING) {				
+				if (Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.pixieDisable)){
+					for (Entry<EncounterType, Float> e : getDialogues().entrySet()) {
+						if (e.getKey() == EncounterType.DOMINION_PIXIE_MEETING) {
+							e.setValue(0.0f);
+						}						
+					}
+					return initialiseEncounter(EncounterType.DOMINION_ALLEY_ATTACK);
+				} else {
+					return PixieDialogue.PIXIE_FIRST_MEETING;
+				}
 				
 			} else {
 				return null;

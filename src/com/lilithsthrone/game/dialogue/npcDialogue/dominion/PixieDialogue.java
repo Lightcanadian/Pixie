@@ -15,6 +15,8 @@ public class PixieDialogue {
 		public String getContent() {
 			if(Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.pixieFound)) {				
 				return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_INTRO_REPEAT");
+			} else if(Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.pixieDisable)){
+				return null;			
 			} else {
 				return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_INTRO");
 			}
@@ -58,6 +60,18 @@ public class PixieDialogue {
 								e.printStackTrace();
 							}
 						}
+					}
+				};
+			} else if(index==3) {
+				return new Response("Leave", "Let the enforcer deal with it.(Will end the questline)", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return Main.game.getDefaultDialogueNoEncounter();
+					}
+					@Override
+					public void effects() {
+						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieDisable, true);
+						Main.game.removeNPC(Main.game.getPixie());
 					}
 				};
 			}

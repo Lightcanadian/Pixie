@@ -26,6 +26,7 @@ import com.lilithsthrone.game.character.persona.SexualOrientation;
 import com.lilithsthrone.game.character.race.RaceStage;
 import com.lilithsthrone.game.character.race.RacialBody;
 import com.lilithsthrone.game.dialogue.DialogueNodeOld;
+import com.lilithsthrone.game.dialogue.npcDialogue.dominion.PixieDialogue;
 import com.lilithsthrone.game.inventory.CharacterInventory;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Colour;
@@ -39,7 +40,7 @@ import com.lilithsthrone.world.places.PlaceType;
 public class Pixie extends NPC {
 	private static final long serialVersionUID = 1L;	
 	
-	private boolean concealement=true;
+	private boolean concealed = true;
 	
 	public Pixie() {
 		this(false);
@@ -94,8 +95,7 @@ public class Pixie extends NPC {
 			//-----HORN-----//
 			this.setHornLength(2);
 			this.setHornRows(1);
-			this.setHornType(HornType.SWEPT_BACK);
-			
+			this.setHornType(HornType.SWEPT_BACK);			
 			
 			//-----PENIS-----//
 			this.setPenisCumStorage(1);
@@ -130,15 +130,15 @@ public class Pixie extends NPC {
 	
 	@Override
 	public DialogueNodeOld getEncounterDialogue() {
-		return null;
+		return PixieDialogue.PIXIE_FIRST_MEETING;		
 	}
 	
 	@Override
 	public boolean isRaceConcealed() {
-		return concealement;
+		return concealed;
 	}
 	
 	public void setRaceConceal(boolean conceal)	{
-		concealement = conceal;	
+		concealed = conceal;	
 	}
 }

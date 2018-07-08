@@ -23,7 +23,7 @@ public enum DialogueFlagValue {
 	foundHappiness,
 	visitedSubmission,
 	mommyFound,
-	pixieFound,
+	
 	
 	// Gym:
 	gymIntroduced,
@@ -155,6 +155,10 @@ public enum DialogueFlagValue {
 	passedJules,
 	kalahariIntroduced,
 	krugerIntroduced,
+	
+	//Pixie
+	pixieFound,
+	pixieDisable,
 	
 	
 	;
