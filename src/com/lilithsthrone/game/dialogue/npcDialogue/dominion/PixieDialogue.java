@@ -71,7 +71,9 @@ public class PixieDialogue {
 					@Override
 					public void effects() {
 						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieDisable, true);
-						Main.game.removeNPC(Main.game.getPixie());
+						if(Main.game.getPixie() != null) {
+							Main.game.removeNPC(Main.game.getPixie());
+						}
 					}
 				};
 			}
