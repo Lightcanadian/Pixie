@@ -8,7 +8,7 @@ import com.lilithsthrone.game.character.npc.dominion.Pixie;
 import com.lilithsthrone.main.Main;
 
 public class PixieDialogue {
-	public static final DialogueNodeOld PIXIE_FIRST_MEETING = new DialogueNodeOld("Women running", "", true) {
+	public static final DialogueNodeOld PIXIE_INTRO = new DialogueNodeOld("Women running", "", true) {
 		private static final long serialVersionUID = 1L;
 		
 		@Override
@@ -28,7 +28,7 @@ public class PixieDialogue {
 				return new Response("Investigate ", "Investigate they alley where the woman came from.", null) {
 					@Override
 					public DialogueNodeOld getNextDialogue() {
-						return Main.game.getDefaultDialogueNoEncounter();
+						return PIXIE_FIRST_ENCOUNTER;
 					}
 					
 					@Override
@@ -36,7 +36,7 @@ public class PixieDialogue {
 						if(Main.game.getPixie() == null) {
 							try {
 							Main.game.addNPC(new Pixie(), false);							
-							((Pixie)Main.game.getPixie()).setRaceConceal(false);
+							getPixie().setRaceConceal(false);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -79,6 +79,124 @@ public class PixieDialogue {
 			}
 			
 			return null;
+		}
+		private Pixie getPixie() {
+			return (Pixie)Main.game.getPixie();
+		}
+	};
+	
+	public static final DialogueNodeOld PIXIE_FIRST_ENCOUNTER = new DialogueNodeOld("Stranger", "", true) {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getContent() {
+			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_FIRST_ENCOUNTER");
+		}
+
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			if(index==1) {
+				return new Response("Comfort", "Try to comfort this poor soul.", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return PIXIE_COMFORT;
+					}
+					
+					@Override
+					public void effects() {
+						getPixie();
+					}
+				};
+				
+			} else if(index==2) {
+				return new Response("Challenge", "You can't stand such a weak display", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return PIXIE_PLACE_HOLDER;
+					}
+					@Override
+					public void effects() {
+					}
+				};
+			}
+			
+			return null;
+		}
+		private Pixie getPixie() {
+			return (Pixie)Main.game.getPixie();
+		}
+	};
+	
+	public static final DialogueNodeOld PIXIE_COMFORT = new DialogueNodeOld("Pixie", "", true) {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getContent() {
+			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_FIRST_ENCOUNTER_COMFORT");
+		}
+
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			if(index==1) {
+				return new Response("Comfort", "Try to comfort this poor soul.", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return Main.game.getDefaultDialogueNoEncounter();
+					}
+					
+					@Override
+					public void effects() {
+						getPixie();
+					}
+				};
+				
+			} else if(index==2) {
+				return new Response("Challenge", "You can't stand such a weak display", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return PIXIE_PLACE_HOLDER;
+					}
+					@Override
+					public void effects() {
+					}
+				};
+			}
+			
+			return null;
+		}
+		private Pixie getPixie() {
+			return (Pixie)Main.game.getPixie();
+		}
+	};
+	
+	public static final DialogueNodeOld PIXIE_PLACE_HOLDER = new DialogueNodeOld("Stranger", "", true) {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getContent() {
+			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PLACE_HOLDER");
+		}
+
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			if(index==1) {
+				return new Response("Back to game", "No more content is present at the moment", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return Main.game.getDefaultDialogueNoEncounter();
+					}
+					
+					@Override
+					public void effects() {
+						getPixie();
+					}
+				};
+			}
+			
+			return null;
+		}
+		private Pixie getPixie() {
+			return (Pixie)Main.game.getPixie();
 		}
 	};
 }

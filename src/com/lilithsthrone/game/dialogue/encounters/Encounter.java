@@ -267,7 +267,7 @@ public enum Encounter {
 					}
 					return initialiseEncounter(EncounterType.DOMINION_ALLEY_ATTACK);
 				} else {
-					return PixieDialogue.PIXIE_FIRST_MEETING;
+					return PixieDialogue.PIXIE_INTRO;
 				}
 				
 			} else {

@@ -130,7 +130,7 @@ public class Pixie extends NPC {
 	
 	@Override
 	public DialogueNodeOld getEncounterDialogue() {
-		return PixieDialogue.PIXIE_FIRST_MEETING;		
+		return PixieDialogue.PIXIE_INTRO;		
 	}
 	
 	@Override

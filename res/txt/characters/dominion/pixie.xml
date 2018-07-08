@@ -20,14 +20,21 @@
 	
 	<htmlContent tag="PIXIE_FIRST_ENCOUNTER"><![CDATA[
 	<p>
-		​Wondering what caused the woman to flee the scene, you decide to investigate the alley she just stormed out of.​​​​​​​​​​​​​​​​​​​​​​​ You step into the corridor and, at first glance, nothing seems suspicious.​​​​​​​​​​​​​​​​​​​​​​​ As you were just about to turn back, you hear a soft wine coming from behind a container.​​​​​​​​​​​​​​​​​​​​​​​ As you look closer you realise that someone is hiding under a rag next to the large metal box.​​​​​​​​​​​​​​​​​​​​​​​ The rag-covered stranger soon realises that you found them.​​​​​​​​​​​​​​​​​​​​​​​ She raises her head, revealing her cute features.​​​​​​​​​​​​​​​​​​​​​​​ [pixie.her] teary ​​​​​​​​​​​​​[​​​​​​​​​​​​​pixie.​​​​​​​​​​​​​eyeColor(true)] ​​​​​​​​​​​​[​​​​​​​​​​​​pixie.​​​​​​​​​​​​eyes] lock on yours and [pixie.she] shakingly shouts ​​​​​​​​​​​​​​​​​​​​​​​[​​​​​​​​​​​​​​​​​​​​​​​pixie.​​​​​​​​​​​​​​​​​​​​​​​say(What do you want! I’m not a roadside freak show! Go Away!)].​​​​​​​​​​​​​​​​​​​​​​​ You can’t help yourself and ask ​​​​​​​​​​​​​​[​​​​​​​​​​​​​​player.​​​​​​​​​​​​​​say(Are you alright? A woman just passed by me saying something about a monster?)] to which the small figure yelled back ​​​​​​​​​​​​​​​[​​​​​​​​​​​​​​​pixie.​​​​​​​​​​​​​​​say(<b>THAT WOMAN WAS MY MOTHER!!!</b> She gave birth to me and my sister in this alleyway.​​​​​​​​​​​​​​​​​​​​​​​.​​​​​​​​​​​​​​​​​​​​​​ As soon as she could, my sister left but when I first laid eyes on my mother she was in such a bad shape that I decided to stay and make sure she was alright, but as soon as she woke up-)] 
+		​Wondering what caused the woman to flee the scene, you decide to investigate the alley she just stormed out of.​​​​​​​​​​​​​​​​​​​​​​​ You step into the corridor and, at first glance, nothing seems suspicious.
+	</p>
+	<p>
+		As you were just about to turn back, you hear a soft wine coming from behind a container.​​​​​​​​​​​​​​​​​​​​​​​ As you look closer you realise that someone is hiding under a rag next to the large metal box.
+	</p>
+	<p>
+		The rag-covered stranger soon realises that you found them.​​​​​​​​​​​​​​​​​​​​​​​ [pixie.She] raises her head, revealing her cute features.​​​​​​​​​​​​​​​​​​​​​​​ [pixie.Her] teary ​​​​​​​​​​​​​[​​​​​​​​​​​​​pixie.​​​​​​​​​​​​​eyeColor(true)] ​​​​​​​​​​​​[​​​​​​​​​​​​pixie.​​​​​​​​​​​​eyes] lock on yours and [pixie.she] shakingly shouts ​​​​​​​​​​​​​​​​​​​​​​​[​​​​​​​​​​​​​​​​​​​​​​​pixie.​​​​​​​​​​​​​​​​​​​​​​​say(What do you want! I’m not a roadside freak show! Go Away!)].​​​​​​​​​​​​​​​​​​​​​​​ 
+		You can’t help yourself and ask ​​​​​​​​​​​​​​[​​​​​​​​​​​​​​player.​​​​​​​​​​​​​​say(Are you alright? A woman just passed by me saying something about a monster?)] to which the small figure yelled back ​​​​​​​​​​​​​​​[​​​​​​​​​​​​​​​pixie.​​​​​​​​​​​​​​​say(<b>THAT WOMAN WAS MY MOTHER!!!</b> She gave birth to me and my sister in this alleyway.​​​​​​​​​​​​​​​​​​​​​​​.​​​​​​​​​​​​​​​​​​​​​​ As soon as she could, my sister left but when I first laid eyes on my mother she was in such a bad shape that I decided to stay and make sure she was alright, but as soon as she woke up-)]
 	</p>
 	]]>
 	</htmlContent>
 	
-	<htmlContent tag="PIXIE_FIRST_ENCOUNTER_CARE"><![CDATA[
+	<htmlContent tag="PIXIE_FIRST_ENCOUNTER_COMFORT"><![CDATA[
 	<p>
-		[pixie.HerPro] sentence was cut short by [pixie.herPro] knees suddenly buckling.​​​​​​​​​​​​​​​​​​​​​​​ As [pixie.shes] seemingly about to collapse, you propose to sit down side by side against the wall.​​​​​​​​​​​​​​​​​​​​​​​ ​​​​​​​​​​​[​​​​​​​​​​​pixie.​​​​​​​​​​​say(A- as soon as she saw my ​​​​​​​​​​[​​​​​​​​​​pixie.​​​​​​​​​​horns] she started shouting and saying that I’m- a- a monster!)] Tears rolling down her cheeks as [pixie.she] recounts the events that just unfolded.​​​​​​​​​​​​​​​​​​​​​​​ After finishing [pixie.herPro] sentence, a few seconds of silence pass and [pixie.her] crying turns into heavy sobbing.​​​​​​​​​​​​​​​​​​​​​​​ To comfort [pixie.herPro] you, wrap your arms around her petite body.​​​​​​​​​​​​​​​​​​​​​​​ You softly tell her ​​​​​​​​​[​​​​​​​​​player.​​​​​​​​​say(It’s okay sweetie, she must have had her reasons.​​​​​​​​​​​​​​​​​​​​​​​ You’re in safe hands now, don’t worry.​​​​​​​​​​​​​​​​​​​​​​​ What’s your name, honey?)] through the wails and bawls, she answers ​​​​​​​​[​​​​​​​​pixie.​​​​​​​​say(Pixie)], wrapping her ​​​​​​[​​​​​​pixie.​​​​​​arms+] around your torso and squeezing you as tightly as she can.​​​​​​​​​​​​​​​​​​​​​​​ You stay with her and let her empty out her emotions and pent up stress until, after several minutes, you hear someone walking steadily down the alley towards you both.​​​​​​​​​​​​​​​​​​​​​​​
+		[pixie.HerPro] sentence was cut short by [pixie.herPro] knees suddenly buckling.​​​​​​​​​​​​​​​​​​​​​​​ As [pixie.she] seemingly about to collapse, you propose to sit down side by side against the wall.​​​​​​​​​​​​​​​​​​​​​​​ ​​​​​​​​​​​[​​​​​​​​​​​pixie.​​​​​​​​​​​say(A- as soon as she saw my ​​​​​​​​​​[​​​​​​​​​​pixie.​​​​​​​​​​horns] she started shouting and saying that I’m- a- a monster!)]</br></br> Tears rolling down her cheeks as [pixie.she] recounts the events that just unfolded.</br></br>​​​​​​​​​​​​​​​​​​​​After finishing [pixie.herPro] sentence, a few seconds of silence pass and [pixie.her] crying turns into heavy sobbing.​​​​​​​​​​​​​​​​​​​​​​​ To comfort [pixie.herPro] you, wrap your arms around her petite body.​​​​​​​​​​​​​​​​​​​​​​​ You softly tell her ​​​​​​​​​[​​​​​​​​​player.​​​​​​​​​say(It’s okay sweetie, she must have had her reasons.​​​​​​​​​​​​​​​​​​​​​​​ You’re in safe hands now, don’t worry.​​​​​​​​​​​​​​​​​​​​​​​ What’s your name, honey?)] through the wails and bawls, she answers ​​​​​​​​[​​​​​​​​pixie.​​​​​​​​say(Pixie)], wrapping her ​​​​​​[​​​​​​pixie.​​​​​​arms+] around your torso and squeezing you as tightly as she can.​​​​​​​​​​​​​​​​​​​​​​​</br></br> You stay with her and let her empty out her emotions and pent up stress until, after several minutes, you hear someone walking steadily down the alley towards you both.​​​​​​​​​​​​​​​​​​​​​​​
 	</p>
 	<p>
 		(Affection +)
@@ -35,4 +42,10 @@
 	]]>
 	</htmlContent>
 	
+	<htmlContent tag="PLACE_HOLDER"><![CDATA[
+	<p>
+		This is a place holder
+	</p>
+	]]>
+	</htmlContent>
 </dialogue>
