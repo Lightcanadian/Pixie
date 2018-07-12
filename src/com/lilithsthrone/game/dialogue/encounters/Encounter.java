@@ -77,6 +77,8 @@ public enum Encounter {
 						}
 					}
 				}
+				slaves.removeIf((slave) -> slave.getWorldLocation()==WorldType.SLAVER_ALLEY);
+				hornySlaves.removeIf((slave) -> slave.getWorldLocation()==WorldType.SLAVER_ALLEY);
 				
 				if(!hornySlaves.isEmpty()) {
 					Collections.shuffle(hornySlaves);

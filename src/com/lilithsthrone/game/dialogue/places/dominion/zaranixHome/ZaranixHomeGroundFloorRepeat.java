@@ -447,7 +447,7 @@ public class ZaranixHomeGroundFloorRepeat {
 					return new ResponseSex("Submit",
 							"You can't bring yourself to take the dominant role, but you <i>do</i> want to have sex with Katherine. Perhaps if you submitted, [katherine.she]'d be willing to fuck you?",
 							Util.newArrayListOfValues(Fetish.FETISH_SUBMISSIVE), null, CorruptionLevel.THREE_DIRTY, null, null, null,
-							true, true,
+							false, false,
 							new SMStanding(
 									Util.newHashMapOfValues(new Value<>(Main.game.getKatherine(), SexPositionSlot.STANDING_DOMINANT)),
 									Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.STANDING_SUBMISSIVE))),
@@ -491,11 +491,6 @@ public class ZaranixHomeGroundFloorRepeat {
 	
 	public static final DialogueNodeOld AFTER_KATHERINE_SEX = new DialogueNodeOld("", "Katherine lets out a deep sigh as she steps back.", false) {
 		private static final long serialVersionUID = 1L;
-
-		@Override
-		public int getMinutesPassed() {
-			return 15;
-		}
 
 		@Override
 		public String getLabel() {
@@ -616,7 +611,7 @@ public class ZaranixHomeGroundFloorRepeat {
 					return new ResponseSex("Submit",
 							"You can't bring yourself to take the dominant role, but you <i>do</i> want to have sex with Katherine. Perhaps if you submitted, [katherine.she]'d be willing to fuck you?",
 							Util.newArrayListOfValues(Fetish.FETISH_SUBMISSIVE), null, CorruptionLevel.THREE_DIRTY, null, null, null,
-							true, true,
+							false, false,
 							new SMStanding(
 									Util.newHashMapOfValues(new Value<>(Main.game.getKatherine(), SexPositionSlot.STANDING_DOMINANT)),
 									Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.STANDING_SUBMISSIVE))),
@@ -1216,11 +1211,6 @@ public class ZaranixHomeGroundFloorRepeat {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public int getMinutesPassed() {
-			return 15;
-		}
-
-		@Override
 		public String getContent() {
 			return UtilText.parseFromXMLFile("places/dominion/zaranixHome/groundFloorRepeat", "AMBER_LOUNGE_POST_CONSENSUAL_SEX");
 		}
@@ -1233,11 +1223,6 @@ public class ZaranixHomeGroundFloorRepeat {
 	
 	public static final DialogueNodeOld AMBER_LOUNGE_POST_SEX = new DialogueNodeOld("Collapse", "Amber is finished with you.", false) {
 		private static final long serialVersionUID = 1L;
-
-		@Override
-		public int getMinutesPassed() {
-			return 15;
-		}
 
 		@Override
 		public String getContent() {
@@ -1358,7 +1343,7 @@ public class ZaranixHomeGroundFloorRepeat {
 				return new ResponseSex("Submit",
 						"Amber's fiery personality is seriously turning you on. You can't bring yourself to take the dominant role, but you <i>do</i> want to have sex with her. Perhaps if you submitted, she'd be willing to fuck you?",
 						Util.newArrayListOfValues(Fetish.FETISH_SUBMISSIVE), null, CorruptionLevel.THREE_DIRTY, null, null, null,
-						true, true,
+						false, false,
 						new SMAmberDoggyFucked(
 								Util.newHashMapOfValues(new Value<>(Main.game.getAmber(), SexPositionSlot.DOGGY_BEHIND)),
 								Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.DOGGY_ON_ALL_FOURS))),
@@ -1762,11 +1747,6 @@ public class ZaranixHomeGroundFloorRepeat {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public int getMinutesPassed() {
-			return 5;
-		}
-
-		@Override
 		public String getContent() {
 			return UtilText.parseFromXMLFile("places/dominion/zaranixHome/groundFloorRepeat", "WALKIES_AMBER_FUCKS_POST_SEX");
 		}
@@ -1790,11 +1770,6 @@ public class ZaranixHomeGroundFloorRepeat {
 	
 	public static final DialogueNodeOld WALKIES_PET_FUCKS = new DialogueNodeOld("Demon Home", "", true, true) {
 		private static final long serialVersionUID = 1L;
-
-		@Override
-		public int getMinutesPassed() {
-			return 5;
-		}
 
 		@Override
 		public String getContent() {
@@ -1953,7 +1928,7 @@ public class ZaranixHomeGroundFloorRepeat {
 					} else {
 						// Player performing oral:
 						return new ResponseSex("Perform oral",
-								"Do as Amber commands and get ready to suck [npc.name]'s [npc.cock+].",
+								"Do as Amber commands and get ready to suck [npc.namePos] [npc.cock+].",
 								null, null, null, null, null, null,
 								true, false,
 								new SMPetOral(
@@ -1977,11 +1952,6 @@ public class ZaranixHomeGroundFloorRepeat {
 	
 	public static final DialogueNodeOld WALKIES_PET_FUCKS_POST_SEX = new DialogueNodeOld("Used", "", true) {
 		private static final long serialVersionUID = 1L;
-
-		@Override
-		public int getMinutesPassed() {
-			return 10;
-		}
 
 		@Override
 		public String getContent() {
@@ -2010,11 +1980,6 @@ public class ZaranixHomeGroundFloorRepeat {
 	
 	public static final DialogueNodeOld WALKIES_PET_FUCKS_POST_SEX_ORAL = new DialogueNodeOld("Used", "", true) {
 		private static final long serialVersionUID = 1L;
-
-		@Override
-		public int getMinutesPassed() {
-			return 10;
-		}
 
 		@Override
 		public String getContent() {

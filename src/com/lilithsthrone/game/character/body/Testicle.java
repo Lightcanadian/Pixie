@@ -30,7 +30,7 @@ public class Testicle implements BodyPartInterface, Serializable {
 	protected TesticleType type;
 	protected int testicleSize;
 	protected int cumStorage;
-	protected int cumStored;
+	protected float cumStored;
 	protected int cumRegeneration;
 	protected int testicleCount;
 	protected int cumExpulsion;
@@ -115,7 +115,7 @@ public class Testicle implements BodyPartInterface, Serializable {
 			if(owner.isPlayer()) {
 				return "<p style='text-align:center;'>[style.colourDisabled(The size of your [pc.balls] doesn't change...)]</p>";
 			} else {
-				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled(The size of [npc.name]'s [npc.balls] doesn't change...)]</p>");
+				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled(The size of [npc.namePos] [npc.balls] doesn't change...)]</p>");
 			}
 			
 		} else if (sizeChange > 0) {
@@ -124,13 +124,13 @@ public class Testicle implements BodyPartInterface, Serializable {
 			
 		} else {
 			if (owner.isPlayer()) {
-				return "</p>"
+				return "<p>"
 							+ "You let out a surprised gasp as you feel your [pc.balls] suddenly [style.boldShrink(shrink)].<br/>"
 							+ "You now have [style.boldSex(" +owner.getTesticleSize().getDescriptor()+ " [pc.balls])]!"
 						+ "</p>";
 			} else {
 				return UtilText.parse(owner,
-						"</p>"
+						"<p>"
 							+ "[npc.Name] lets out a surprised gasp as [npc.she] feels [npc.her] [npc.balls] suddenly [style.boldShrink(shrink)].<br/>"
 							+ "[npc.She] now has [style.boldSex(" +owner.getTesticleSize().getDescriptor()+ " [npc.balls])]!"
 						+ "</p>");
@@ -161,8 +161,8 @@ public class Testicle implements BodyPartInterface, Serializable {
 			} else {
 				return UtilText.parse(owner,
 						"<p>"
-							+ "A tingling feeling spreads down into [npc.name]'s [npc.balls], and [npc.she] lets out a little cry as [npc.she] feels some of them shrinking away and [style.boldShrink(disappearing)].<br/>"
-							+ "After a few moments, [npc.she]'s left with [style.boldTfGeneric([npc.a_balls])]."
+							+ "A tingling feeling spreads down into [npc.namePos] [npc.balls], and [npc.she] lets out a little cry as [npc.she] feels some of them shrinking away and [style.boldShrink(disappearing)].<br/>"
+							+ "After a few moments, [npc.sheIs] left with [style.boldTfGeneric([npc.a_balls])]."
 						+ "</p>");
 			}
 			
@@ -175,8 +175,8 @@ public class Testicle implements BodyPartInterface, Serializable {
 			} else {
 				return UtilText.parse(owner,
 						"<p>"
-							+ "A tingling feeling spreads down into [npc.name]'s [npc.balls], and [npc.she] lets out a little cry as [npc.she] feels them [style.boldGrow(multiplying)].<br/>"
-							+ "After a few moments, [npc.she]'s left with [style.boldTfGeneric([npc.a_balls])]."
+							+ "A tingling feeling spreads down into [npc.namePos] [npc.balls], and [npc.she] lets out a little cry as [npc.she] feels them [style.boldGrow(multiplying)].<br/>"
+							+ "After a few moments, [npc.sheIs] left with [style.boldTfGeneric([npc.a_balls])]."
 						+ "</p>");
 			}
 		}
@@ -284,26 +284,26 @@ public class Testicle implements BodyPartInterface, Serializable {
 	// Stored cum:
 
 	public CumProduction getStoredCum() {
-		return CumProduction.getCumProductionFromInt(cumStored);
+		return CumProduction.getCumProductionFromInt((int)cumStored);
 	}
 	
-	public int getRawStoredCumValue() {
+	public float getRawStoredCumValue() {
 		return cumStored;
 	}
 
 	/**
 	 * Sets the cumStorage. Value is bound to >=0 && <=getRawCumStorageValue()
 	 */
-	public String setStoredCum(GameCharacter owner, int cumStored) {
-		int oldStoredCum = this.cumStored;
+	public String setStoredCum(GameCharacter owner, float cumStored) {
+		float oldStoredCum = this.cumStored;
 		this.cumStored = Math.max(0, (Math.min(cumStored, getRawCumStorageValue())));
-		int cumChange = oldStoredCum - this.cumStored;
+		float cumChange = oldStoredCum - this.cumStored;
 
 		if(owner==null) {
 			return "";
 		}
 		
-		if (cumChange == 0) {
+		if (cumChange <= 0) {
 			return "";
 		} else {
 			return UtilText.parse(owner, "<p style='text-align:center;'><i style='color:"+Colour.CUM.toWebHexString()+";'>"
@@ -345,7 +345,7 @@ public class Testicle implements BodyPartInterface, Serializable {
 			if(owner.isPlayer()) {
 				return "<p style='text-align:center;'>[style.colourDisabled(Your rate of [pc.cum] regeneration doesn't change...)]</p>";
 			} else {
-				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled([npc.name]'s rate of [npc.cum] regeneration doesn't change...)]</p>");
+				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled([npc.namePos] rate of [npc.cum] regeneration doesn't change...)]</p>");
 			}
 		}
 		
@@ -392,7 +392,7 @@ public class Testicle implements BodyPartInterface, Serializable {
 			if(owner.isPlayer()) {
 				return "<p style='text-align:center;'>[style.colourDisabled(Your rate of [pc.cum] expulsion doesn't change...)]</p>";
 			} else {
-				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled([npc.name]'s rate of [npc.cum] expulsion doesn't change...)]</p>");
+				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled([npc.namePos] rate of [npc.cum] expulsion doesn't change...)]</p>");
 			}
 		}
 		

@@ -21,7 +21,6 @@ import com.lilithsthrone.game.sex.managers.universal.SMKneeling;
 import com.lilithsthrone.game.sex.managers.universal.SMMissionary;
 import com.lilithsthrone.game.sex.managers.universal.SMSixtyNine;
 import com.lilithsthrone.game.sex.sexActions.SexAction;
-import com.lilithsthrone.game.sex.sexActions.SexActionLimitation;
 import com.lilithsthrone.game.sex.sexActions.SexActionPriority;
 import com.lilithsthrone.game.sex.sexActions.SexActionType;
 import com.lilithsthrone.main.Main;
@@ -35,7 +34,7 @@ import com.lilithsthrone.utils.Util.Value;
  * 
  * 
  * @since 0.1.79
- * @version 0.2.8
+ * @version 0.2.9
  * @author Innoxia
  */
 public class GenericPositioning {
@@ -47,32 +46,29 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& Sex.getSexManager().isPlayerAbleToSwapPositions()
-					&& (Sex.isDom(Main.game.getPlayer()) || Sex.isSubHasEqualControl());
+					&& (Sex.isDom(Main.game.getPlayer()) || Sex.isSubHasEqualControl())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
 		public String getActionTitle() {
-			return "Swap with [npc.name]";
+			return "Swap with [npc2.name]";
 		}
 
 		@Override
 		public String getActionDescription() {
-			return "Swap positions with [npc.name].";
+			return "Swap position with [npc2.name].";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name], you move [npc.herHim] around and swap positions with [npc.herHim], before [pc.moaning],"
-					+ " [pc.speech(It'll be more fun like this!)]";
+			return "Taking hold of [npc2.name], you move [npc2.herHim] around and swap position with [npc2.herHim], before [npc.moaning],"
+					+ " [npc.speech(It'll be more fun like this!)]";
 		}
 
 		@Override
@@ -88,17 +84,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.MISSIONARY && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.MISSIONARY_KNEELING_BETWEEN_LEGS)
 					&& SexPositionType.MISSIONARY.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -108,14 +101,14 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] down onto [npc.her] back and kneel between [npc.her] [npc.legs], ready to have sex in the missionary position.";
+			return "Push [npc2.name] down onto [npc2.her] back and kneel between [npc2.her] [npc2.legs], ready to have sex in the missionary position.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down onto [npc.her] back."
-					+ " Kneeling down between [npc.her] [npc.legs], you [pc.moan] as you look down into [npc.her] [npc.eyes+], "
-					+ "[pc.speech(That's right, spread your legs for me...)]";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] down onto [npc2.her] back."
+					+ " Kneeling down between [npc2.her] [npc2.legs], you [npc.moan] as you look down into [npc2.her] [npc2.eyes+], "
+					+ "[npc.speech(That's right, spread your legs for me...)]";
 		}
 
 		@Override
@@ -137,18 +130,15 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !SexFlags.requestedMissionary
 					&& !(Sex.getPosition() == SexPositionType.MISSIONARY && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.MISSIONARY_KNEELING_BETWEEN_LEGS)
 					&& SexPositionType.MISSIONARY.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -158,12 +148,12 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Try to get [npc.name] to lie down on [npc.her] back and spread [npc.her] [npc.legs] so that you can have sex with [npc.herHim] in the missionary position.";
+			return "Try to get [npc2.name] to lie down on [npc2.her] back and spread [npc2.her] [npc2.legs] so that you can have sex with [npc2.herHim] in the missionary position.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "You reach up to take hold of [npc.name]'s shoulders, and, pushing down, you try to get [npc.herHim] to lie down on [npc.her] back.";
+			return "You reach up to take hold of [npc2.namePos] shoulders, and, pushing down, you try to get [npc2.herHim] to lie down on [npc2.her] back.";
 		}
 
 		@Override
@@ -179,17 +169,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.MISSIONARY && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.MISSIONARY_ON_BACK)
 					&& SexPositionType.MISSIONARY.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -199,14 +186,14 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Lie down on your back and spread your [pc.legs], ready to have sex with [npc.name] in the missionary position.";
+			return "Lie down on your back and spread your [npc.legs], ready to have sex with [npc2.name] in the missionary position.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down onto [npc.her] knees."
-					+ " Kneeling down before [npc.herHim], you then lie down onto your back, spreading your [pc.legs] and looking up into [npc.her] [npc.eyes+] as you [pc.moanVerb], "
-					+ "[pc.speech(Come and take me!)]";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] down onto [npc2.her] knees."
+					+ " Kneeling down before [npc2.herHim], you then lie down onto your back, spreading your [npc.legs] and looking up into [npc2.her] [npc2.eyes+] as you [npc.moanVerb], "
+					+ "[npc.speech(Come and take me!)]";
 		}
 
 		@Override
@@ -228,10 +215,6 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -239,7 +222,8 @@ public class GenericPositioning {
 					&& !SexFlags.requestedMissionaryOnBack
 					&& !(Sex.getPosition() == SexPositionType.MISSIONARY && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.MISSIONARY_ON_BACK)
 					&& SexPositionType.MISSIONARY.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -249,12 +233,12 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Lie down on your back and spread your [pc.legs] to try and encourage [npc.name] to have sex with you in the missionary position.";
+			return "Lie down on your back and spread your [npc.legs] to try and encourage [npc2.name] to have sex with you in the missionary position.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "You lie down on your back before [npc.name], letting out a little [pc.moan] as you spread your [pc.legs] to try and encourage [npc.name] to have sex with you in the missionary position.";
+			return "You lie down on your back before [npc2.name], letting out a little [npc.moan] as you spread your [npc.legs] to try and encourage [npc2.name] to have sex with you in the missionary position.";
 		}
 
 		@Override
@@ -272,34 +256,31 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.FACING_WALL && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.FACE_TO_WALL_FACING_TARGET)
 					&& SexPositionType.FACING_WALL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
 		public String getActionTitle() {
-			return "Face to wall";
+			return "Face-to-wall";
 		}
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] up against a nearby wall.";
+			return "Push [npc2.name] up against a nearby wall.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] up against a nearby wall."
-					+ " Grinding your body up against [npc.her] back, you [pc.moan] into [npc.her] [npc.ear], "
-					+ "[pc.speech(Be a good [npc.girl] and hold still while I fuck you!)]";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] up against a nearby wall."
+					+ " Grinding your body up against [npc2.her] back, you [npc.moan] into [npc2.her] [npc2.ear], "
+					+ "[npc.speech(Be a good [npc2.girl] and hold still while I fuck you!)]";
 		}
 
 		@Override
@@ -321,18 +302,15 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !SexFlags.requestedFaceToWall
 					&& !(Sex.getPosition() == SexPositionType.FACING_WALL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.FACE_TO_WALL_FACING_TARGET)
 					&& SexPositionType.FACING_WALL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -347,8 +325,8 @@ public class GenericPositioning {
 
 		@Override
 		public String getDescription() {
-			return "Before [npc.name] can react, you quickly move up against a nearby wall."
-					+ " Placing your hands up against the solid surface that's now in front of you, you push your [pc.ass+] out, shaking it at [npc.name] as you try to encourage [npc.herHim] to fuck you like this.";
+			return "Before [npc2.name] can react, you quickly move up against a nearby wall."
+					+ " Placing your hands up against the solid surface that's now in front of you, you push your [npc.ass+] out, shaking it at [npc2.name] as you try to encourage [npc2.herHim] to fuck you like this.";
 		}
 
 		@Override
@@ -365,34 +343,31 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.BACK_TO_WALL && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.BACK_TO_WALL_FACING_TARGET)
 					&& SexPositionType.BACK_TO_WALL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
 		public String getActionTitle() {
-			return "Back to wall";
+			return "Back-to-wall";
 		}
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] back against a nearby wall.";
+			return "Push [npc2.name] back against a nearby wall.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] back against a nearby wall."
-					+ " Grinding your body up against [npc.hers], you [pc.moan] into [npc.her] [npc.ear], "
-					+ "[pc.speech(Be a good [npc.girl] and hold still while I fuck you!)]";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] back against a nearby wall."
+					+ " Grinding your body up against [npc2.hers], you [npc.moan] into [npc2.her] [npc2.ear], "
+					+ "[npc.speech(Be a good [npc2.girl] and hold still while I fuck you!)]";
 		}
 
 		@Override
@@ -413,18 +388,15 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !SexFlags.requestedBackToWall
 					&& !(Sex.getPosition() == SexPositionType.BACK_TO_WALL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.BACK_TO_WALL_FACING_TARGET)
 					&& SexPositionType.BACK_TO_WALL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -439,8 +411,8 @@ public class GenericPositioning {
 
 		@Override
 		public String getDescription() {
-			return "Before [npc.name] can react, you quickly move up against a nearby wall."
-					+ " Leaning back against the solid surface that's now behind you, you give [npc.name] your most seductive look, trying to encourage [npc.herHim] to fuck you like this.";
+			return "Before [npc2.name] can react, you quickly move up against a nearby wall."
+					+ " Leaning back against the solid surface that's now behind you, you give [npc2.name] your most seductive look, trying to encourage [npc2.herHim] to fuck you like this.";
 		}
 
 		@Override
@@ -456,17 +428,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.KNEELING_ORAL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.KNEELING_PERFORMING_ORAL)
 					&& SexPositionType.KNEELING_ORAL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -476,14 +445,14 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Force [npc.name] to [npc.her] knees.";
+			return "Force [npc2.name] to [npc2.her] knees.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you quite quickly force [npc.herHim] to [npc.her] knees before you."
-					+ " Grinning down at [npc.her] submissive form, you [pc.moan], "
-					+ "[pc.speech(Time to put your mouth to use!)]";
+			return "Taking hold of [npc2.namePos] shoulders, you quite quickly force [npc2.herHim] to [npc2.her] knees before you."
+					+ " Grinning down at [npc2.her] submissive form, you [npc.moan], "
+					+ "[npc.speech(Time to put your mouth to use!)]";
 		}
 
 		@Override
@@ -504,10 +473,6 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -515,7 +480,8 @@ public class GenericPositioning {
 					&& !SexFlags.requestedKneeling
 					&& !(Sex.getPosition() == SexPositionType.KNEELING_ORAL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.KNEELING_RECEIVING_ORAL)
 					&& SexPositionType.KNEELING_ORAL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -525,12 +491,12 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Drop down onto your knees in the hope that [npc.name] wants you to perform oral on [npc.herHim].";
+			return "Drop down onto your knees in the hope that [npc2.name] wants you to perform oral on [npc2.herHim].";
 		}
 
 		@Override
 		public String getDescription() {
-			return "You quickly drop down to your knees in front of [npc.name], shuffling forwards a little to bring your face closer to [npc.her] groin.";
+			return "You quickly drop down to your knees in front of [npc2.name], shuffling forwards a little to bring your face closer to [npc2.her] groin.";
 		}
 
 		@Override
@@ -546,17 +512,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.KNEELING_ORAL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.KNEELING_RECEIVING_ORAL)
 					&& SexPositionType.KNEELING_ORAL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 
 		@Override
@@ -571,7 +534,7 @@ public class GenericPositioning {
 
 		@Override
 		public String getDescription() {
-			return "Smiling, you slowly slide down to your knees in front of [npc.name].";
+			return "Smiling, you slowly slide down to your knees in front of [npc2.name].";
 		}
 
 		@Override
@@ -592,10 +555,6 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -603,7 +562,8 @@ public class GenericPositioning {
 					&& !SexFlags.requestedSelfKneeling
 					&& !(Sex.getPosition() == SexPositionType.KNEELING_ORAL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.KNEELING_PERFORMING_ORAL)
 					&& SexPositionType.KNEELING_ORAL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -613,12 +573,12 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Try and push [npc.name] down onto [npc.her] knees so that [npc.she]'ll perform oral on you.";
+			return "Try and push [npc2.name] down onto [npc2.her] knees so that [npc2.she]'ll perform oral on you.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Lifting your [pc.arms], you take hold of [npc.name]'s shoulders, and, with a little pressure, try to get [npc.herHim] to kneel before you.";
+			return "Lifting your [npc.arms], you take hold of [npc2.namePos] shoulders, and, with a little pressure, try to get [npc2.herHim] to kneel before you.";
 		}
 
 		@Override
@@ -634,17 +594,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.SIXTY_NINE && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.SIXTY_NINE_BOTTOM)
 					&& SexPositionType.SIXTY_NINE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -654,15 +611,15 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] down onto [npc.her] back and straddle [npc.her] face, in the sixty-nine position.";
+			return "Push [npc2.name] down onto [npc2.her] back and straddle [npc2.her] face, in the sixty-nine position.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down onto [npc.her] back."
-					+ " You then lower yourself down onto all fours over the top of [npc.herHim], lowering your crotch down to [npc.her] face as you similarly position your own head over [npc.her] groin."
-					+ " Looking back beneath you, you [pc.moan], "
-					+ "[pc.speech(Good [npc.girl]! Now let's have some fun!)]";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] down onto [npc2.her] back."
+					+ " You then lower yourself down onto all fours over the top of [npc2.herHim], lowering your crotch down to [npc2.her] face as you similarly position your own head over [npc2.her] groin."
+					+ " Looking back beneath you, you [npc.moan], "
+					+ "[npc.speech(Good [npc2.girl]! Now let's have some fun!)]";
 			
 		}
 
@@ -683,10 +640,6 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -694,7 +647,8 @@ public class GenericPositioning {
 					&& !SexFlags.requested69
 					&& !(Sex.getPosition() == SexPositionType.SIXTY_NINE && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.SIXTY_NINE_TOP)
 					&& SexPositionType.SIXTY_NINE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -704,13 +658,13 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Lie down on your back and ask [npc.name] to sixty-nine with you.";
+			return "Lie down on your back and ask [npc2.name] to sixty-nine with you.";
 		}
 
 		@Override
 		public String getDescription() {
 			return "Sinking down to lie on your back, you put on the most enticing look you can muster as you plead, "
-					+ "[pc.speech(I want to sixty-nine with you... Please!)]";
+					+ "[npc.speech(I want to sixty-nine with you... Please!)]";
 		}
 
 		@Override
@@ -726,17 +680,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.COWGIRL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.COWGIRL_ON_BACK)
 					&& SexPositionType.COWGIRL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -746,15 +697,15 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] down onto [npc.her] back and straddle [npc.her] groin, in the cow-girl position.";
+			return "Push [npc2.name] down onto [npc2.her] back and straddle [npc2.her] groin, in the cow-girl position.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down onto [npc.her] back."
-					+ " You then lower yourself down on top of [npc.herHim], bringing your crotch down to [npc.hers] as you straddle [npc.herHim] in the cowgirl position."
-					+ " Once you've made yourself comfortable, you grin down at [npc.name], "
-					+ "[pc.speech(Good [npc.girl]! Now let's have some fun!)]";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] down onto [npc2.her] back."
+					+ " You then lower yourself down on top of [npc2.herHim], bringing your crotch down to [npc2.hers] as you straddle [npc2.herHim] in the cowgirl position."
+					+ " Once you've made yourself comfortable, you grin down at [npc2.name], "
+					+ "[npc.speech(Good [npc2.girl]! Now let's have some fun!)]";
 			
 		}
 
@@ -775,10 +726,6 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -786,7 +733,8 @@ public class GenericPositioning {
 					&& !SexFlags.requestedCowgirl
 					&& !(Sex.getPosition() == SexPositionType.COWGIRL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.COWGIRL_RIDING)
 					&& SexPositionType.COWGIRL.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -796,13 +744,13 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Lie down on your back and ask [npc.name] to straddle you in the cowgirl position.";
+			return "Lie down on your back and ask [npc2.name] to straddle you in the cowgirl position.";
 		}
 
 		@Override
 		public String getDescription() {
 			return "Dropping down and quickly lying on your back, you put on the most enticing look you can muster as you plead, "
-					+ "[pc.speech(Come and ride me... Please!)]";
+					+ "[npc.speech(Come and ride me... Please!)]";
 		}
 
 		@Override
@@ -818,17 +766,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
-					&& !(Sex.getPosition() == SexPositionType.FACE_SITTING && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.FACE_SITTING_ON_FACE)
+					&& !(Sex.getPosition() == SexPositionType.FACE_SITTING && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.FACE_SITTING_ON_BACK)
 					&& SexPositionType.FACE_SITTING.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -838,14 +783,14 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] down onto [npc.her] back and sit on [npc.her] face.";
+			return "Push [npc2.name] down onto [npc2.her] back and sit on [npc2.her] face.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down onto [npc.her] back."
-					+ " You then lower yourself down on top of [npc.herHim], bringing your crotch down over [npc.her] face."
-					+ " Once you've made yourself comfortable, you allow your legs to give way, firmly planting your groin down against [npc.name]'s mouth.";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] down onto [npc2.her] back."
+					+ " You then lower yourself down on top of [npc2.herHim], bringing your crotch down over [npc2.her] face."
+					+ " Once you've made yourself comfortable, you allow your legs to give way, firmly planting your groin down against [npc2.namePos] mouth.";
 			
 		}
 
@@ -866,18 +811,15 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !SexFlags.requestedSitOnFace
-					&& !(Sex.getPosition() == SexPositionType.FACE_SITTING && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.FACE_SITTING_ON_FACE)
+					&& !(Sex.getPosition() == SexPositionType.FACE_SITTING && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.FACE_SITTING_ON_BACK)
 					&& SexPositionType.FACE_SITTING.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -887,13 +829,13 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Try to push [npc.name] down onto [npc.her] back so that you can sit on [npc.her] face.";
+			return "Try to push [npc2.name] down onto [npc2.her] back so that you can sit on [npc2.her] face.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Reaching up to take hold of [npc.name]'s shoulders, you try to push [npc.herHim] down onto [npc.her] back, pleading, "
-					+ "[pc.speech(Please, let me sit on your face!)]";
+			return "Reaching up to take hold of [npc2.namePos] shoulders, you try to push [npc2.herHim] down onto [npc2.her] back, pleading, "
+					+ "[npc.speech(Please, let me sit on your face!)]";
 		}
 
 		@Override
@@ -910,17 +852,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
-					&& !(Sex.getPosition() == SexPositionType.FACE_SITTING && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.FACE_SITTING_ON_BACK)
+					&& !(Sex.getPosition() == SexPositionType.FACE_SITTING && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.FACE_SITTING_ON_FACE)
 					&& SexPositionType.FACE_SITTING.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -930,14 +869,14 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Lie down on your back and get [npc.name] to sit on your face.";
+			return "Lie down on your back and get [npc2.name] to sit on your face.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s [npc.arms], you pull [npc.herHim] down with you as you lie down on your back."
-					+ " Reaching around to grab [npc.her] thighs, you pull [npc.herHim] down on top of you, bringing [npc.her] crotch down over your face."
-					+ " [npc.Name]'s [npc.legs] suddenly give way, causing [npc.herHim] to firmly plant [npc.her] groin down against your mouth.";
+			return "Taking hold of [npc2.namePos] [npc2.arms], you pull [npc2.herHim] down with you as you lie down on your back."
+					+ " Reaching around to grab [npc2.her] thighs, you pull [npc2.herHim] down on top of you, bringing [npc2.her] crotch down over your face."
+					+ " [npc2.NamePos] [npc2.legs] suddenly give way, causing [npc2.herHim] to firmly plant [npc2.her] groin down against your mouth.";
 			
 		}
 
@@ -958,18 +897,15 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !SexFlags.requestedFaceSitting
-					&& !(Sex.getPosition() == SexPositionType.FACE_SITTING && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.FACE_SITTING_ON_BACK)
+					&& !(Sex.getPosition() == SexPositionType.FACE_SITTING && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.FACE_SITTING_ON_FACE)
 					&& SexPositionType.FACE_SITTING.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -979,13 +915,13 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Try to lie down on your back so that [npc.name] can sit on your face.";
+			return "Try to lie down on your back so that [npc2.name] can sit on your face.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s [npc.hands], you move to lie down on your back, pleading, "
-					+ "[pc.speech(Please, sit on my face!)]";
+			return "Taking hold of [npc2.namePos] [npc2.hands], you move to lie down on your back, pleading, "
+					+ "[npc.speech(Please, sit on my face!)]";
 		}
 
 		@Override
@@ -1001,56 +937,53 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
+
 		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
+		public boolean isBaseRequirementsMet() {
+			return !SexFlags.positioningBlockedPlayer
+					&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.DOGGY_BEHIND)
+					&& SexPositionType.DOGGY_STYLE.getMaximumSlots()>=Sex.getTotalParticipantCount()
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
-
-			@Override
-			public boolean isBaseRequirementsMet() {
-				return !SexFlags.positioningBlockedPlayer
-						&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.DOGGY_BEHIND)
-						&& SexPositionType.DOGGY_STYLE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-						&& Sex.isDom(Main.game.getPlayer());
-			}
-			
-			@Override
-			public String getActionTitle() {
-				return "Doggy-style";
-			}
-			
-			@Override
-			public String getActionDescription() {
-				return "Push [npc.name] down onto all fours and kneel behind [npc.herHim]. (From this position, you can switch with [npc.name], or drop down to perform oral on [npc.herHim].)";
-			}
 		
-			@Override
-			public String getDescription() {
-				return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down on all fours."
-						+ " Stepping around behind [npc.herHim], you drop down onto your knees, shuffling forwards to grind your crotch against [npc.her] [npc.ass+]."
-						+ " Grabbing hold of [npc.her] [npc.hips+], you [pc.moan], "
-						+ "[pc.speech(Be a good [npc.girl] and hold still while I fuck you like the bitch you are!)]";
-			}
+		@Override
+		public String getActionTitle() {
+			return "Doggy-style";
+		}
 		
-			@Override
-			public void applyEffects() {
-				HashMap<GameCharacter, SexPositionSlot> submissives = new HashMap<>();
-				for(GameCharacter participant : Sex.getSubmissiveParticipants().keySet()) {
-					if(Sex.getActivePartner().equals(participant)) {
-						submissives.put(participant, SexPositionSlot.DOGGY_ON_ALL_FOURS);
-					} else {
-						submissives.put(participant, SexPositionSlot.DOGGY_ON_ALL_FOURS_SECOND);
-					}
+		@Override
+		public String getActionDescription() {
+			return "Push [npc2.name] down onto all fours and kneel behind [npc2.herHim]. (From this position, you can switch with [npc2.name], or drop down to perform oral on [npc2.herHim].)";
+		}
+	
+		@Override
+		public String getDescription() {
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] down on all fours."
+					+ " Stepping around behind [npc2.herHim], you drop down onto your knees, shuffling forwards to grind your crotch against [npc2.her] [npc2.ass+]."
+					+ " Grabbing hold of [npc2.her] [npc2.hips+], you [npc.moan], "
+					+ "[npc.speech(Be a good [npc2.girl] and hold still while I fuck you like the bitch you are!)]";
+		}
+	
+		@Override
+		public void applyEffects() {
+			HashMap<GameCharacter, SexPositionSlot> submissives = new HashMap<>();
+			for(GameCharacter participant : Sex.getSubmissiveParticipants().keySet()) {
+				if(Sex.getActivePartner().equals(participant)) {
+					submissives.put(participant, SexPositionSlot.DOGGY_ON_ALL_FOURS);
+				} else {
+					submissives.put(participant, SexPositionSlot.DOGGY_ON_ALL_FOURS_SECOND);
 				}
-				
-				Sex.setSexManager(new SMDoggy(
-						Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.DOGGY_BEHIND)),
-						submissives));
-				
-//				SexFlags.positioningBlockedPartner = true;
-				SexFlags.resetRequests();
-
 			}
+			
+			Sex.setSexManager(new SMDoggy(
+					Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.DOGGY_BEHIND)),
+					submissives));
+			
+//				SexFlags.positioningBlockedPartner = true;
+			SexFlags.resetRequests();
+
+		}
 	};
 
 	public static final SexAction PLAYER_POSITION_REQUEST_DOGGY = new SexAction(
@@ -1060,10 +993,6 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -1071,7 +1000,8 @@ public class GenericPositioning {
 					&& !SexFlags.requestedDoggy
 					&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.DOGGY_BEHIND)
 					&& SexPositionType.DOGGY_STYLE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1081,12 +1011,12 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Get down on all fours and present yourself in the hopes that [npc.name] wants to fuck you, doggy-style.";
+			return "Get down on all fours and present yourself in the hopes that [npc2.name] wants to fuck you, doggy-style.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Before [npc.name] can react, you quickly drop down onto all fours, before shuffling around to present yourself to [npc.herHim].";
+			return "Before [npc2.name] can react, you quickly drop down onto all fours, before shuffling around to present yourself to [npc2.herHim].";
 		}
 
 		@Override
@@ -1104,17 +1034,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.DOGGY_ON_ALL_FOURS)
 					&& SexPositionType.DOGGY_STYLE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1124,14 +1051,14 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] down onto [npc.her] knees and position yourself on all fours in front of [npc.herHim].";
+			return "Push [npc2.name] down onto [npc2.her] knees and position yourself on all fours in front of [npc2.herHim].";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] towards the ground, making [npc.herHim] kneel."
-					+ " You move in front of [npc.herHim] and position yourself on all fours, suggestively shaking your [pc.hips] and softly tracing your finger over your [pc.ass] to entice [npc.herHim]. "
-					+ "[pc.speech(Get to work, [npc.girl]!)]";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] towards the ground, making [npc2.herHim] kneel."
+					+ " You move in front of [npc2.herHim] and position yourself on all fours, suggestively shaking your [npc.hips] and softly tracing your finger over your [npc.ass] to entice [npc2.herHim]. "
+					+ "[npc.speech(Get to work, [npc2.girl]!)]";
 		}
 
 		@Override
@@ -1164,17 +1091,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.DOGGY_BEHIND_ORAL)
 					&& SexPositionType.DOGGY_STYLE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1184,15 +1108,15 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] down onto all fours and drop down behind [npc.herHim], ready to perform oral on [npc.herHim] in the doggy-style position.";
+			return "Push [npc2.name] down onto all fours and drop down behind [npc2.herHim], ready to perform oral on [npc2.herHim] in the doggy-style position.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down on all fours."
-					+ " Stepping around behind [npc.herHim], you drop down onto all fours yourself, crawling forwards to your face up against [npc.her] [npc.ass+]."
-					+ " Grinning at the sight in front of you, you [pc.moan], "
-					+ "[pc.speech(Be a good [npc.girl] and enjoy this!)]";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] down on all fours."
+					+ " Stepping around behind [npc2.herHim], you drop down onto all fours yourself, crawling forwards to your face up against [npc2.her] [npc2.ass+]."
+					+ " Grinning at the sight in front of you, you [npc.moan], "
+					+ "[npc.speech(Be a good [npc2.girl] and enjoy this!)]";
 		}
 
 		@Override
@@ -1221,17 +1145,14 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.DOGGY_BEHIND_ORAL)
 					&& SexPositionType.DOGGY_STYLE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& Sex.isDom(Main.game.getPlayer());
+					&& Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1241,15 +1162,15 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] down onto all fours and drop down in front of [npc.herHim], ready to receive oral from [npc.herHim] in the doggy-style position.";
+			return "Push [npc2.name] down onto all fours and drop down in front of [npc2.herHim], ready to receive oral from [npc2.herHim] in the doggy-style position.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Taking hold of [npc.name]'s shoulders, you push [npc.herHim] down on all fours."
-					+ " Stepping around in front of [npc.herHim], you drop down onto all fours yourself, shuffling backwards to press your [pc.ass+] up against [npc.her] [npc.face+]."
-					+ " Looking back over your shoulder, you [pc.moan], "
-					+ "[pc.speech(Be a good [npc.girl] and put your tongue to use!)]";
+			return "Taking hold of [npc2.namePos] shoulders, you push [npc2.herHim] down on all fours."
+					+ " Stepping around in front of [npc2.herHim], you drop down onto all fours yourself, shuffling backwards to press your [npc.ass+] up against [npc2.her] [npc2.face+]."
+					+ " Looking back over your shoulder, you [npc.moan], "
+					+ "[npc.speech(Be a good [npc2.girl] and put your tongue to use!)]";
 		}
 
 		@Override
@@ -1271,47 +1192,6 @@ public class GenericPositioning {
 		}
 	};
 	
-	
-	//TODO can't distinguish from normal doggy at the moment
-//	public static final SexAction PLAYER_POSITION_REQUEST_DOGGY_ORAL = new SexAction(
-//			SexActionType.PLAYER_POSITIONING,
-//			ArousalIncrease.ONE_MINIMUM,
-//			ArousalIncrease.ONE_MINIMUM,
-//			CorruptionLevel.ONE_VANILLA,
-//			null,
-//			null) {
-//
-//		@Override
-//		public boolean isBaseRequirementsMet() {
-//			return !SexFlags.positioningBlockedPlayer
-//					&& !SexFlags.requestedDoggyOral
-//					&& !(Sex.getPosition() == SexPositionNew.DOGGY_STYLE && Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.DOGGY_BEHIND_ORAL)
-//					&& SexPositionNew.DOGGY_STYLE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-//					&& !Sex.isDom(Main.game.getPlayer());
-//		}
-//		
-//		@Override
-//		public String getActionTitle() {
-//			return "Doggy-style perform oral";
-//		}
-//
-//		@Override
-//		public String getActionDescription() {
-//			return "Try and push [npc.name] down onto all fours in the hope that [npc.she] wants you to perform oral on [npc.herHim] in the doggy-style position.";
-//		}
-//
-//		@Override
-//		public String getDescription() {
-//			return "You try to push [npc.name] down onto all fours, [pc.moaning],"
-//					+ " [pc.speech(Let me perform oral on you... Please...)]";
-//		}
-//
-//		@Override
-//		public void applyEffects() {
-//			SexFlags.requestedDoggyOral = true;
-//		}
-//	};
-	
 	public static final SexAction PLAYER_POSITION_REQUEST_DOGGY_RECEIVE_ORAL = new SexAction(
 			SexActionType.POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
@@ -1319,18 +1199,15 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !SexFlags.requestedDoggyReceiveOral
 					&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.DOGGY_BEHIND_ORAL)
 					&& SexPositionType.DOGGY_STYLE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1340,12 +1217,12 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Get down on all fours and present yourself in the hopes that [npc.name] wants to perform oral on you in the doggy-style position.";
+			return "Get down on all fours and present yourself in the hopes that [npc2.name] wants to perform oral on you in the doggy-style position.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Before [npc.name] can react, you quickly drop down onto all fours, before shuffling around to present yourself to [npc.herHim].";
+			return "Before [npc2.name] can react, you quickly drop down onto all fours, before shuffling around to present yourself to [npc2.herHim].";
 		}
 
 		@Override
@@ -1361,33 +1238,30 @@ public class GenericPositioning {
 			CorruptionLevel.ONE_VANILLA,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPlayer
 					&& !SexFlags.requestedDomFuckedDoggy
 					&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.DOGGY_ON_ALL_FOURS)
 					&& SexPositionType.DOGGY_STYLE.getMaximumSlots()>=Sex.getTotalParticipantCount()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
 		public String getActionTitle() {
-			return "Doggy-style [npc.herHim]";
+			return "Doggy-style [npc2.herHim]";
 		}
 
 		@Override
 		public String getActionDescription() {
-			return "Try and get [npc.name] to present [npc.herself] in the hopes that [npc.she] wants you to fuck [npc.herHim], doggy-style.";
+			return "Try and get [npc2.name] to present [npc2.herself] in the hopes that [npc2.she] wants you to fuck [npc2.herHim], doggy-style.";
 		}
 
 		@Override
 		public String getDescription() {
-			return "Lifting your [pc.arms], you take hold of [npc.name]'s shoulders, and with a little pressure, try to get [npc.herHim] to drop down onto all fours so that you can fuck [npc.herHim] doggy-style.";
+			return "Lifting your [npc.arms], you take hold of [npc2.namePos] shoulders, and with a little pressure, try to get [npc2.herHim] to drop down onto all fours so that you can fuck [npc2.herHim] doggy-style.";
 		}
 
 		@Override
@@ -1402,16 +1276,12 @@ public class GenericPositioning {
 	
 	
 	public static final SexAction PARTNER_POSITION_RESPONSE = new SexAction(
-			SexActionType.ONGOING,
+			SexActionType.SPECIAL,
 			ArousalIncrease.ONE_MINIMUM,
 			ArousalIncrease.ONE_MINIMUM,
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -1429,7 +1299,8 @@ public class GenericPositioning {
 					|| SexFlags.requestedMissionaryOnBack
 					|| SexFlags.requestedSitOnFace
 					|| SexFlags.requestedFaceSitting)
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1575,7 +1446,7 @@ public class GenericPositioning {
 									+ " Much to your surprise, and delight, [npc.she] then drops down onto all fours in front of you, before shuffling back and rubbing [npc.her] [npc.ass+] against your crotch,"
 									+ " [npc.speech(You want to fuck me, you little bitch?! Come on then, let's see if you've got what to takes to satisfy me!)]";
 						default:
-							return "A devious grin spreads across [npc.name]'s face as [npc.she] realises what it is you want."
+							return "A devious grin spreads across [npc.namePos] face as [npc.she] realises what it is you want."
 									+ " Much to your delight, [npc.she] does exactly what you want, and drops down onto all fours in front of you, before shuffling back and rubbing [npc.her] [npc.ass+] against your crotch,"
 									+ " [npc.speech(Come on then! This is what you wanted, isn't it?!)]";
 					}
@@ -1789,10 +1660,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -1801,7 +1668,8 @@ public class GenericPositioning {
 					&& 2>=Sex.getTotalParticipantCount()
 					&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.FACE_TO_WALL_FACING_TARGET) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
 					&& Sex.getActivePartner().hasPenis()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1838,10 +1706,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -1849,7 +1713,8 @@ public class GenericPositioning {
 					&& !(Sex.getPosition() == SexPositionType.BACK_TO_WALL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.BACK_TO_WALL_FACING_TARGET)
 					&& 2>=Sex.getTotalParticipantCount()
 					&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.BACK_TO_WALL_FACING_TARGET) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1886,10 +1751,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -1898,7 +1759,8 @@ public class GenericPositioning {
 					&& 2>=Sex.getTotalParticipantCount()
 					&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.DOGGY_BEHIND) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
 					&& Sex.getActivePartner().hasPenis()
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1946,10 +1808,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -1957,7 +1815,8 @@ public class GenericPositioning {
 					&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.DOGGY_BEHIND_ORAL)
 					&& 2>=Sex.getTotalParticipantCount()
 					&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.DOGGY_BEHIND_ORAL) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -1967,14 +1826,14 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] down onto all fours and drop down on all fours behind [npc.herHim], ready to perform oral on [npc.herHim] in the doggy-style position.";
+			return "Push [npc2.name] down onto all fours and drop down on all fours behind [npc2.herHim], ready to perform oral on [npc2.herHim] in the doggy-style position.";
 		}
 
 		@Override
 		public String getDescription() {
 			return "Taking hold of your shoulders, [npc.name] pushes you down on all fours."
 					+ " Stepping around behind you, [npc.she] similarly drops down onto all fours, shuffling forwards to bring [npc.her] [npc.face] up against your [pc.ass+]."
-					+ " Once [npc.she]'s in position, [npc.she] [npc.moans], "
+					+ " Once [npc.sheIs] in position, [npc.she] [npc.moans], "
 					+ "[npc.speech(Good [pc.girl]! Now hold still and enjoy this!)]";
 		}
 
@@ -2005,10 +1864,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -2024,7 +1879,8 @@ public class GenericPositioning {
 							:Sex.getActivePartner().getMainSexPreference()==null
 								|| Sex.getActivePartner().getMainSexPreference().getTargetedSexArea()==SexAreaPenetration.TONGUE
 								|| Sex.getActivePartner().getMainSexPreference().getTargetedSexArea()==SexAreaOrifice.MOUTH)
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -2034,14 +1890,14 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [npc.name] down onto all fours and drop down on all fours in front of [npc.herHim], ready to receive oral on [npc.herHim] in the doggy-style position.";
+			return "Push [npc2.name] down onto all fours and drop down on all fours in front of [npc2.herHim], ready to receive oral from [npc2.herHim] in the doggy-style position.";
 		}
 
 		@Override
 		public String getDescription() {
 			return "Taking hold of your shoulders, [npc.name] pushes you down on all fours."
 					+ " Stepping around in front of you, [npc.she] similarly drops down onto all fours, shuffling backwards to bring [npc.her] [npc.ass+] up against your [pc.face+]."
-					+ " Once [npc.she]'s in position, [npc.she] [npc.moans], "
+					+ " Once [npc.sheIs] in position, [npc.she] [npc.moans], "
 					+ "[npc.speech(Good [pc.girl]! Now put that tongue of yours to use!)]";
 		}
 
@@ -2072,18 +1928,15 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
-
+		
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !SexFlags.positioningBlockedPartner
 					&& !(Sex.getPosition() == SexPositionType.DOGGY_STYLE && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.DOGGY_ON_ALL_FOURS)
 					&& 2>=Sex.getTotalParticipantCount()
 					&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.DOGGY_ON_ALL_FOURS) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -2093,7 +1946,7 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [pc.name] down onto [pc.her] knees before dropping down on all fours, ready for [pc.herHim] to fuck you in the doggy-style position.";
+			return "Push [npc2.name] down onto [npc2.her] knees before dropping down on all fours, ready for [npc2.herHim] to fuck you in the doggy-style position.";
 		}
 
 		@Override
@@ -2131,10 +1984,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -2142,7 +1991,8 @@ public class GenericPositioning {
 					&& !(Sex.getPosition() == SexPositionType.KNEELING_ORAL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.KNEELING_RECEIVING_ORAL)
 					&& 2>=Sex.getTotalParticipantCount()
 							&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.KNEELING_RECEIVING_ORAL) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -2179,10 +2029,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -2190,7 +2036,8 @@ public class GenericPositioning {
 					&& !(Sex.getPosition() == SexPositionType.KNEELING_ORAL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.KNEELING_PERFORMING_ORAL)
 					&& 2>=Sex.getTotalParticipantCount()
 							&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.KNEELING_PERFORMING_ORAL) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 
 		@Override
@@ -2227,10 +2074,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -2238,7 +2081,8 @@ public class GenericPositioning {
 					&& !(Sex.getPosition() == SexPositionType.SIXTY_NINE && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.SIXTY_NINE_TOP)
 					&& 2>=Sex.getTotalParticipantCount()
 					&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.SIXTY_NINE_TOP) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -2254,7 +2098,7 @@ public class GenericPositioning {
 		@Override
 		public String getDescription() {
 			return "Taking hold of your shoulders, [npc.name] pushes you down onto your back."
-					+ " Quickly lowering [npc.herself] down onto all fours over the top of you, [npc.she] drops [npc.her] crotch down over your face as [npc.she] similarly positions [npc.her] own head over your groin."
+					+ " Quickly lowering [npc.herself] down onto all fours over the top of you, [npc.she] drops [npc.her] crotch down over your face as [npc.she] similarly [npc.verb(position)] [npc.her] own head over your groin."
 					+ " Looking back beneath [npc.herHim], [npc.she] [npc.moans], "
 					+ "[npc.speech(Good [pc.girl]! Now let's have some fun!)]";
 			
@@ -2277,10 +2121,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -2288,7 +2128,8 @@ public class GenericPositioning {
 					&& !(Sex.getPosition() == SexPositionType.COWGIRL && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.COWGIRL_RIDING)
 					&& 2>=Sex.getTotalParticipantCount()
 					&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.COWGIRL_RIDING) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -2305,7 +2146,7 @@ public class GenericPositioning {
 		public String getDescription() {
 			return "Taking hold of your shoulders, [npc.name] pushes you down onto your back."
 					+ " [npc.She] then lowers [npc.herself] down on top of you, bringing [npc.her] crotch down to yours as [npc.she] straddles you in the cowgirl position."
-					+ " Once [npc.she]'s made [npc.herself] comfortable, [npc.she] grins down at you, "
+					+ " Once [npc.sheIs] made [npc.herself] comfortable, [npc.she] grins down at you, "
 					+ "[npc.speech(Good [pc.girl]! Now let's have some fun!)]";
 		}
 
@@ -2326,10 +2167,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -2337,7 +2174,8 @@ public class GenericPositioning {
 					&& !(Sex.getPosition() == SexPositionType.MISSIONARY && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.MISSIONARY_KNEELING_BETWEEN_LEGS)
 					&& 2>=Sex.getTotalParticipantCount()
 					&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.MISSIONARY_KNEELING_BETWEEN_LEGS) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -2347,7 +2185,7 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Push [pc.name] down onto [pc.her] back and kneel between [pc.her] [pc.legs], ready to have sex in the missionary position.";
+			return "Push [npc2.name] down onto [npc2.her] back and kneel between [npc2.her] [npc2.legs], ready to have sex in the missionary position.";
 		}
 
 		@Override
@@ -2375,10 +2213,6 @@ public class GenericPositioning {
 			CorruptionLevel.ZERO_PURE,
 			null,
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.NPC_ONLY;
-		}
 
 		@Override
 		public boolean isBaseRequirementsMet() {
@@ -2386,7 +2220,8 @@ public class GenericPositioning {
 					&& !(Sex.getPosition() == SexPositionType.MISSIONARY && Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.MISSIONARY_ON_BACK)
 					&& 2>=Sex.getTotalParticipantCount()
 					&& (Sex.getActivePartner().getSexPositionPreferences().contains(SexPositionSlot.MISSIONARY_ON_BACK) || Sex.getActivePartner().getSexPositionPreferences().isEmpty())
-					&& !Sex.isDom(Main.game.getPlayer());
+					&& !Sex.isDom(Main.game.getPlayer())
+					&& !Sex.getCharacterPerformingAction().isPlayer();
 		}
 		
 		@Override
@@ -2396,7 +2231,7 @@ public class GenericPositioning {
 
 		@Override
 		public String getActionDescription() {
-			return "Lie down on your back and spread your [npc.legs], ready to have sex with [pc.name] in the missionary position.";
+			return "Lie down on your back and spread your [npc.legs], ready to have sex with [npc2.name] in the missionary position.";
 		}
 
 		@Override

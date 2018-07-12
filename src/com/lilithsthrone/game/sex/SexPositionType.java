@@ -1,5 +1,6 @@
 package com.lilithsthrone.game.sex;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
 import com.lilithsthrone.game.sex.sexActions.SexActionPresets;
 import com.lilithsthrone.game.sex.sexActions.SexActionType;
 import com.lilithsthrone.game.sex.sexActions.baseActionsMisc.GenericOrgasms;
+import com.lilithsthrone.game.sex.sexActions.dominion.GloryHole;
+import com.lilithsthrone.game.sex.sexActions.dominion.ToiletStall;
 import com.lilithsthrone.game.sex.sexActions.universal.BackToWall;
 import com.lilithsthrone.game.sex.sexActions.universal.BreedingStallBack;
 import com.lilithsthrone.game.sex.sexActions.universal.BreedingStallFront;
@@ -40,7 +43,7 @@ import com.lilithsthrone.utils.Util.Value;
 /**
  * Enum values that determine what actions are available for each slot.<br/><br/>
  * 
- * Each value holds a map, <i>slotTargets</i>, which maps SexPositionSlots to a map of SexPositionSlots, which in turn maps to positions available.
+ * Each value holds a map, <i>slotTargets</i>, which maps SexPositionSlots to a map of SexPositionSlots, which in turn maps to [npc.verb(position)] available.
  *  By providing a character's position in sex, along with the position of the partner they're targeting, this map is used to fetch available actions.<br/><br/>
  *  
  *  <b>Example:</b><br/>
@@ -450,7 +453,7 @@ public enum SexPositionType {
 		}
 	},
 	
-		MISSIONARY("Missionary",
+	MISSIONARY("Missionary",
 			true,
 			true,
 			Util.newArrayListOfValues(Missionary.class), Util.newHashMapOfValues(
@@ -628,14 +631,14 @@ public enum SexPositionType {
 														SexActionPresets.tailToUpperTorso,
 														SexActionPresets.tentacleToUpperTorso,
 														SexActionPresets.vaginaToMouth,
-														SexActionPresets.penisToMouth))),
+														SexActionPresets.penisToMouth,
+														SexActionPresets.assToMouth))),
 								new Value<>(
 										SexPositionSlot.STOCKS_FUCKING,
 										new SexActionInteractions(
 												Util.mergeMaps(
 														SexActionPresets.tailToUpperTorso,
-														SexActionPresets.tentacleToUpperTorso,
-														SexActionPresets.groinToGroin))))),
+														SexActionPresets.tentacleToUpperTorso))))),
 					new Value<>(
 							SexPositionSlot.STOCKS_RECEIVING_ORAL,
 							Util.newHashMapOfValues(
@@ -665,7 +668,9 @@ public enum SexPositionType {
 														SexActionPresets.fingerToLowerHalf,
 														SexActionPresets.tailToLowerHalf,
 														SexActionPresets.tentacleToLowerHalf,
-														SexActionPresets.penisToAss))))))) {
+														SexActionPresets.penisToAss,
+														SexActionPresets.penisToVagina,
+														SexActionPresets.penisToThighs))))))) {
 		@Override
 		public String getDescription() {
 			StringBuilder sb = new StringBuilder();
@@ -690,6 +695,26 @@ public enum SexPositionType {
 			
 			return sb.toString();
 		}
+		
+		@Override
+		public boolean isActionBlocked(GameCharacter performer, GameCharacter target, SexActionInterface action) {
+			
+			if(Sex.getSexPositionSlot(performer) == SexPositionSlot.STOCKS_LOCKED_IN_STOCKS) {
+				if((action.getActionType()==SexActionType.ONGOING
+						|| action.getActionType()==SexActionType.START_ONGOING
+						|| action.getActionType()==SexActionType.REQUIRES_NO_PENETRATION
+						|| action.getActionType()==SexActionType.REQUIRES_EXPOSED
+						|| action.getActionType()==SexActionType.REQUIRES_NO_PENETRATION_AND_EXPOSED)
+							&& action.getParticipantType()==SexParticipantType.SELF
+							&& (action.getSexAreaInteractions()==null
+								|| action.getSexAreaInteractions().containsKey(SexAreaPenetration.TAIL)
+								|| action.getSexAreaInteractions().containsKey(SexAreaPenetration.TENTACLE))) {
+					return true;
+				}
+			}
+			
+			return super.isActionBlocked(performer, target, action);
+		}
 	},
 	
 	MILKING_STALL("Milking Stall",
@@ -710,14 +735,14 @@ public enum SexPositionType {
 														SexActionPresets.tailToUpperTorso,
 														SexActionPresets.tentacleToUpperTorso,
 														SexActionPresets.vaginaToMouth,
-														SexActionPresets.penisToMouth))),
+														SexActionPresets.penisToMouth,
+														SexActionPresets.assToMouth))),
 								new Value<>(
 										SexPositionSlot.MILKING_STALL_FUCKING,
 										new SexActionInteractions(
 												Util.mergeMaps(
 														SexActionPresets.tailToUpperTorso,
-														SexActionPresets.tentacleToUpperTorso,
-														SexActionPresets.groinToGroin))))),
+														SexActionPresets.tentacleToUpperTorso))))),
 					new Value<>(
 							SexPositionSlot.MILKING_STALL_RECEIVING_ORAL,
 							Util.newHashMapOfValues(
@@ -729,7 +754,9 @@ public enum SexPositionType {
 														SexActionPresets.tentacleToUpperTorso,
 														SexActionPresets.fingerToUpperTorso,
 														SexActionPresets.vaginaToMouth,
-														SexActionPresets.penisToMouth))))),
+														SexActionPresets.penisToMouth,
+														SexActionPresets.penisToVagina,
+														SexActionPresets.penisToThighs))))),
 					new Value<>(
 							SexPositionSlot.MILKING_STALL_PERFORMING_ORAL,
 							Util.newHashMapOfValues(
@@ -771,6 +798,26 @@ public enum SexPositionType {
 			}
 			
 			return sb.toString();
+		}
+		
+		@Override
+		public boolean isActionBlocked(GameCharacter performer, GameCharacter target, SexActionInterface action) {
+			
+			if(Sex.getSexPositionSlot(performer) == SexPositionSlot.MILKING_STALL_LOCKED_IN_MILKING_STALL) {
+				if((action.getActionType()==SexActionType.ONGOING
+						|| action.getActionType()==SexActionType.START_ONGOING
+						|| action.getActionType()==SexActionType.REQUIRES_NO_PENETRATION
+						|| action.getActionType()==SexActionType.REQUIRES_EXPOSED
+						|| action.getActionType()==SexActionType.REQUIRES_NO_PENETRATION_AND_EXPOSED)
+							&& action.getParticipantType()==SexParticipantType.SELF
+							&& (action.getSexAreaInteractions()==null
+								|| action.getSexAreaInteractions().containsKey(SexAreaPenetration.TAIL)
+								|| action.getSexAreaInteractions().containsKey(SexAreaPenetration.TENTACLE))) {
+					return true;
+				}
+			}
+			
+			return super.isActionBlocked(performer, target, action);
 		}
 	},
 	
@@ -953,6 +1000,114 @@ public enum SexPositionType {
 		}
 	},
 	
+	OVER_TABLE_KRUGER_THREESOME("Coffee table threesome",
+			true,
+			false,
+			Util.newArrayListOfValues(DoggyStyle.class), Util.newHashMapOfValues(
+					new Value<>(
+							SexPositionSlot.DOGGY_ON_ALL_FOURS,
+							Util.newHashMapOfValues(
+								new Value<>(
+										SexPositionSlot.DOGGY_ON_ALL_FOURS_SECOND,
+										new SexActionInteractions(
+												Util.mergeMaps(
+														SexActionPresets.tailToAllAreas,
+														SexActionPresets.tentacleToAllAreas,
+														SexActionPresets.kissing))),
+								new Value<>(
+										SexPositionSlot.DOGGY_BEHIND,
+										new SexActionInteractions(
+												Util.mergeMaps(
+														SexActionPresets.tailToAllAreas,
+														SexActionPresets.tentacleToAllAreas,
+														SexActionPresets.vaginaToPenis,
+														SexActionPresets.assToPenis))),
+								new Value<>(
+										SexPositionSlot.DOGGY_BEHIND_ORAL,
+										new SexActionInteractions(
+												Util.mergeMaps(
+														SexActionPresets.tailToUpperTorso,
+														SexActionPresets.tentacleToUpperTorso,
+														SexActionPresets.vaginaToMouth,
+														SexActionPresets.assToMouth,
+														SexActionPresets.penisToMouth))),
+								new Value<>(
+										SexPositionSlot.DOGGY_INFRONT,
+										new SexActionInteractions(null)),
+								new Value<>(
+										SexPositionSlot.DOGGY_INFRONT_ANAL,
+										new SexActionInteractions(null)))),
+					new Value<>(
+							SexPositionSlot.DOGGY_ON_ALL_FOURS_SECOND,
+							Util.newHashMapOfValues(
+									new Value<>(
+											SexPositionSlot.DOGGY_ON_ALL_FOURS,
+											new SexActionInteractions(
+													Util.mergeMaps(
+															SexActionPresets.tailToAllAreas,
+															SexActionPresets.tentacleToAllAreas,
+															SexActionPresets.kissing))),
+									new Value<>(
+											SexPositionSlot.DOGGY_BEHIND,
+											new SexActionInteractions(
+													Util.mergeMaps(
+															SexActionPresets.tailToAllAreas,
+															SexActionPresets.tentacleToAllAreas,
+															SexActionPresets.vaginaToPenis,
+															SexActionPresets.assToPenis))),
+									new Value<>(
+											SexPositionSlot.DOGGY_BEHIND_ORAL,
+											new SexActionInteractions(
+													Util.mergeMaps(
+															SexActionPresets.tailToUpperTorso,
+															SexActionPresets.tentacleToUpperTorso,
+															SexActionPresets.vaginaToMouth,
+															SexActionPresets.assToMouth,
+															SexActionPresets.penisToMouth))),
+									new Value<>(
+											SexPositionSlot.DOGGY_INFRONT,
+											new SexActionInteractions(null)),
+									new Value<>(
+											SexPositionSlot.DOGGY_INFRONT_ANAL,
+											new SexActionInteractions(null)))),
+					new Value<>(
+							SexPositionSlot.DOGGY_BEHIND,
+							Util.newHashMapOfValues(
+								new Value<>(
+									SexPositionSlot.DOGGY_INFRONT,
+										new SexActionInteractions(
+												Util.mergeMaps(
+														SexActionPresets.fingerToUpperTorso,
+														SexActionPresets.kissing))),
+								new Value<>(
+										SexPositionSlot.DOGGY_INFRONT_ANAL,
+										new SexActionInteractions(null)),
+								new Value<>(
+										SexPositionSlot.DOGGY_ON_ALL_FOURS,
+										new SexActionInteractions(
+												SexActionPresets.appendagesToAllAreas)),
+								new Value<>(
+										SexPositionSlot.DOGGY_ON_ALL_FOURS_SECOND,
+										new SexActionInteractions(
+												SexActionPresets.appendagesToAllAreas)))),
+					new Value<>(
+							SexPositionSlot.DOGGY_BEHIND_ORAL,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.DOGGY_ON_ALL_FOURS,
+									new SexActionInteractions(
+											SexActionPresets.fingerToLowerHalf)),
+							new Value<>(
+									SexPositionSlot.DOGGY_ON_ALL_FOURS_SECOND,
+									new SexActionInteractions(
+											SexActionPresets.fingerToLowerHalf)))))) {
+		@Override
+		public String getDescription() {
+			return "You're lying back on top of Arcane Arts' front desk, with the aggressive owner, Vicky, standing between your [pc.legs]."
+					+ " She lets out a menacing growl as she steps forwards, preparing to fuck you in the missionary position.";
+		}
+	},
+	
 	KNEELING_ORAL_CULTIST("Kneeling",
 			true,
 			false,
@@ -1027,9 +1182,9 @@ public enum SexPositionType {
 		public String getDescription() {//TODO
 			if(Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.MISSIONARY_ALTAR_LYING_ON_ALTAR) {
 				if(Sex.getSexPositionSlot(Sex.getActivePartner())==SexPositionSlot.MISSIONARY_ALTAR_STANDING_BETWEEN_LEGS) {
-					return "You're lying back on top of the chapel's altar, and [npc.name]'s standing between your [pc.legs], ready to have some fun with you in the missionary position.";
+					return "You're lying back on top of the chapel's altar, and [npc.namePos] standing between your [pc.legs], ready to have some fun with you in the missionary position.";
 				} else {
-					return "You're lying back on top of the chapel's altar, and [npc.name]'s kneeling down between your [pc.legs], ready to have some oral fun with you in the missionary position.";
+					return "You're lying back on top of the chapel's altar, and [npc.namePos] kneeling down between your [pc.legs], ready to have some oral fun with you in the missionary position.";
 				}
 				
 			} else if(Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.MISSIONARY_ALTAR_STANDING_BETWEEN_LEGS) {
@@ -1086,12 +1241,28 @@ public enum SexPositionType {
 		@Override
 		public String getDescription() {//TODO
 			if(Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.MISSIONARY_ALTAR_SEALED_LYING_ON_ALTAR) {
-				return "You're lying back on top of the chapel's altar, and [npc.name]'s standing between your [pc.legs], ready to have some fun with you in the missionary position.";
+				return "You're lying back on top of the chapel's altar, and [npc.namePos] standing between your [pc.legs], ready to have some fun with you in the missionary position.";
 			} else if(Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.MISSIONARY_ALTAR_SEALED_STANDING_BETWEEN_LEGS) {
 				return "[npc.Name] is lying back on top of the chapel's altar, and you're standing between [npc.her] [npc.legs], ready to have some fun in the missionary position.";
 			} else {
 				return "[npc.Name] is lying back on top of the chapel's altar, and you're kneeling down between [npc.her] [npc.legs], ready to have some oral fun in the missionary position.";
 			}
+		}
+		
+		@Override
+		public boolean isActionBlocked(GameCharacter performer, GameCharacter target, SexActionInterface action) {
+			
+			if(Sex.getSexPositionSlot(performer) == SexPositionSlot.MISSIONARY_ALTAR_SEALED_LYING_ON_ALTAR) {
+				if((action.getActionType()==SexActionType.ONGOING
+						|| action.getActionType()==SexActionType.START_ONGOING
+						|| action.getActionType()==SexActionType.REQUIRES_NO_PENETRATION
+						|| action.getActionType()==SexActionType.REQUIRES_EXPOSED
+						|| action.getActionType()==SexActionType.REQUIRES_NO_PENETRATION_AND_EXPOSED)) {
+					return true;
+				}
+			}
+			
+			return super.isActionBlocked(performer, target, action);
 		}
 	},
 	
@@ -1121,10 +1292,38 @@ public enum SexPositionType {
 		@Override
 		public String getDescription() {
 			if(Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.BREEDING_STALL_FRONT) {
-				return "You're lying on your front on the padded bench, with your legs and lower abdomen projecting out of the hole in the wall, exposing your pussy to the breeders beyond.";
+				return "You're lying on your front on the padded bench, with your legs and lower abdomen projecting out of the hole in the wall, exposing your pussy to the breeders beyond."
+						+ (Main.game.getPlayer().hasTail()
+								?" As you get into position, someone on the other side of the wall fastens your "
+									+(Main.game.getPlayer().getTailCount()>1?"[pc.tailCount] [pc.tails] to the wall by means of metal clamps":" [pc.tail] to the wall by means of a metal clamp")
+									+ ", in order to prevent you from using"+(Main.game.getPlayer().getTailCount()>1?"them":"it")+" to block your [pc.pussy+]."
+								:"");
 			} else {
-				return "[npc.Name] is lying on [npc.her] front on the padded bench, with [npc.her] legs and lower abdomen projecting out of the hole in the wall. [npc.Her] pussy is completely exposed to you, ready for breeding.";
+				GameCharacter character = Sex.getCharacterInPosition(SexPositionSlot.BREEDING_STALL_FRONT);
+				if(character!=null) {
+					return "[npc.Name] is lying on [npc.her] front on the padded bench, with [npc.her] legs and lower abdomen projecting out of the hole in the wall. [npc.Her] pussy is completely exposed to you, ready for breeding."
+							+ (character.hasTail()
+									?" As [npc.she] gets into position, Epona steps forwards and fastens [npc.her] "
+										+(character.getTailCount()>1?"[npc.tailCount] [npc.tails] to the wall by means of metal clamps":" [npc.tail] to the wall by means of a metal clamp")
+										+ ", in order to prevent [npc.herHim] from using"+(character.getTailCount()>1?"them":"it")+" to block [npc.her] [npc.pussy+]."
+									:"");
+				} else {
+					return "";
+				}
 			}
+		}
+
+		@Override
+		public boolean isActionBlocked(GameCharacter performer, GameCharacter target, SexActionInterface action) {
+			if((Sex.getSexPositionSlot(performer)==SexPositionSlot.BREEDING_STALL_FRONT
+					&& action.getSexAreaInteractions().keySet().contains(SexAreaPenetration.TAIL))
+				|| (Sex.getSexPositionSlot(performer)==SexPositionSlot.BREEDING_STALL_FUCKING
+						&& action.getSexAreaInteractions().values().contains(SexAreaPenetration.TAIL)
+						&& action.getParticipantType()!=SexParticipantType.SELF)) {
+				return true;
+			}
+			
+			return super.isActionBlocked(performer, target, action);
 		}
 	},
 	
@@ -1153,14 +1352,253 @@ public enum SexPositionType {
 													SexActionPresets.groinToAss))))))) {
 		@Override
 		public String getDescription() {
-			if(Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.BREEDING_STALL_BACK) {
-				return "You're lying on your back on the padded bench, with your legs and lower abdomen projecting out of the hole in the wall, exposing your pussy to the breeders beyond.";
+			if(Sex.getSexPositionSlot(Main.game.getPlayer())==SexPositionSlot.BREEDING_STALL_FRONT) {
+				return "You're lying on your back on the padded bench, with your legs and lower abdomen projecting out of the hole in the wall, exposing your pussy to the breeders beyond."
+						+ (Main.game.getPlayer().hasTail()
+								?" As you get into position, someone on the other side of the wall fastens your "
+									+(Main.game.getPlayer().getTailCount()>1?"[pc.tailCount] [pc.tails] to the wall by means of metal clamps":" [pc.tail] to the wall by means of a metal clamp")
+									+ ", in order to prevent you from using"+(Main.game.getPlayer().getTailCount()>1?"them":"it")+" to block your [pc.pussy+]."
+								:"");
 			} else {
-				return "[npc.Name] is lying on [npc.her] back on the padded bench, with [npc.her] legs and lower abdomen projecting out of the hole in the wall. [npc.Her] pussy is completely exposed to you, ready for breeding.";
+				GameCharacter character = Sex.getCharacterInPosition(SexPositionSlot.BREEDING_STALL_FRONT);
+				if(character!=null) {
+					return "[npc.Name] is lying on [npc.her] back on the padded bench, with [npc.her] legs and lower abdomen projecting out of the hole in the wall. [npc.Her] pussy is completely exposed to you, ready for breeding."
+							+ (character.hasTail()
+									?" As [npc.she] gets into position, Epona steps forwards and fastens [npc.her] "
+										+(character.getTailCount()>1?"[npc.tailCount] [npc.tails] to the wall by means of metal clamps":" [npc.tail] to the wall by means of a metal clamp")
+										+ ", in order to prevent [npc.herHim] from using"+(character.getTailCount()>1?"them":"it")+" to block [npc.her] [npc.pussy+]."
+									:"");
+				} else {
+					return "";
+				}
 			}
+		}
+
+		@Override
+		public boolean isActionBlocked(GameCharacter performer, GameCharacter target, SexActionInterface action) {
+			if((Sex.getSexPositionSlot(performer)==SexPositionSlot.BREEDING_STALL_BACK
+					&& action.getSexAreaInteractions().keySet().contains(SexAreaPenetration.TAIL))
+				|| (Sex.getSexPositionSlot(performer)==SexPositionSlot.BREEDING_STALL_FUCKING
+						&& action.getSexAreaInteractions().values().contains(SexAreaPenetration.TAIL)
+						&& action.getParticipantType()!=SexParticipantType.SELF)) {
+				return true;
+			}
+			
+			return super.isActionBlocked(performer, target, action);
 		}
 	},
 	
+	STANDING_STALL("Standing",
+			true,
+			false,
+			Util.newArrayListOfValues(ToiletStall.class), Util.newHashMapOfValues(
+					new Value<>(
+							SexPositionSlot.STANDING_DOMINANT,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.STANDING_SUBMISSIVE,
+									new SexActionInteractions(
+											Util.mergeMaps(
+													SexActionPresets.appendagesToAllAreas,
+													SexActionPresets.kissing,
+													SexActionPresets.mouthToBreasts,
+													SexActionPresets.breastsToMouth))))),
+					new Value<>(
+							SexPositionSlot.STANDING_SUBMISSIVE,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.STANDING_DOMINANT,
+									new SexActionInteractions(
+													SexActionPresets.appendagesToAllAreas)))))) {
+		@Override
+		public String getDescription() {
+			return UtilText.parse(Sex.getCharacterInPosition(SexPositionSlot.STANDING_DOMINANT), Sex.getCharacterInPosition(SexPositionSlot.STANDING_SUBMISSIVE),
+					"[npc.NameIsFull] standing face-to-face with [npc2.name] in one of the toilet's stalls.");
+		}
+	},
+	
+	BACK_TO_WALL_STALL("Back-to-wall",
+			true,
+			false,
+			Util.newArrayListOfValues(ToiletStall.class), Util.newHashMapOfValues(
+					new Value<>(
+							SexPositionSlot.BACK_TO_WALL_AGAINST_WALL,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.BACK_TO_WALL_FACING_TARGET,
+									new SexActionInteractions(
+											Util.mergeMaps(
+													SexActionPresets.appendagesToAllAreas,
+													SexActionPresets.groinToGroin,
+													SexActionPresets.kissing,
+													SexActionPresets.mouthToBreasts,
+													SexActionPresets.breastsToMouth))))),
+					new Value<>(
+							SexPositionSlot.BACK_TO_WALL_FACING_TARGET,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.BACK_TO_WALL_AGAINST_WALL,
+									new SexActionInteractions(
+											Util.mergeMaps(
+													SexActionPresets.appendagesToAllAreas))))))) {
+		@Override
+		public String getDescription() {
+			return UtilText.parse(Sex.getCharacterInPosition(SexPositionSlot.BACK_TO_WALL_AGAINST_WALL), Sex.getCharacterInPosition(SexPositionSlot.BACK_TO_WALL_FACING_TARGET),
+					"[npc2.NameIsFull] pinning [npc1.name] back against the wall of the toilet, ready to step forwards and start having some fun...");
+		}
+	},
+	
+	FACING_WALL_STALL("Facing wall",
+			true,
+			false,
+			Util.newArrayListOfValues(ToiletStall.class), Util.newHashMapOfValues(
+					new Value<>(
+							SexPositionSlot.FACE_TO_WALL_AGAINST_WALL,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.FACE_TO_WALL_FACING_TARGET,
+									new SexActionInteractions(
+											Util.mergeMaps(
+													SexActionPresets.tailToAllAreas,
+													SexActionPresets.tentacleToAllAreas,
+													SexActionPresets.vaginaToPenis,
+													SexActionPresets.assToPenis,
+													SexActionPresets.kissing))))),
+					new Value<>(
+							SexPositionSlot.FACE_TO_WALL_FACING_TARGET,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.FACE_TO_WALL_AGAINST_WALL,
+									new SexActionInteractions(
+											Util.mergeMaps(
+													SexActionPresets.appendagesToAllAreas))))))) {
+		@Override
+		public String getDescription() {
+			return UtilText.parse(Sex.getCharacterInPosition(SexPositionSlot.FACE_TO_WALL_AGAINST_WALL), Sex.getCharacterInPosition(SexPositionSlot.FACE_TO_WALL_FACING_TARGET),
+					"[npc2.NameIsFull] pinning [npc1.name] up against the wall of the toilet, ready to step forwards and start having some fun...");
+		}
+	},
+	
+	KNEELING_ORAL_STALL("Kneeling",
+			true,
+			false,
+			Util.newArrayListOfValues(ToiletStall.class), Util.newHashMapOfValues(
+					new Value<>(
+							SexPositionSlot.KNEELING_RECEIVING_ORAL,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.KNEELING_PERFORMING_ORAL,
+									new SexActionInteractions(
+										Util.mergeMaps(
+											SexActionPresets.tailToUpperTorso,
+											SexActionPresets.tentacleToUpperTorso,
+											SexActionPresets.vaginaToMouth,
+											SexActionPresets.penisToMouth,
+											SexActionPresets.penisToBreasts))))),
+					new Value<>(
+							SexPositionSlot.KNEELING_PERFORMING_ORAL,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.KNEELING_RECEIVING_ORAL,
+									new SexActionInteractions(
+											Util.mergeMaps(
+												SexActionPresets.fingerToLowerHalf))))))) {
+		@Override
+		public String getDescription() {
+			return UtilText.parse(Sex.getCharacterInPosition(SexPositionSlot.KNEELING_RECEIVING_ORAL), Sex.getCharacterInPosition(SexPositionSlot.KNEELING_PERFORMING_ORAL),
+					"[npc2.NameIsFull] kneeling on the floor of the toilet in front of [npc.name], with [npc2.her] [npc2.face+] hovering just inches away from [npc.her] groin.");
+		}
+	},
+	
+	GLORY_HOLE("Servicing glory holes",
+			true,
+			false,
+			Util.newArrayListOfValues(GloryHole.class), Util.newHashMapOfValues(
+					new Value<>(
+							SexPositionSlot.GLORY_HOLE_RECEIVING_ORAL_ONE,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.GLORY_HOLE_KNEELING,
+									new SexActionInteractions(
+										Util.mergeMaps(
+											SexActionPresets.vaginaToMouth,
+											SexActionPresets.penisToMouth))))),
+					new Value<>(
+							SexPositionSlot.GLORY_HOLE_RECEIVING_ORAL_TWO,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.GLORY_HOLE_KNEELING,
+									new SexActionInteractions(
+										Util.mergeMaps(
+											SexActionPresets.vaginaToMouth,
+											SexActionPresets.penisToMouth))))),
+					new Value<>(
+							SexPositionSlot.GLORY_HOLE_KNEELING,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.GLORY_HOLE_RECEIVING_ORAL_ONE,
+									new SexActionInteractions(
+										Util.mergeMaps(
+											SexActionPresets.fingerToPenis,
+											SexActionPresets.fingerToVagina))),
+							new Value<>(
+									SexPositionSlot.GLORY_HOLE_RECEIVING_ORAL_TWO,
+									new SexActionInteractions(
+										Util.mergeMaps(
+											SexActionPresets.fingerToPenis,
+											SexActionPresets.fingerToVagina))))))) {
+		@Override
+		public String getDescription() {
+			List<GameCharacter> characters = new ArrayList<>();
+			characters.add(Sex.getCharacterInPosition(SexPositionSlot.GLORY_HOLE_KNEELING));
+			characters.add(Sex.getCharacterInPosition(SexPositionSlot.GLORY_HOLE_RECEIVING_ORAL_ONE));
+			characters.add(Sex.getCharacterInPosition(SexPositionSlot.GLORY_HOLE_RECEIVING_ORAL_TWO));
+			
+			return UtilText.parse(characters, "[npc2.NameIsFull] kneeling on the floor of the toilet in front of [npc.name], with [npc2.her] [npc2.face+] hovering just inches away from [npc.her] groin.");
+		}
+	},
+	
+	GLORY_HOLE_SEX("Servicing glory holes",
+			true,
+			false,
+			Util.newArrayListOfValues(GloryHole.class), Util.newHashMapOfValues(
+					new Value<>(
+							SexPositionSlot.GLORY_HOLE_RECEIVING_ORAL_ONE,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.GLORY_HOLE_FUCKED,
+									new SexActionInteractions(
+										Util.mergeMaps(
+											SexActionPresets.vaginaToMouth,
+											SexActionPresets.penisToMouth))))),
+					new Value<>(
+							SexPositionSlot.GLORY_HOLE_FUCKING,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.GLORY_HOLE_FUCKED,
+									new SexActionInteractions(
+										Util.mergeMaps(
+											SexActionPresets.penisToVagina))))),
+					new Value<>(
+							SexPositionSlot.GLORY_HOLE_FUCKED,
+							Util.newHashMapOfValues(
+							new Value<>(
+									SexPositionSlot.GLORY_HOLE_RECEIVING_ORAL_ONE,
+									new SexActionInteractions(
+											Util.mergeMaps(
+												SexActionPresets.fingerToPenis,
+												SexActionPresets.fingerToVagina))),
+							new Value<>(
+									SexPositionSlot.GLORY_HOLE_FUCKING,
+									new SexActionInteractions(
+											Util.mergeMaps(
+													SexActionPresets.anusToPenis))))))) {
+		@Override
+		public String getDescription() {
+			return UtilText.parse(Sex.getCharacterInPosition(SexPositionSlot.KNEELING_RECEIVING_ORAL), Sex.getCharacterInPosition(SexPositionSlot.KNEELING_PERFORMING_ORAL),
+					"[npc2.NameIsFull] kneeling on the floor of the toilet in front of [npc.name], with [npc2.her] [npc2.face+] hovering just inches away from [npc.her] groin.");
+		}
+	},
 	;
 	
 	private String name;
@@ -1201,16 +1639,19 @@ public enum SexPositionType {
 	public boolean isActionBlocked(GameCharacter performer, GameCharacter target, SexActionInterface action) {
 		if(action.getActionType()==SexActionType.START_ONGOING) {
 			// Block penis+non-appendage actions if target's penis is already in use:
-			if(this!=SexPositionType.SIXTY_NINE
-					&& action.getSexAreaInteractions().containsValue(SexAreaPenetration.PENIS)) {
-				if(Collections.disjoint(action.getSexAreaInteractions().values(), SexActionPresets.appendageAreas)
+			if(this!=SexPositionType.SIXTY_NINE) {
+				if(action.getSexAreaInteractions().containsKey(SexAreaPenetration.PENIS)
+						&& Collections.disjoint(action.getSexAreaInteractions().values(), SexActionPresets.appendageAreas)
 						&& Sex.getOngoingActionsMap(target).containsKey(SexAreaPenetration.PENIS)
-						&& Sex.getOngoingActionsMap(target).get(SexAreaPenetration.PENIS).containsKey(performer)) {
+						&& Sex.getOngoingActionsMap(target).get(SexAreaPenetration.PENIS).containsKey(performer)
+						&& Collections.disjoint(Sex.getOngoingActionsMap(target).get(SexAreaPenetration.PENIS).get(performer), SexActionPresets.appendageAreas)) {
 					return true;
 				}
-				if(Collections.disjoint(action.getSexAreaInteractions().keySet(), SexActionPresets.appendageAreas)
+				if(action.getSexAreaInteractions().containsValue(SexAreaPenetration.PENIS)
+						&& Collections.disjoint(action.getSexAreaInteractions().keySet(), SexActionPresets.appendageAreas)
 						&& Sex.getOngoingActionsMap(performer).containsKey(SexAreaPenetration.PENIS)
-						&& Sex.getOngoingActionsMap(performer).get(SexAreaPenetration.PENIS).containsKey(target)) {
+						&& Sex.getOngoingActionsMap(performer).get(SexAreaPenetration.PENIS).containsKey(target)
+						&& Collections.disjoint(Sex.getOngoingActionsMap(performer).get(SexAreaPenetration.PENIS).get(target), SexActionPresets.appendageAreas)) {
 					return true;
 				}
 			}
@@ -1218,12 +1659,14 @@ public enum SexPositionType {
 			// Block oral + groin actions if there is any groin action going on:
 			if(this!=SexPositionType.SIXTY_NINE
 					&& ((!Collections.disjoint(action.getSexAreaInteractions().keySet(), SexActionPresets.groinAreas)
-					&& !Collections.disjoint(action.getSexAreaInteractions().values(), SexActionPresets.mouthAreas))
-					|| (!Collections.disjoint(action.getSexAreaInteractions().values(), SexActionPresets.groinAreas)
-						&& !Collections.disjoint(action.getSexAreaInteractions().keySet(), SexActionPresets.mouthAreas)))) {
+							&& !Collections.disjoint(action.getSexAreaInteractions().values(), SexActionPresets.mouthAreas))
+						|| (!Collections.disjoint(action.getSexAreaInteractions().values(), SexActionPresets.groinAreas)
+							&& !Collections.disjoint(action.getSexAreaInteractions().keySet(), SexActionPresets.mouthAreas)))) {
 				for(SexAreaInterface sArea : SexActionPresets.groinAreas) {
-					if((Sex.getOngoingActionsMap(target).containsKey(sArea) && Sex.getOngoingActionsMap(target).get(sArea).containsKey(performer))
-							|| Sex.getOngoingActionsMap(performer).containsKey(sArea) && Sex.getOngoingActionsMap(performer).get(sArea).containsKey(target)) {
+					if((Sex.getOngoingActionsMap(target).containsKey(sArea)
+							&& Sex.getOngoingActionsMap(target).get(sArea).containsKey(performer))
+						|| (Sex.getOngoingActionsMap(performer).containsKey(sArea)
+							&& Sex.getOngoingActionsMap(performer).get(sArea).containsKey(target))) {
 						return true;
 					}
 				}

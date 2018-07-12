@@ -613,7 +613,6 @@ public class GamblingDenDialogue {
 		}
 	};
 	
-	
 	public static final DialogueNodeOld GAMBLING = new DialogueNodeOld("Dice Poker Tables", "", false) {
 		private static final long serialVersionUID = 1L;
 		
@@ -1227,7 +1226,7 @@ public class GamblingDenDialogue {
 								Util.newHashMapOfValues(new Value<>(breeder, SexPositionSlot.BREEDING_STALL_FUCKING)),
 								Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.BREEDING_STALL_FRONT))) {
 							@Override
-							public boolean isPositionChangingAllowed() {
+							public boolean isPositionChangingAllowed(GameCharacter character) {
 								return false;
 							}
 							@Override
@@ -1264,7 +1263,7 @@ public class GamblingDenDialogue {
 								Util.newHashMapOfValues(new Value<>(breeder, SexPositionSlot.BREEDING_STALL_FUCKING)),
 								Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.BREEDING_STALL_BACK))) {
 							@Override
-							public boolean isPositionChangingAllowed() {
+							public boolean isPositionChangingAllowed(GameCharacter character) {
 								return false;
 							}
 							@Override
@@ -1324,7 +1323,7 @@ public class GamblingDenDialogue {
 									Util.newHashMapOfValues(new Value<>(breeder, SexPositionSlot.BREEDING_STALL_FUCKING)),
 									Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.BREEDING_STALL_FRONT))) {
 								@Override
-								public boolean isPositionChangingAllowed() {
+								public boolean isPositionChangingAllowed(GameCharacter character) {
 									return false;
 								}
 								@Override
@@ -1361,7 +1360,7 @@ public class GamblingDenDialogue {
 									Util.newHashMapOfValues(new Value<>(breeder, SexPositionSlot.BREEDING_STALL_FUCKING)),
 									Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.BREEDING_STALL_BACK))) {
 								@Override
-								public boolean isPositionChangingAllowed() {
+								public boolean isPositionChangingAllowed(GameCharacter character) {
 									return false;
 								}
 								@Override
@@ -1554,7 +1553,7 @@ public class GamblingDenDialogue {
 								Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.BREEDING_STALL_FUCKING)),
 								Util.newHashMapOfValues(new Value<>(mother, SexPositionSlot.BREEDING_STALL_BACK))) {
 							@Override
-							public boolean isPositionChangingAllowed() {
+							public boolean isPositionChangingAllowed(GameCharacter character) {
 								return false;
 							}
 							@Override

@@ -3,6 +3,7 @@ package com.lilithsthrone.game.character.effects;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,6 +12,7 @@ import java.util.Set;
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.Weather;
 import com.lilithsthrone.game.character.GameCharacter;
+import com.lilithsthrone.game.character.attributes.AlcoholLevel;
 import com.lilithsthrone.game.character.attributes.ArousalLevel;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
@@ -264,7 +266,7 @@ public enum StatusEffect {
 			if (owner.isPlayer())
 				return "Your body is the stuff of legend; mere mortals look upon you in fear and awe!";
 			else
-				return UtilText.parse(owner, "[npc.Name]'s body is the stuff of legend.");
+				return UtilText.parse(owner, "[npc.NamePos] body is the stuff of legend.");
 		}
 
 		@Override
@@ -512,7 +514,7 @@ public enum StatusEffect {
 			if (owner.isPlayer()) {
 				return "Your ability to harness the arcane is rivalled only by Lilith herself. Casting spells comes as naturally to you as does breathing.";
 			} else {
-				return "[npc.Name]'s arcane ability is rivalled only by Lilith herself. Casting spells comes as naturally to [npc.herHim] as does breathing.";
+				return UtilText.parse(owner, "[npc.NamePos] arcane ability is rivalled only by Lilith herself. Casting spells comes as naturally to [npc.herHim] as does breathing.");
 			}
 		}
 
@@ -547,7 +549,7 @@ public enum StatusEffect {
 			if (owner.isPlayer()) {
 				return "You are completely uncorrupted, and aside from performing the most conservative of sexual acts with the person you love, you're not really interested in sex at all.";
 			} else {
-				return UtilText.parse(owner, "[npc.Name] is completely uncorrupted, and aside from performing the most conservative of sexual acts with the person [npc.she] loves, [npc.she]'s not really interested in sex at all.");
+				return UtilText.parse(owner, "[npc.Name] is completely uncorrupted, and aside from performing the most conservative of sexual acts with the person [npc.she] loves, [npc.sheIs] not really interested in sex at all.");
 			}
 		}
 
@@ -665,13 +667,13 @@ public enum StatusEffect {
 			} else {
 				if (owner.getVaginaType() != VaginaType.NONE) {
 					return UtilText.parse(owner,
-							"Given power by the fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.name]'s body, making it far easier for [npc.herHim] to get pregnant.");
+							"Given power by the fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.namePos] body, making it far easier for [npc.herHim] to get pregnant.");
 				} else if (owner.getPenisType() != PenisType.NONE) {
 					return UtilText.parse(owner,
-							"Given power by the fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.name]'s body, making it far easier for [npc.herHim] to impregnate others.");
+							"Given power by the fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.namePos] body, making it far easier for [npc.herHim] to impregnate others.");
 				} else {
 					return UtilText.parse(owner,
-							"Given power by the fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.name]'s body,"
+							"Given power by the fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.namePos] body,"
 							+ " but because [npc.she] doesn't have any sexual organs, there's not much that's happened.");
 				}
 			}
@@ -722,15 +724,15 @@ public enum StatusEffect {
 			} else {
 				if (owner.getVaginaType() != VaginaType.NONE) {
 					return UtilText.parse(owner,
-							"Given a huge amount of power by the lewd fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.name]'s body,"
+							"Given a huge amount of power by the lewd fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.namePos] body,"
 							+ " making it far easier for [npc.herHim] to get pregnant.");
 				} else if (owner.getPenisType() != PenisType.NONE) {
 					return UtilText.parse(owner,
-							"Given a huge amount of power by the lewd fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.name]'s body,"
+							"Given a huge amount of power by the lewd fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.namePos] body,"
 							+ " making it far easier for [npc.herHim] to impregnate others.");
 				} else {
 					return UtilText.parse(owner,
-							"Given a huge amount of power by the lewd fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.name]'s body,"
+							"Given a huge amount of power by the lewd fantasies that constantly run through [npc.her] mind, the arcane is starting to have a physical effect on [npc.namePos] body,"
 							+ " but because [npc.she] doesn't have any sexual organs, there's not much that's happened.");
 				}
 			}
@@ -1530,7 +1532,7 @@ public enum StatusEffect {
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			if((target.isPlayer() || !target.getRace().isVulnerableToLilithsLustStorm()) && !target.getLocationPlace().isStormImmune()) {
+			if((target.isPlayer() || !target.getRace().isVulnerableToArcaneStorm()) && !target.getLocationPlace().isStormImmune()) {
 				return Main.game.getCurrentWeather()==Weather.MAGIC_STORM && Main.game.isInNewWorld();
 				
 			} else {
@@ -1566,7 +1568,7 @@ public enum StatusEffect {
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			if(target.getRace().isVulnerableToLilithsLustStorm() && !target.isPlayer() && !target.getLocationPlace().isStormImmune()) {
+			if(target.getRace().isVulnerableToArcaneStorm() && !target.isPlayer() && !target.getLocationPlace().isStormImmune()) {
 				return Main.game.getCurrentWeather()==Weather.MAGIC_STORM && Main.game.isInNewWorld();
 			} else {
 				return false;
@@ -1773,7 +1775,7 @@ public enum StatusEffect {
 				return "You find that your impish form has a deep, insatiable craving for sex...";
 			} else {
 				return UtilText.parse(target,
-						"[npc.Name]'s impish body has a deep, insatiable craving for sex...");
+						"[npc.NamePos] impish body has a deep, insatiable craving for sex...");
 			}
 		}
 
@@ -2199,7 +2201,7 @@ public enum StatusEffect {
 			if (target.isPlayer())
 				return "Your body is incredibly agile, and you possess lightning reflexes.";
 			else
-				return UtilText.parse(target, "[npc.Name]'s body is incredibly agile, and [npc.she] possesses lightning reflexes.");
+				return UtilText.parse(target, "[npc.NamePos] body is incredibly agile, and [npc.she] possesses lightning reflexes.");
 		}
 
 		@Override
@@ -2230,7 +2232,7 @@ public enum StatusEffect {
 			if (target.isPlayer()) {
 				return "Your body is adapted for both resisting and dealing poison damage.";
 			} else {
-				return UtilText.parse(target, "[npc.Name]'s body is adapted for both resisting and dealing poison damage.");
+				return UtilText.parse(target, "[npc.NamePos] body is adapted for both resisting and dealing poison damage.");
 			}
 		}
 
@@ -2262,7 +2264,7 @@ public enum StatusEffect {
 			if (target.isPlayer()) {
 				return "Your body is adapted for producing as many offspring as possible.";
 			} else {
-				return UtilText.parse(target, "[npc.Name]'s body is adapted for producing as many offspring as possible.");
+				return UtilText.parse(target, "[npc.NamePos] body is adapted for producing as many offspring as possible.");
 			}
 		}
 
@@ -2356,7 +2358,7 @@ public enum StatusEffect {
 			if (target.isPlayer()) {
 				return "Your reindeer-like body grants you significant resistance to the cold, as well as an increase in strength and fitness.";
 			} else {
-				return UtilText.parse(target, "[npc.Name]'s reindeer-like body grants [npc.herHim] significant resistance to the cold, as well as an increase in strength and fitness.");
+				return UtilText.parse(target, "[npc.NamePos] reindeer-like body grants [npc.herHim] significant resistance to the cold, as well as an increase in strength and fitness.");
 			}
 		}
 
@@ -2420,7 +2422,7 @@ public enum StatusEffect {
 			if (target.isPlayer())
 				return "Your body is incredibly tough, and you possess lightning reflexes.";
 			else
-				return UtilText.parse(target, "[npc.Name]'s body is incredibly tough, and [npc.she] possesses lightning reflexes.");
+				return UtilText.parse(target, "[npc.NamePos] body is incredibly tough, and [npc.she] possesses lightning reflexes.");
 		}
 
 		@Override
@@ -2799,7 +2801,7 @@ public enum StatusEffect {
 						+ " You find yourself incredibly embarrassed to be walking around in such filthy clothing.";
 			else
 				return "Some of "+target.getName("the")+"'s clothes have been covered in cum, milk or other sexual fluids."
-						+ " [npc.She]'s feeling incredibly embarrassed to be walking around in such filthy clothing.";
+						+ " [npc.sheIs] feeling incredibly embarrassed to be walking around in such filthy clothing.";
 		}
 
 		@Override
@@ -2835,8 +2837,8 @@ public enum StatusEffect {
 				return "Some of your clothes have been covered in cum, milk or other sexual fluids."
 						+ " You find yourself incredibly turned on to be walking around in such filthy clothing.";
 			} else {
-				return UtilText.parse(target, "Some of [npc.name]'s clothes have been covered in cum, milk or other sexual fluids."
-						+ " [npc.She]'s feeling incredibly turned on to be walking around in such filthy clothing.");
+				return UtilText.parse(target, "Some of [npc.namePos] clothes have been covered in cum, milk or other sexual fluids."
+						+ " [npc.sheIs] feeling incredibly turned on to be walking around in such filthy clothing.");
 			}
 		}
 
@@ -2911,8 +2913,8 @@ public enum StatusEffect {
 				return "Some parts of your body have been covered in cum, milk or other sexual fluids."
 						+ " You find yourself incredibly embarrassed to be walking around in such a filthy state.";
 			} else {
-				return UtilText.parse(target, "Some parts of [npc.name]'s body have been covered in cum, milk or other sexual fluids."
-						+ " [npc.She]'s feeling incredibly embarrassed to be walking around in such a filthy state.");
+				return UtilText.parse(target, "Some parts of [npc.namePos] body have been covered in cum, milk or other sexual fluids."
+						+ " [npc.sheIs] feeling incredibly embarrassed to be walking around in such a filthy state.");
 			}
 		}
 
@@ -2942,8 +2944,8 @@ public enum StatusEffect {
 				return "Some parts of your body have been covered in cum, milk or other sexual fluids."
 						+ " You find yourself feeling incredibly turned on by walking around in such a filthy state.";
 			} else {
-				return UtilText.parse(target, "Some parts of [npc.name]'s body have been covered in cum, milk or other sexual fluids."
-						+ " [npc.She]'s feeling incredibly turned on by walking around in such a filthy state.");
+				return UtilText.parse(target, "Some parts of [npc.namePos] body have been covered in cum, milk or other sexual fluids."
+						+ " [npc.sheIs] feeling incredibly turned on by walking around in such a filthy state.");
 			}
 		}
 
@@ -3305,7 +3307,7 @@ public enum StatusEffect {
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			return target.getAlcoholLevel()>0 && target.getAlcoholLevel()<0.2f;
+			return target.getAlcoholLevel()==AlcoholLevel.ONE_TIPSY;
 		}
 	},
 	
@@ -3346,7 +3348,7 @@ public enum StatusEffect {
 		
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			return target.getAlcoholLevel()>=0.2f && target.getAlcoholLevel()<0.4f;
+			return target.getAlcoholLevel()==AlcoholLevel.TWO_MERRY;
 		}
 	},
 	
@@ -3386,7 +3388,7 @@ public enum StatusEffect {
 		
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			return target.getAlcoholLevel()>=0.4f && target.getAlcoholLevel()<0.6f;
+			return target.getAlcoholLevel()==AlcoholLevel.THREE_DRUNK;
 		}
 	},
 	
@@ -3427,7 +3429,7 @@ public enum StatusEffect {
 		
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			return target.getAlcoholLevel()>=0.6f && target.getAlcoholLevel()<0.8f;
+			return target.getAlcoholLevel()==AlcoholLevel.FOUR_HAMMERED;
 		}
 	},
 	
@@ -3468,7 +3470,7 @@ public enum StatusEffect {
 		
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			return target.getAlcoholLevel()>=0.8f;
+			return target.getAlcoholLevel()==AlcoholLevel.FIVE_WASTED;
 		}
 	},
 	
@@ -3865,7 +3867,7 @@ public enum StatusEffect {
 			} else {
 				return UtilText.parse(target,
 						"After recently having unprotected sex, there's a risk that "+target.getName("the")+" will get pregnant!"
-							+ " Due to the fact that the arcane accelerates people's pregnancies, [npc.she]'ll know if [npc.she]'s pregnant within a matter of hours.");
+							+ " Due to the fact that the arcane accelerates people's pregnancies, [npc.she]'ll know if [npc.sheIs] pregnant within a matter of hours.");
 			}
 		}
 
@@ -4061,7 +4063,7 @@ public enum StatusEffect {
 							:" Due to the fact that the arcane accelerates people's pregnancies, you'll move onto the next stage in a matter of days.");
 			} else {
 				return UtilText.parse(target,
-							"From one of [npc.name]'s recent sexual encounters, [npc.she]'s been impregnated!"
+							"From one of [npc.namePos] recent sexual encounters, [npc.sheIs] been impregnated!"
 								+ (target.getBodyMaterial()==BodyMaterial.SLIME
 									?" Through the [npc.skinColour] [npc.skin] that makes up [npc.her] body, you can see "+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" little slime core"
 										+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing inside of [npc.herHim]..."
@@ -4158,7 +4160,7 @@ public enum StatusEffect {
 							:" Due to the fact that the arcane accelerates people's pregnancies, you'll move onto the final stage in a matter of days.");
 			} else {
 				return UtilText.parse(target,
-							"[npc.Name]'s stomach has swollen considerably, making it clearly obvious to anyone who glances [npc.her] way that [npc.she]'s expecting to give birth soon."
+							"[npc.NamePos] stomach has swollen considerably, making it clearly obvious to anyone who glances [npc.her] way that [npc.sheIs] expecting to give birth soon."
 								+ (target.getBodyMaterial()==BodyMaterial.SLIME
 									?" Through the [npc.skinColour] [npc.skin] that makes up [npc.her] body, you can see "+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" little slime core"
 										+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing inside of [npc.herHim]..."
@@ -4264,7 +4266,7 @@ public enum StatusEffect {
 							:" It might be a good idea to visit Lilaya so that she can help you to give birth.");
 			} else {
 				return UtilText.parse(target,
-							"[npc.Name]'s belly has inflated to a colossal size, and [npc.she]'s finding that [npc.she] has to support [npc.her] back with one hand as [npc.she] walks."
+							"[npc.NamePos] belly has inflated to a colossal size, and [npc.sheIs] finding that [npc.she] has to support [npc.her] back with one hand as [npc.she] walks."
 								+ (target.getBodyMaterial()==BodyMaterial.SLIME
 									?" Through the [npc.skinColour] [npc.skin] that makes up [npc.her] body, you can see "+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" slime core"
 										+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+", just as big as [npc.her] own..."
@@ -4361,16 +4363,16 @@ public enum StatusEffect {
 
 		@Override
 		public String applyEffect(GameCharacter target, int minutesPassed) {
-			target.incrementPenisStoredCum((int) Math.ceil(minutesPassed * target.getPenisCumProductionRegeneration().getPercentageRegen() * target.getPenisRawCumStorageValue()));
+			target.incrementPenisStoredCum(minutesPassed * target.getPenisCumProductionRegeneration().getPercentageRegen() * target.getPenisRawCumStorageValue());
 			return "";
 		}
 
 		@Override
 		public String getDescription(GameCharacter target) {
-			int cumRegenRate = (int) Math.ceil(target.getPenisCumProductionRegeneration().getPercentageRegen() * target.getPenisRawCumStorageValue());
+			float cumRegenRate = Util.getRoundedFloat(target.getPenisCumProductionRegeneration().getPercentageRegen() * target.getPenisRawCumStorageValue(), 4);
 			
 			return UtilText.parse(target, "[npc.NamePos] balls are currently producing more [npc.cum], at a rate of "+cumRegenRate+"ml/minute."
-					+ " They have stored "+target.getPenisRawStoredCumValue()+"ml, out of a maximum of "+target.getPenisRawCumStorageValue()+"ml.");
+					+ " They have stored "+Util.getRoundedFloat(target.getPenisRawStoredCumValue(), 2)+"ml, out of a maximum of "+Util.getRoundedFloat(target.getPenisRawCumStorageValue(), 2)+"ml.");
 		}
 
 		@Override
@@ -4405,9 +4407,10 @@ public enum StatusEffect {
 
 		@Override
 		public String getDescription(GameCharacter target) {
-			int cumRegenRate = (int) Math.ceil(target.getPenisCumProductionRegeneration().getPercentageRegen() * target.getPenisRawCumStorageValue());
+			float cumRegenRate = Util.getRoundedFloat(target.getPenisCumProductionRegeneration().getPercentageRegen() * target.getPenisRawCumStorageValue(), 4);
 			
-			return UtilText.parse(target, "[npc.NamePos] balls are completely filled with [npc.cum] ("+target.getPenisRawStoredCumValue()+"ml), and [npc.she] can't wait until the next time [npc.sheIs] able to empty them."
+			return UtilText.parse(target, "[npc.NamePos] balls are completely filled with [npc.cum] ("+target.getPenisRawCumStorageValue()+"ml),"
+					+ " and [npc.she] can't wait until the next time [npc.sheIs] able to empty them."
 					+ " [npc.She] will ejaculate "+target.getPenisRawOrgasmCumQuantity()+"ml upon orgasm, and will then regenerate [npc.cum] at a rate of "+cumRegenRate+"ml/minute.");
 		}
 
@@ -4437,21 +4440,21 @@ public enum StatusEffect {
 
 		@Override
 		public String applyEffect(GameCharacter target, int minutesPassed) {
-			target.incrementBreastStoredMilk((int) Math.ceil(minutesPassed * target.getBreastLactationRegeneration().getPercentageRegen() * target.getBreastRawMilkStorageValue()));
+			target.incrementBreastStoredMilk(minutesPassed * target.getBreastLactationRegeneration().getPercentageRegen() * target.getBreastRawMilkStorageValue());
 			return "";
 		}
 
 		@Override
 		public String getDescription(GameCharacter target) {
-			int milkRegenRate = (int) Math.ceil(target.getBreastLactationRegeneration().getPercentageRegen() * target.getBreastRawMilkStorageValue());
+			float milkRegenRate = Util.getRoundedFloat(target.getBreastLactationRegeneration().getPercentageRegen() * target.getBreastRawMilkStorageValue(), 4);
 			
 			if(target.isPlayer()) {
 				return "Your breasts are currently producing more [pc.milk], at a rate of "+milkRegenRate+"ml/minute."
-						+ " They have stored "+target.getBreastRawStoredMilkValue()+"ml, out of a maximum of "+target.getBreastRawMilkStorageValue()+"ml.";
+						+ " They have stored "+Util.getRoundedFloat(target.getBreastRawStoredMilkValue(), 2)+"ml, out of a maximum of "+target.getBreastRawMilkStorageValue()+"ml.";
 			} else {
 				return UtilText.parse(target,
-						"[npc.Name]'s breasts are currently producing more [npc.milk], at a rate of "+milkRegenRate+"ml/minute."
-						+ " They have stored "+target.getBreastRawStoredMilkValue()+"ml, out of a maximum of "+target.getBreastRawMilkStorageValue()+"ml.");
+						"[npc.NamePos] breasts are currently producing more [npc.milk], at a rate of "+milkRegenRate+"ml/minute."
+						+ " They have stored "+Util.getRoundedFloat(target.getBreastRawStoredMilkValue(), 2)+"ml, out of a maximum of "+target.getBreastRawMilkStorageValue()+"ml.");
 			}
 		}
 
@@ -4511,21 +4514,22 @@ public enum StatusEffect {
 
 		@Override
 		public String getDescription(GameCharacter target) {
-			int milkRegenRate = (int) Math.ceil(target.getBreastLactationRegeneration().getPercentageRegen() * target.getBreastRawMilkStorageValue());
+			float milkRegenRate = Util.getRoundedFloat(target.getBreastLactationRegeneration().getPercentageRegen() * target.getBreastRawMilkStorageValue(), 4);
 			
 			if(target.isPlayer()) {
-				return "Your [pc.breasts] are completely filled with [pc.milk] ("+target.getBreastRawStoredMilkValue()+"ml), and your engorged [pc.nipples] are just begging for some attention."
+				return "Your [pc.breasts] are completely filled with [pc.milk] ("+target.getBreastRawMilkStorageValue()+"ml), and your engorged [pc.nipples] are just begging for some attention."
 						+ " Once milked, they will produce more [pc.milk] at a rate of "+milkRegenRate+"ml/minute.";
 			} else {
 				return UtilText.parse(target,
-						"[npc.Name]'s [npc.breasts] are completely filled with [npc.milk] ("+target.getBreastRawStoredMilkValue()+"ml), and [npc.her] engorged [npc.nipples] are just begging for some attention..."
+						"[npc.NamePos] [npc.breasts] are completely filled with [npc.milk] ("+target.getBreastRawMilkStorageValue()+"ml), and [npc.her] engorged [npc.nipples] are just begging for some attention..."
 								+ " Once milked, they will produce more [npc.milk] at a rate of "+milkRegenRate+"ml/minute.");
 			}
 		}
 
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			return target.getBreastRawMilkStorageValue()>0 && target.getBreastRawStoredMilkValue()==target.getBreastRawMilkStorageValue();
+			return target.getBreastRawMilkStorageValue()>0
+					&& target.getBreastRawStoredMilkValue()==target.getBreastRawMilkStorageValue();
 		}
 		
 		@Override
@@ -4864,7 +4868,7 @@ public enum StatusEffect {
 							+ "[style.boldTerrible(Plugged Vagina:)] No cum is leaking out (although some is still being absorbed)!";
 				} else {
 					return UtilText.parse(target, 
-							"[npc.Name]'s [npc.asshole] has recently been filled with cum, before being plugged.<br/>"
+							"[npc.NamePos] [npc.asshole] has recently been filled with cum, before being plugged.<br/>"
 							+ "Current creampie: [style.colourSex("+target.getTotalFluidInArea(SexAreaOrifice.VAGINA)+"ml)]<br/>"
 							+ "[style.boldTerrible(Plugged Vagina:)] No cum is leaking out (although some is still being absorbed)!");
 				}
@@ -4876,7 +4880,7 @@ public enum StatusEffect {
 							+ "(-"+cumLost+"ml/minute)";
 				} else {
 					return UtilText.parse(target, 
-							"[npc.Name]'s [npc.pussy] has recently been filled with cum.<br/>"
+							"[npc.NamePos] [npc.pussy] has recently been filled with cum.<br/>"
 							+ "Current creampie: [style.colourSex("+target.getTotalFluidInArea(SexAreaOrifice.VAGINA)+"ml)]<br/>"
 							+ "(-"+cumLost+"ml/minute)");
 				}
@@ -4970,7 +4974,7 @@ public enum StatusEffect {
 						+ "(-"+cumLost+"ml/minute)";
 			} else {
 				return UtilText.parse(target, 
-						"[npc.Name]'s pussy's urethra has recently been filled with cum.<br/>"
+						"[npc.NamePos] pussy's urethra has recently been filled with cum.<br/>"
 						+ "Current creampie: [style.colourSex("+target.getTotalFluidInArea(SexAreaOrifice.URETHRA_VAGINA)+"ml)]<br/>"
 						+ "(-"+cumLost+"ml/minute)");
 			}
@@ -5063,7 +5067,7 @@ public enum StatusEffect {
 						+ "(-"+cumLost+"ml/minute)";
 			} else {
 				return UtilText.parse(target, 
-						"[npc.Name]'s cock's urethra has recently been filled with cum.<br/>"
+						"[npc.NamePos] cock's urethra has recently been filled with cum.<br/>"
 						+ "Current creampie: [style.colourSex("+target.getTotalFluidInArea(SexAreaOrifice.URETHRA_PENIS)+"ml)]<br/>"
 						+ "(-"+cumLost+"ml/minute)");
 			}
@@ -5157,7 +5161,7 @@ public enum StatusEffect {
 							+ "[style.boldTerrible(Plugged Anus:)] No cum is leaking out (although some is still being absorbed)!";
 				} else {
 					return UtilText.parse(target, 
-							"[npc.Name]'s [npc.asshole] has recently been filled with cum, before being plugged.<br/>"
+							"[npc.NamePos] [npc.asshole] has recently been filled with cum, before being plugged.<br/>"
 							+ "Current creampie: [style.colourSex("+target.getTotalFluidInArea(SexAreaOrifice.ANUS)+"ml)]<br/>"
 							+ "[style.boldTerrible(Plugged Anus:)] No cum is leaking out (although some is still being absorbed)!");
 				}
@@ -5169,7 +5173,7 @@ public enum StatusEffect {
 							+ "(-"+cumLost+"ml/minute)";
 				} else {
 					return UtilText.parse(target, 
-							"[npc.Name]'s [npc.asshole] has recently been filled with cum.<br/>"
+							"[npc.NamePos] [npc.asshole] has recently been filled with cum.<br/>"
 							+ "Current creampie: [style.colourSex("+target.getTotalFluidInArea(SexAreaOrifice.ANUS)+"ml)]<br/>"
 							+ "(-"+cumLost+"ml/minute)");
 				}
@@ -5264,7 +5268,7 @@ public enum StatusEffect {
 							+ "[style.boldTerrible(Plugged Nipples:)] No cum is leaking out (although some is still being absorbed)!";
 				} else {
 					return UtilText.parse(target, 
-							"[npc.Name]'s [npc.nipples] have recently been filled with cum, before being plugged.<br/>"
+							"[npc.NamePos] [npc.nipples] have recently been filled with cum, before being plugged.<br/>"
 							+ "Current creampie: [style.colourSex("+target.getTotalFluidInArea(SexAreaOrifice.NIPPLE)+"ml)]<br/>"
 							+ "[style.boldTerrible(Plugged Nipples:)] No cum is leaking out (although some is still being absorbed)!");
 				}
@@ -5276,7 +5280,7 @@ public enum StatusEffect {
 							+ "(-"+cumLost+"ml/minute)";
 				} else {
 					return UtilText.parse(target, 
-							"[npc.Name]'s [npc.nipples] have recently been filled with cum.<br/>"
+							"[npc.NamePos] [npc.nipples] have recently been filled with cum.<br/>"
 							+ "Current creampie: [style.colourSex("+target.getTotalFluidInArea(SexAreaOrifice.NIPPLE)+"ml)]<br/>"
 							+ "(-"+cumLost+"ml/minute)");
 				}
@@ -5403,7 +5407,7 @@ public enum StatusEffect {
 						+ " Your extra weight makes it a little more difficult to move around.";
 			} else {
 				return UtilText.parse(target,
-							"After being filled with a considerable amount of cum, [npc.name]'s belly is now a little swollen.");
+							"After being filled with a considerable amount of cum, [npc.namePos] belly is now a little swollen.");
 			}
 		}
 
@@ -5442,7 +5446,7 @@ public enum StatusEffect {
 						+ " The considerable amount of extra weight in your stomach makes it more difficult to move around.";
 			} else {
 				return UtilText.parse(target,
-							"After being filled with a huge amount of cum, [npc.name]'s belly is now noticeably inflated."
+							"After being filled with a huge amount of cum, [npc.namePos] belly is now noticeably inflated."
 							+ " The considerable amount of extra weight in [npc.her] stomach is hindering [npc.her] ability to move.");
 			}
 		}
@@ -5482,7 +5486,7 @@ public enum StatusEffect {
 						+ " The huge amount of extra weight in your stomach is making it extremely difficult for you to move around.";
 			} else {
 				return UtilText.parse(target,
-							"After being filled with a colossal amount of cum, [npc.name]'s belly is now massively over-inflated."
+							"After being filled with a colossal amount of cum, [npc.namePos] belly is now massively over-inflated."
 									+ " The huge amount of extra weight in [npc.her] stomach is making it extremely difficult for [npc.herHim] to move around.");
 			}
 		}
@@ -5522,7 +5526,7 @@ public enum StatusEffect {
 						+ " Your extra weight makes it a little more difficult to move around.";
 			} else {
 				return UtilText.parse(target,
-							"After being filled with a considerable amount of cum, [npc.name]'s [npc.breasts] are now a little swollen.");
+							"After being filled with a considerable amount of cum, [npc.namePos] [npc.breasts] are now a little swollen.");
 			}
 		}
 
@@ -5561,7 +5565,7 @@ public enum StatusEffect {
 						+ " The considerable amount of extra weight in your top-half is making it more difficult to move around.";
 			} else {
 				return UtilText.parse(target,
-							"After being filled with a huge amount of cum, [npc.name]'s [npc.breasts] are now noticeably inflated."
+							"After being filled with a huge amount of cum, [npc.namePos] [npc.breasts] are now noticeably inflated."
 							+ " The considerable amount of extra weight in [npc.her] top-half is hindering [npc.her] ability to move.");
 			}
 		}
@@ -5601,7 +5605,7 @@ public enum StatusEffect {
 						+ " The huge amount of extra weight in your top-half is making it extremely difficult for you to move around.";
 			} else {
 				return UtilText.parse(target,
-							"After being filled with a colossal amount of cum, [npc.name]'s [npc.breasts] are now massively over-inflated."
+							"After being filled with a colossal amount of cum, [npc.namePos] [npc.breasts] are now massively over-inflated."
 									+ " The huge amount of extra weight in [npc.her] top-half is making it extremely difficult for [npc.herHim] to move around.");
 			}
 		}
@@ -5643,7 +5647,7 @@ public enum StatusEffect {
 						+ " As a result, you're feeling extremely horny and frustrated...";
 			} else {
 				return UtilText.parse(target, "[npc.Name] recently had a sexual encounter in which [npc.she] didn't manage to cum."
-						+ " As a result, [npc.she]'s feeling extremely horny and frustrated...");
+						+ " As a result, [npc.sheIs] feeling extremely horny and frustrated...");
 			}
 		}
 		
@@ -5701,7 +5705,7 @@ public enum StatusEffect {
 				return "Due to a recent orgasm, your arcane aura has been temporarily strengthened."
 						+ " While in this state, you will no longer receive an arcane essence if you orgasm!";
 			} else {
-				return UtilText.parse(target, "Due to a recent orgasm, [npc.name]'s arcane aura has been temporarily strengthened."
+				return UtilText.parse(target, "Due to a recent orgasm, [npc.namePos] arcane aura has been temporarily strengthened."
 						+ " While [npc.she] remains in this state, you will not receive an arcane essence if [npc.she] orgasms in your presence!");
 			}
 		}
@@ -5731,7 +5735,7 @@ public enum StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			if(target!=null && !target.isPlayer()) {
-				return UtilText.parse(target, "[npc.Name]'s clothing doesn't cover [npc.her] private parts, and [npc.she] feels highly embarrassed to be walking around in such an exposed fashion.");
+				return UtilText.parse(target, "[npc.NamePos] clothing doesn't cover [npc.her] private parts, and [npc.she] feels highly embarrassed to be walking around in such an exposed fashion.");
 			}
 			return "Your clothing doesn't cover your private parts, and you feel highly embarrassed to be walking around in such an exposed fashion.";
 		}
@@ -5759,7 +5763,7 @@ public enum StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			if(target!=null && !target.isPlayer()) {
-				return UtilText.parse(target, "[npc.Name]'s clothing doesn't cover [npc.her] breasts, and [npc.she] feels highly embarrassed to be walking around in such an exposed fashion.");
+				return UtilText.parse(target, "[npc.NamePos] clothing doesn't cover [npc.her] breasts, and [npc.she] feels highly embarrassed to be walking around in such an exposed fashion.");
 			}
 			return "Your clothing doesn't cover your breasts, and you feel highly embarrassed to be walking around in such an exposed fashion.";
 		}
@@ -5787,7 +5791,7 @@ public enum StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			if(target!=null && !target.isPlayer()) {
-				return UtilText.parse(target, "[npc.Name]'s breasts and private parts are naked for the world to see, and [npc.she] feels highly embarrassed to be walking around in such an exposed fashion.");
+				return UtilText.parse(target, "[npc.NamePos] breasts and private parts are naked for the world to see, and [npc.she] feels highly embarrassed to be walking around in such an exposed fashion.");
 			}
 			return "Your breasts and private parts are naked for the world to see, and you feel highly embarrassed to be walking around in such an exposed fashion.";
 		}
@@ -5815,7 +5819,7 @@ public enum StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			if(target!=null && !target.isPlayer()) {
-				return UtilText.parse(target, "[npc.Name]'s clothing doesn't cover [npc.her] private parts, and [npc.she] feels incredibly sexy every time [npc.she] catches someone staring at [npc.her] exposed groin.");
+				return UtilText.parse(target, "[npc.NamePos] clothing doesn't cover [npc.her] private parts, and [npc.she] feels incredibly sexy every time [npc.she] catches someone staring at [npc.her] exposed groin.");
 			}
 			return "Your clothing doesn't cover your private parts, and you feel incredibly sexy every time you catch someone staring at your exposed groin.";
 		}
@@ -5842,7 +5846,7 @@ public enum StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			if(target!=null && !target.isPlayer()) {
-				return UtilText.parse(target, "[npc.Name]'s clothing doesn't cover [npc.her] breasts, and [npc.she] feels incredibly sexy every time [npc.she] catches someone staring at [npc.her] exposed chest.");
+				return UtilText.parse(target, "[npc.NamePos] clothing doesn't cover [npc.her] breasts, and [npc.she] feels incredibly sexy every time [npc.she] catches someone staring at [npc.her] exposed chest.");
 			}
 			return "Your clothing doesn't cover your breasts, and you feel incredibly sexy every time you catch someone staring at your exposed chest.";
 		}
@@ -5869,7 +5873,7 @@ public enum StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			if(target!=null && !target.isPlayer()) {
-				return UtilText.parse(target, "[npc.Name]'s breasts and private parts are naked for the world to see, and [npc.she] feels incredibly sexy as [npc.she] walks around with all of [npc.her] goods on display.");
+				return UtilText.parse(target, "[npc.NamePos] breasts and private parts are naked for the world to see, and [npc.she] feels incredibly sexy as [npc.she] walks around with all of [npc.her] goods on display.");
 			}
 			return "Your breasts and private parts are naked for the world to see, and you feel incredibly sexy as you walk around with all of your goods on display.";
 		}
@@ -6172,7 +6176,7 @@ public enum StatusEffect {
 					return "By wearing the complete set of witch's clothes, you feel your arcane power growing stronger.";
 					
 				} else {
-					return UtilText.parse(target, "By wearing the complete set of witch's clothes, [npc.name]'s arcane power has grown stronger.");
+					return UtilText.parse(target, "By wearing the complete set of witch's clothes, [npc.namePos] arcane power has grown stronger.");
 					
 				}
 			} else {
@@ -7093,7 +7097,7 @@ public enum StatusEffect {
 				return "You are absolutely desperate for sex, but thanks to the strength of your arcane aura, you are able to resist giving up right here on the spot!";
 			} else {
 				return UtilText.parse(target,
-						"[npc.Name] is absolutely desperate for sex, but thanks to the strength of [npc.her] arcane aura, [npc.she]'s able to resist giving up right here on the spot!");
+						"[npc.Name] is absolutely desperate for sex, but thanks to the strength of [npc.her] arcane aura, [npc.sheIs] able to resist giving up right here on the spot!");
 			}
 		}
 
@@ -7125,7 +7129,7 @@ public enum StatusEffect {
 				return "Your head is spinning and you're struggling to stay upright.";
 			else
 				return UtilText.parse(target,
-						target.getName("The") + "'s head is spinning and [npc.she]'s struggling to stay upright..");
+						target.getName("The") + "'s head is spinning and [npc.sheIs] struggling to stay upright..");
 		}
 
 		
@@ -7151,7 +7155,7 @@ public enum StatusEffect {
 				return "Your head is spinning and you're struggling to stay upright. You're finding it incredibly difficult to land a hit on your opponent or dodge one of their attacks.";
 			else
 				return UtilText.parse(target,
-						target.getName("The") + "'s head is spinning and [npc.she]'s struggling to stay upright. [npc.She]'s finding it incredibly difficult to land a hit on you or dodge one of your attacks.");
+						target.getName("The") + "'s head is spinning and [npc.sheIs] struggling to stay upright. [npc.sheIs] finding it incredibly difficult to land a hit on you or dodge one of your attacks.");
 		}
 
 		
@@ -7176,7 +7180,7 @@ public enum StatusEffect {
 				return "You've been temporarily crippled, and you're struggling to do as much damage with your attacks as you're usually able to.";
 			else
 				return UtilText.parse(target,
-						target.getName("The") + "'s been temporarily crippled, and [npc.she]'s struggling to do as much damage with [npc.her] attacks as [npc.she]'s usually able to.");
+						target.getName("The") + "'s been temporarily crippled, and [npc.sheIs] struggling to do as much damage with [npc.her] attacks as [npc.sheIs] usually able to.");
 		}
 
 		
@@ -7355,7 +7359,7 @@ public enum StatusEffect {
 				return "Invisible arcane flames lick at your feet, and while they don't cause you any real pain, you still end up hopping around in discomfort.";
 			} else {
 				return UtilText.parse(target,
-						"Invisible arcane flames lick at [npc.name]'s feet, and while they don't cause [npc.herHim] any real pain, [npc.she] still ends up hopping around in discomfort.");
+						"Invisible arcane flames lick at [npc.namePos] feet, and while they don't cause [npc.herHim] any real pain, [npc.she] still ends up hopping around in discomfort.");
 			}
 		}
 		
@@ -7394,7 +7398,7 @@ public enum StatusEffect {
 				return "The blinding flash of light has left you temporarily stunned, and you're unable to make any sort of move as you struggle to regain control of your senses.";
 			} else {
 				return UtilText.parse(target,
-						"The blinding flash of light has left [npc.name] temporarily stunned, and [npc.she]'s unable to make any sort of move as [npc.she] struggles to regain control of [npc.her] senses.");
+						"The blinding flash of light has left [npc.name] temporarily stunned, and [npc.sheIs] unable to make any sort of move as [npc.she] struggles to regain control of [npc.her] senses.");
 			}
 		}
 		
@@ -7561,7 +7565,7 @@ public enum StatusEffect {
 				return "The Fire elemental in your party is imbuing you with the knowledge of how to get the most out of fire attacks!";
 			} else {
 				return UtilText.parse(target,
-						"The Fire elemental in [npc.name]'s party is imbuing [npc.herHim] with the knowledge of how to get the most out of fire attacks!");
+						"The Fire elemental in [npc.namePos] party is imbuing [npc.herHim] with the knowledge of how to get the most out of fire attacks!");
 			}
 		}
 		
@@ -7662,7 +7666,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having sworn your subservience to the school of Fire, your Fire elemental, [npc.name], is siphoning off as much of your energy as [npc.she] wants!");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having sworn [npc1.her] subservience to the school of Fire, [npc1.name]'s Fire elemental, [npc2.name], is now siphoning off as much of [npc1.name]'s energy as [npc2.she] wants!");
+						"Having sworn [npc1.her] subservience to the school of Fire, [npc1.namePos] Fire elemental, [npc2.name], is now siphoning off as much of [npc1.namePos] energy as [npc2.she] wants!");
 			}
 		}
 		
@@ -7694,7 +7698,7 @@ public enum StatusEffect {
 			if(((Elemental)target).getSummoner().isPlayer()) {
 				return UtilText.parse(target, "[npc.Name] is siphoning off as much of your energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			} else {
-				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.name]'s energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
+				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.namePos] energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			}
 		}
 		
@@ -7728,7 +7732,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having bound the school of Fire to your will, your Fire elemental, [npc.name], is forced to reveal all of [npc.her] secrets to you.");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having bound the school of Fire to [npc1.her] will, [npc1.name]'s Fire elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
+						"Having bound the school of Fire to [npc1.her] will, [npc1.namePos] Fire elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
 			}
 		}
 		
@@ -7837,7 +7841,7 @@ public enum StatusEffect {
 				return "A small, arcane-infused rain cloud is hovering above your head. The cold rain is sapping your ability to effectively cast spells.";
 			} else {
 				return UtilText.parse(target,
-						"A small, arcane-infused rain cloud is hovering above [npc.name]'s head. The cold rain is sapping [npc.her] ability to effectively cast spells.");
+						"A small, arcane-infused rain cloud is hovering above [npc.namePos] head. The cold rain is sapping [npc.her] ability to effectively cast spells.");
 			}
 		}
 
@@ -7869,7 +7873,7 @@ public enum StatusEffect {
 				return "A small, arcane-infused rain cloud is hovering above your head. The freezing rain is both sapping your ability to effectively cast spells, and reducing your resistance to the cold.";
 			} else {
 				return UtilText.parse(target,
-						"A small, arcane-infused rain cloud is hovering above [npc.name]'s head. The freezing rain is both sapping [npc.her] ability to effectively cast spells, and reducing [npc.her] resistance to the cold.");
+						"A small, arcane-infused rain cloud is hovering above [npc.namePos] head. The freezing rain is both sapping [npc.her] ability to effectively cast spells, and reducing [npc.her] resistance to the cold.");
 			}
 		}
 
@@ -7903,7 +7907,7 @@ public enum StatusEffect {
 							+ " The freezing, heavy rain is sapping your ability to effectively cast spells, as well as reducing your resistance to the cold, and increasing your miss chance.";
 			} else {
 				return UtilText.parse(target,
-						"An arcane-infused rain cloud is hovering above [npc.name]'s head."
+						"An arcane-infused rain cloud is hovering above [npc.namePos] head."
 								+ " The freezing, heavy rain is sapping [npc.her] ability to effectively cast spells, as well as reducing [npc.her] resistance to the cold, and increasing [npc.her] miss chance.");
 			}
 		}
@@ -7938,7 +7942,7 @@ public enum StatusEffect {
 							+ " The freezing, heavy rain is sapping your ability to effectively cast spells, as well as reducing your resistance to the cold, and increasing your miss chance.";
 			} else {
 				return UtilText.parse(target,
-						"An arcane-infused rain cloud is hovering above [npc.name]'s head."
+						"An arcane-infused rain cloud is hovering above [npc.namePos] head."
 								+ " The freezing, heavy rain is sapping [npc.her] ability to effectively cast spells, as well as reducing [npc.her] resistance to the cold, and increasing [npc.her] miss chance.");
 			}
 		}
@@ -7973,7 +7977,7 @@ public enum StatusEffect {
 							+ " The freezing, torrential rain is draining your ability to effectively cast spells, as well as reducing your resistance to the cold, and increasing your miss chance.";
 			} else {
 				return UtilText.parse(target,
-						"A huge, arcane-infused rain cloud is hovering above [npc.name]'s head."
+						"A huge, arcane-infused rain cloud is hovering above [npc.namePos] head."
 								+ " The freezing, torrential rain is draining [npc.her] ability to effectively cast spells, as well as reducing [npc.her] resistance to the cold, and increasing [npc.her] miss chance.");
 			}
 		}
@@ -8004,7 +8008,7 @@ public enum StatusEffect {
 				return "The Water elemental in your party is imbuing you with the knowledge of how to get the most out of ice attacks!";
 			} else {
 				return UtilText.parse(target,
-						"The Water elemental in [npc.name]'s party is imbuing [npc.herHim] with the knowledge of how to get the most out of ice attacks!");
+						"The Water elemental in [npc.namePos] party is imbuing [npc.herHim] with the knowledge of how to get the most out of ice attacks!");
 			}
 		}
 		
@@ -8060,7 +8064,7 @@ public enum StatusEffect {
 				return "The Water elemental in your party is helping to calm your desire for sex.";
 			} else {
 				return UtilText.parse(target,
-						"The Water elemental in [npc.name]'s party is helping to calm [npc.her] desire for sex.");
+						"The Water elemental in [npc.namePos] party is helping to calm [npc.her] desire for sex.");
 			}
 		}
 		
@@ -8120,7 +8124,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having sworn your subservience to the school of Water, your Water elemental, [npc.name], is siphoning off as much of your energy as [npc.she] wants!");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having sworn [npc1.her] subservience to the school of Water, [npc1.name]'s Water elemental, [npc2.name], is now siphoning off as much of [npc1.name]'s energy as [npc2.she] wants!");
+						"Having sworn [npc1.her] subservience to the school of Water, [npc1.namePos] Water elemental, [npc2.name], is now siphoning off as much of [npc1.namePos] energy as [npc2.she] wants!");
 			}
 		}
 		
@@ -8152,7 +8156,7 @@ public enum StatusEffect {
 			if(((Elemental)target).getSummoner().isPlayer()) {
 				return UtilText.parse(target, "[npc.Name] is siphoning off as much of your energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			} else {
-				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.name]'s energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
+				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.namePos] energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			}
 		}
 		
@@ -8186,7 +8190,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having bound the school of Water to your will, your Water elemental, [npc.name], is forced to reveal all of [npc.her] secrets to you.");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having bound the school of Water to [npc1.her] will, [npc1.name]'s Water elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
+						"Having bound the school of Water to [npc1.her] will, [npc1.namePos] Water elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
 			}
 		}
 		
@@ -8237,7 +8241,7 @@ public enum StatusEffect {
 				return "The cloud of poison vapours continues to linger around your body, causing you to cough and splutter each time you breathe in.";
 			} else {
 				return UtilText.parse(target,
-						"The cloud of poison vapours continues to linger around [npc.name]'s body, causing [npc.herHim] to cough and splutter each time [npc.she] breathes in.");
+						"The cloud of poison vapours continues to linger around [npc.namePos] body, causing [npc.herHim] to cough and splutter each time [npc.she] breathes in.");
 			}
 		}
 
@@ -8284,7 +8288,7 @@ public enum StatusEffect {
 				return "The cloud of poison vapours continues to linger around your body, causing you to cough and splutter each time you breathe in.";
 			} else {
 				return UtilText.parse(target,
-						"The cloud of poison vapours continues to linger around [npc.name]'s body, causing [npc.herHim] to cough and splutter each time [npc.she] breathes in.");
+						"The cloud of poison vapours continues to linger around [npc.namePos] body, causing [npc.herHim] to cough and splutter each time [npc.she] breathes in.");
 			}
 		}
 
@@ -8336,7 +8340,7 @@ public enum StatusEffect {
 				return "The cloud of poison vapours continues to linger around your body, causing you to cough and splutter each time you breathe in.";
 			} else {
 				return UtilText.parse(target,
-						"The cloud of poison vapours continues to linger around [npc.name]'s body, causing [npc.herHim] to cough and splutter each time [npc.she] breathes in.");
+						"The cloud of poison vapours continues to linger around [npc.namePos] body, causing [npc.herHim] to cough and splutter each time [npc.she] breathes in.");
 			}
 		}
 
@@ -8390,7 +8394,7 @@ public enum StatusEffect {
 				return "The cloud of poison vapours continues to linger around your body, causing you to cough and splutter each time you breathe in.";
 			} else {
 				return UtilText.parse(target,
-						"The cloud of poison vapours continues to linger around [npc.name]'s body, causing [npc.herHim] to cough and splutter each time [npc.she] breathes in.");
+						"The cloud of poison vapours continues to linger around [npc.namePos] body, causing [npc.herHim] to cough and splutter each time [npc.she] breathes in.");
 			}
 		}
 
@@ -8421,7 +8425,7 @@ public enum StatusEffect {
 				return "A sustained void in the air, which shifts to remain close to your body, is causing your balance to be thrown off!";
 			} else {
 				return UtilText.parse(target,
-						"A sustained void in the air, which shifts to remain close to [npc.name]'s body, is causing [npc.her] balance to be thrown off!");
+						"A sustained void in the air, which shifts to remain close to [npc.namePos] body, is causing [npc.her] balance to be thrown off!");
 			}
 		}
 
@@ -8454,7 +8458,7 @@ public enum StatusEffect {
 						+ " Smaller, secondary voids are also continuously being created and destroyed around you!";
 			} else {
 				return UtilText.parse(target,
-						"A sustained void in the air, which shifts to remain close to [npc.name]'s body, is causing [npc.her] balance to be thrown off!"
+						"A sustained void in the air, which shifts to remain close to [npc.namePos] body, is causing [npc.her] balance to be thrown off!"
 						+ " Smaller, secondary voids are also continuously being created and destroyed around [npc.herHim]!");
 			}
 		}
@@ -8498,7 +8502,7 @@ public enum StatusEffect {
 					if(target.isPlayer()) {
 						return "Your "+clothingBlownOff.getName()+" "+(clothingBlownOff.getClothingType().isPlural()?"are":"is")+" sucked off and blown to the floor!";
 					} else {
-						return "[npc.Name]'s "+clothingBlownOff.getName()+" "+(clothingBlownOff.getClothingType().isPlural()?"are":"is")+" sucked off and blown to the floor!";
+						return "[npc.NamePos] "+clothingBlownOff.getName()+" "+(clothingBlownOff.getClothingType().isPlural()?"are":"is")+" sucked off and blown to the floor!";
 					}
 				}
 			}
@@ -8512,7 +8516,7 @@ public enum StatusEffect {
 						+ " Smaller, secondary voids are also continuously being created and destroyed around you!";
 			} else {
 				return UtilText.parse(target,
-						"A sustained, powerful void is shifting to remain close to [npc.name]'s body, and is causing [npc.her] balance to be thrown off!"
+						"A sustained, powerful void is shifting to remain close to [npc.namePos] body, and is causing [npc.her] balance to be thrown off!"
 						+ " Smaller, secondary voids are also continuously being created and destroyed around [npc.herHim]!");
 			}
 		}
@@ -8556,7 +8560,7 @@ public enum StatusEffect {
 					if(target.isPlayer()) {
 						return "Your "+clothingBlownOff.getName()+" "+(clothingBlownOff.getClothingType().isPlural()?"are":"is")+" sucked off and blown to the floor!";
 					} else {
-						return "[npc.Name]'s "+clothingBlownOff.getName()+" "+(clothingBlownOff.getClothingType().isPlural()?"are":"is")+" sucked off and blown to the floor!";
+						return "[npc.NamePos] "+clothingBlownOff.getName()+" "+(clothingBlownOff.getClothingType().isPlural()?"are":"is")+" sucked off and blown to the floor!";
 					}
 				}
 			}
@@ -8570,7 +8574,7 @@ public enum StatusEffect {
 						+ " Smaller, secondary voids are also continuously being created and destroyed around you!";
 			} else {
 				return UtilText.parse(target,
-						"A sustained, incredibly-powerful void is shifting to remain close to [npc.name]'s body, and is causing [npc.her] balance to be thrown off!"
+						"A sustained, incredibly-powerful void is shifting to remain close to [npc.namePos] body, and is causing [npc.her] balance to be thrown off!"
 						+ " Smaller, secondary voids are also continuously being created and destroyed around [npc.herHim]!");
 			}
 		}
@@ -8603,7 +8607,7 @@ public enum StatusEffect {
 				return "A sustained void in the air, which shifts to remain close to your body, is causing your balance to be thrown off!";
 			} else {
 				return UtilText.parse(target,
-						"A sustained void in the air, which shifts to remain close to [npc.name]'s body, is causing [npc.her] balance to be thrown off!");
+						"A sustained void in the air, which shifts to remain close to [npc.namePos] body, is causing [npc.her] balance to be thrown off!");
 			}
 		}
 
@@ -8637,7 +8641,7 @@ public enum StatusEffect {
 						+ " Smaller, secondary voids are also continuously being created and destroyed around you!";
 			} else {
 				return UtilText.parse(target,
-						"A sustained void in the air, which shifts to remain close to [npc.name]'s body, is causing [npc.her] balance to be thrown off!"
+						"A sustained void in the air, which shifts to remain close to [npc.namePos] body, is causing [npc.her] balance to be thrown off!"
 						+ " Smaller, secondary voids are also continuously being created and destroyed around [npc.herHim]!");
 			}
 		}
@@ -8673,7 +8677,7 @@ public enum StatusEffect {
 						+ " Smaller, secondary voids are also continuously being created and destroyed around you!";
 			} else {
 				return UtilText.parse(target,
-						"A sustained, powerful void is shifting to remain close to [npc.name]'s body, and is causing [npc.her] balance to be thrown off!"
+						"A sustained, powerful void is shifting to remain close to [npc.namePos] body, and is causing [npc.her] balance to be thrown off!"
 						+ " Smaller, secondary voids are also continuously being created and destroyed around [npc.herHim]!");
 			}
 		}
@@ -8753,7 +8757,7 @@ public enum StatusEffect {
 				return "The Air elemental in your party is surrounding you with vitalising scents, giving you the energy to dodge attacks, while landing powerful strikes of your own!";
 			} else {
 				return UtilText.parse(target,
-						"The Air elemental in [npc.name]'s party is surrounding [npc.herHim] with vitalising scents, giving [npc.herHim] the energy to dodge attacks, while landing powerful strikes of [npc.her] own!");
+						"The Air elemental in [npc.namePos] party is surrounding [npc.herHim] with vitalising scents, giving [npc.herHim] the energy to dodge attacks, while landing powerful strikes of [npc.her] own!");
 			}
 		}
 		
@@ -8809,7 +8813,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having sworn your subservience to the school of Air, your Air elemental, [npc.name], is siphoning off as much of your energy as [npc.she] wants!");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having sworn [npc1.her] subservience to the school of Air, [npc1.name]'s Air elemental, [npc2.name], is now siphoning off as much of [npc1.name]'s energy as [npc2.she] wants!");
+						"Having sworn [npc1.her] subservience to the school of Air, [npc1.namePos] Air elemental, [npc2.name], is now siphoning off as much of [npc1.namePos] energy as [npc2.she] wants!");
 			}
 		}
 		
@@ -8841,7 +8845,7 @@ public enum StatusEffect {
 			if(((Elemental)target).getSummoner().isPlayer()) {
 				return UtilText.parse(target, "[npc.Name] is siphoning off as much of your energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			} else {
-				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.name]'s energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
+				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.namePos] energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			}
 		}
 		
@@ -8875,7 +8879,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having bound the school of Air to your will, your Air elemental, [npc.name], is forced to reveal all of [npc.her] secrets to you.");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having bound the school of Air to [npc1.her] will, [npc1.name]'s Air elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
+						"Having bound the school of Air to [npc1.her] will, [npc1.namePos] Air elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
 			}
 		}
 		
@@ -8909,7 +8913,7 @@ public enum StatusEffect {
 				return "The ground beneath your [npc.feet] is shaking and swaying, causing you to miss the occasional attack.";
 			} else {
 				return UtilText.parse(target,
-						"The ground beneath [npc.name]'s [npc.feet] is shaking and swaying, causing [npc.herHim] to miss the occasional attack.");
+						"The ground beneath [npc.namePos] [npc.feet] is shaking and swaying, causing [npc.herHim] to miss the occasional attack.");
 			}
 		}
 
@@ -8940,7 +8944,7 @@ public enum StatusEffect {
 				return "The ground beneath your [npc.feet] is shaking and swaying, causing you to miss the occasional attack. You can sense that there's an Aftershock coming, but there's little you can do to avoid it...";
 			} else {
 				return UtilText.parse(target,
-						"The ground beneath [npc.name]'s [npc.feet] is shaking and swaying, causing [npc.herHim] to miss the occasional attack. [npc.She] can sense that there's an Aftershock coming, but there's little [npc.she] can do to avoid it...");
+						"The ground beneath [npc.namePos] [npc.feet] is shaking and swaying, causing [npc.herHim] to miss the occasional attack. [npc.She] can sense that there's an Aftershock coming, but there's little [npc.she] can do to avoid it...");
 			}
 		}
 		
@@ -9296,7 +9300,7 @@ public enum StatusEffect {
 				return "The Earth elemental in your party is empowering your attacks with waves of force!";
 			} else {
 				return UtilText.parse(target,
-						"The Earth elemental in [npc.name]'s party is empowering [npc.her] attacks with waves of force!");
+						"The Earth elemental in [npc.namePos] party is empowering [npc.her] attacks with waves of force!");
 			}
 		}
 		
@@ -9352,7 +9356,7 @@ public enum StatusEffect {
 				return "The Earth elemental in your party is using telekinetic powers to surround you with protective fragments of rock!";
 			} else {
 				return UtilText.parse(target,
-						"The Earth elemental in [npc.name]'s party is using telekinetic powers to surround [npc.herHim] with protective fragments of rock!");
+						"The Earth elemental in [npc.namePos] party is using telekinetic powers to surround [npc.herHim] with protective fragments of rock!");
 			}
 		}
 		
@@ -9408,7 +9412,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having sworn your subservience to the school of Earth, your Earth elemental, [npc.name], is siphoning off as much of your energy as [npc.she] wants!");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having sworn [npc1.her] subservience to the school of Earth, [npc1.name]'s Earth elemental, [npc2.name], is now siphoning off as much of [npc1.name]'s energy as [npc2.she] wants!");
+						"Having sworn [npc1.her] subservience to the school of Earth, [npc1.namePos] Earth elemental, [npc2.name], is now siphoning off as much of [npc1.namePos] energy as [npc2.she] wants!");
 			}
 		}
 		
@@ -9440,7 +9444,7 @@ public enum StatusEffect {
 			if(((Elemental)target).getSummoner().isPlayer()) {
 				return UtilText.parse(target, "[npc.Name] is siphoning off as much of your energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			} else {
-				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.name]'s energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
+				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.namePos] energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			}
 		}
 		
@@ -9474,7 +9478,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having bound the school of Earth to your will, your Earth elemental, [npc.name], is forced to reveal all of [npc.her] secrets to you.");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having bound the school of Earth to [npc1.her] will, [npc1.name]'s Earth elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
+						"Having bound the school of Earth to [npc1.her] will, [npc1.namePos] Earth elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
 			}
 		}
 		
@@ -9509,7 +9513,7 @@ public enum StatusEffect {
 				return "Arousing images and thoughts keep on pushing their way to the front of your mind, causing you to lose focus on what it is you're trying to hit.";
 			} else {
 				return UtilText.parse(target,
-						"Arousing images and thoughts keep on pushing their way to the front of [npc.name]'s mind, causing [npc.herHim] to lose focus on what it is [npc.she]'s trying to hit.");
+						"Arousing images and thoughts keep on pushing their way to the front of [npc.namePos] mind, causing [npc.herHim] to lose focus on what it is [npc.sheIs] trying to hit.");
 			}
 		}
 
@@ -9542,7 +9546,7 @@ public enum StatusEffect {
 						+ " You hear the occasional phantasmal whisper in your [pc.ear], promising that you'll have a good time if you simply submit...";
 			} else {
 				return UtilText.parse(target,
-						"Arousing images keep on pushing their way into [npc.name]'s mind, causing [npc.herHim] to lose focus on what it is [npc.she]'s trying to hit."
+						"Arousing images keep on pushing their way into [npc.namePos] mind, causing [npc.herHim] to lose focus on what it is [npc.sheIs] trying to hit."
 								+ " [npc.She] hears the occasional phantasmal whisper in [npc.her] [npc.ear], promising that [npc.she]'ll have a good time if [npc.she] simply submits.");
 			}
 		}
@@ -9672,7 +9676,7 @@ public enum StatusEffect {
 				return "The telepathic moans and suggestions that have been projected into your mind are causing you to lower your guard!";
 			} else {
 				return UtilText.parse(target,
-						"The telepathic moans and suggestions that have been projected into [npc.name]'s mind are causing [npc.herHim] to lower [npc.her] guard!");
+						"The telepathic moans and suggestions that have been projected into [npc.namePos] mind are causing [npc.herHim] to lower [npc.her] guard!");
 			}
 		}
 		
@@ -9699,7 +9703,7 @@ public enum StatusEffect {
 				return "A small arcane cloud is hovering above your head. While subjected to its presence, you feel the arousing effects of the arcane seeping into your mind.";
 			} else {
 				return UtilText.parse(target,
-						"A small arcane cloud is hovering above [npc.name]'s head. While subjected to its presence, the arousing effects of the arcane seep into [npc.her] mind.");
+						"A small arcane cloud is hovering above [npc.namePos] head. While subjected to its presence, the arousing effects of the arcane seep into [npc.her] mind.");
 			}
 		}
 
@@ -9746,7 +9750,7 @@ public enum StatusEffect {
 				return "A small, lust-inducing arcane cloud is hovering above your head. Every now and then, a bolt of arcane lightning flashes down towards you, filling your mind with arousing thoughts.";
 			} else {
 				return UtilText.parse(target,
-						"A small, lust-inducing arcane cloud is hovering above [npc.name]'s head. Every now and then, a bolt of arcane lightning flashes down towards [npc.herHim], filling [npc.her] mind with arousing thoughts.");
+						"A small, lust-inducing arcane cloud is hovering above [npc.namePos] head. Every now and then, a bolt of arcane lightning flashes down towards [npc.herHim], filling [npc.her] mind with arousing thoughts.");
 			}
 		}
 
@@ -9793,7 +9797,7 @@ public enum StatusEffect {
 				return "A small, lust-inducing arcane cloud is hovering above your head. Every now and then, a bolt of arcane lightning, accompanied by a small clap of arcane thunder, fills your mind with arousing thoughts.";
 			} else {
 				return UtilText.parse(target,
-						"A small, lust-inducing arcane cloud is hovering above [npc.name]'s head. Every now and then, a bolt of arcane lightning, accompanied by a small clap of arcane thunder, fills [npc.her] mind with arousing thoughts.");
+						"A small, lust-inducing arcane cloud is hovering above [npc.namePos] head. Every now and then, a bolt of arcane lightning, accompanied by a small clap of arcane thunder, fills [npc.her] mind with arousing thoughts.");
 			}
 		}
 
@@ -9858,7 +9862,7 @@ public enum StatusEffect {
 				return "A localised arcane storm is hovering above your head. Every now and then, a bolt of arcane lightning, accompanied by a small clap of arcane thunder, fills your mind with arousing thoughts.";
 			} else {
 				return UtilText.parse(target,
-						"A localised arcane storm is hovering above [npc.name]'s head. Every now and then, a bolt of arcane lightning, accompanied by a small clap of arcane thunder, fills [npc.her] mind with arousing thoughts.");
+						"A localised arcane storm is hovering above [npc.namePos] head. Every now and then, a bolt of arcane lightning, accompanied by a small clap of arcane thunder, fills [npc.her] mind with arousing thoughts.");
 			}
 		}
 
@@ -9894,7 +9898,7 @@ public enum StatusEffect {
 				return "The Arcane elemental in your party is projecting lewd words of encouragement into your mind!";
 			} else {
 				return UtilText.parse(target,
-						"The Arcane elemental in [npc.name]'s party is projecting lewd words of encouragement into [npc.her] mind!");
+						"The Arcane elemental in [npc.namePos] party is projecting lewd words of encouragement into [npc.her] mind!");
 			}
 		}
 		
@@ -9950,7 +9954,7 @@ public enum StatusEffect {
 				return "The Arcane elemental in the enemy party is projecting phantasmal tentacles to caress and grope your body!";
 			} else {
 				return UtilText.parse(target,
-						"The Arcane elemental in the enemy party is projecting phantasmal tentacles to caress and grope [npc.name]'s body!");
+						"The Arcane elemental in the enemy party is projecting phantasmal tentacles to caress and grope [npc.namePos] body!");
 			}
 		}
 		
@@ -9996,7 +10000,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having sworn your subservience to the school of Arcane, your Arcane elemental, [npc.name], is siphoning off as much of your energy as [npc.she] wants!");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having sworn [npc1.her] subservience to the school of Arcane, [npc1.name]'s Arcane elemental, [npc2.name], is now siphoning off as much of [npc1.name]'s energy as [npc2.she] wants!");
+						"Having sworn [npc1.her] subservience to the school of Arcane, [npc1.namePos] Arcane elemental, [npc2.name], is now siphoning off as much of [npc1.namePos] energy as [npc2.she] wants!");
 			}
 		}
 		
@@ -10028,7 +10032,7 @@ public enum StatusEffect {
 			if(((Elemental)target).getSummoner().isPlayer()) {
 				return UtilText.parse(target, "[npc.Name] is siphoning off as much of your energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			} else {
-				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.name]'s energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
+				return UtilText.parse(target, ((Elemental)target).getSummoner(), "[npc.Name] is siphoning off as much of [npc2.namePos] energy as [npc.she] wants, enabling [npc.herHim] to deal a huge amount of damage!");
 			}
 		}
 		
@@ -10062,7 +10066,7 @@ public enum StatusEffect {
 				return UtilText.parse(target.getElemental(), "Having bound the school of Arcane to your will, your Arcane elemental, [npc.name], is forced to reveal all of [npc.her] secrets to you.");
 			} else {
 				return UtilText.parse(target, target.getElemental(),
-						"Having bound the school of Arcane to [npc1.her] will, [npc1.name]'s Arcane elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
+						"Having bound the school of Arcane to [npc1.her] will, [npc1.namePos] Arcane elemental, [npc2.name], is forced to reveal all of [npc2.her] secrets to [npc2.her] [npc1.mistress].");
 			}
 		}
 		
@@ -10262,7 +10266,7 @@ public enum StatusEffect {
 			if(target.isPlayer())
 				return "Because you're wearing a condom, sex doesn't feel quite as good...";
 			else
-				return "Because [npc.she]'s wearing a condom, sex doesn't feel quite as good for [npc.name]...";
+				return "Because [npc.sheIs] wearing a condom, sex doesn't feel quite as good for [npc.name]...";
 		}
 		
 		@Override
@@ -10298,7 +10302,7 @@ public enum StatusEffect {
 			} else if(Main.game.isInSex()) {
 				SexType preference = Sex.isInForeplay()?((NPC)target).getForeplayPreference():((NPC)target).getMainSexPreference();
 				GameCharacter targetedCharacter = Sex.getTargetedPartner(target);
-				return UtilText.parse(target, targetedCharacter, "Due to the underlying power of your arcane aura, you can sense [npc.name]'s non-neutral preferences towards sexual actions."
+				return UtilText.parse(target, targetedCharacter, "Due to the underlying power of your arcane aura, you can sense [npc.namePos] non-neutral preferences towards sexual actions."
 						+ "<br/>"
 						+ "<i style='color:"+Colour.GENERIC_ARCANE.toWebHexString()+";'>"
 						+ (preference!=null
@@ -10307,7 +10311,7 @@ public enum StatusEffect {
 						+ "</i>");
 				
 			} else {
-				return UtilText.parse(target, "Due to the underlying power of your arcane aura, you can sense [npc.name]'s non-neutral preferences towards sexual actions."
+				return UtilText.parse(target, "Due to the underlying power of your arcane aura, you can sense [npc.namePos] non-neutral preferences towards sexual actions."
 						+ "<br/>"
 						+ "<i style='color:"+Colour.GENERIC_ARCANE.toWebHexString()+";'>"
 								+ "You can detect what areas [npc.name] wants to use when in sex..."
@@ -10426,6 +10430,108 @@ public enum StatusEffect {
 		@Override
 		public boolean isSexEffect() {
 			return true;
+		}
+	},
+	
+	PENIS_STATUS(//Just used for handjobs
+			95,
+			"Penis status",
+			null,
+			Colour.GENERIC_SEX,
+			false,
+			null,
+			null) {
+		
+		@Override
+		public float getArousalPerTurnSelf(GameCharacter target) {
+			return getPenetrationArousalPerTurn(target, SexAreaPenetration.PENIS);
+		}
+
+		@Override
+		public float getArousalPerTurnPartner(GameCharacter self, GameCharacter target) {
+//			Map<GameCharacter, Set<SexAreaInterface>> contactingAreas = Sex.getContactingSexAreas(self, SexAreaPenetration.PENIS);
+//			if(contactingAreas!=null) {
+//				if(contactingAreas.get(target)!=null && !contactingAreas.get(target).isEmpty()) {
+//					for(SexAreaInterface area : contactingAreas.get(target)) {
+//						if(!area.isOrifice()) {
+//							return ((SexAreaPenetration)area).getBaseArousalWhenPenetrating();
+//						}
+//					}
+//				}
+//			}
+			return 0;
+		}
+				
+		@Override
+		public List<String> getModifiersAsStringList(GameCharacter target) {
+			return getPenetrationModifiersAsStringList(target, SexAreaPenetration.PENIS);
+		}
+
+		@Override
+		public String getDescription(GameCharacter target) {
+			descriptionSB = new StringBuilder();
+			SexAreaPenetration type = SexAreaPenetration.PENIS;
+
+			descriptionSB.append("<p style='text-align:center; padding:0;margin:0;'>");
+			for(Entry<GameCharacter, Set<SexAreaInterface>> entry : Sex.getContactingSexAreas(target, type).entrySet()) {
+				for(SexAreaInterface sArea : entry.getValue()) {
+					if(sArea.isPenetration()) {
+						switch((SexAreaPenetration)sArea) {
+							case FINGER:
+								descriptionSB.append(UtilText.parse(entry.getKey(), target, "[npc.NameIsFull] giving [npc2.name] <b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>a handjob</b>!"));
+								break;
+							case PENIS:
+								descriptionSB.append(UtilText.parse(entry.getKey(), target, "[npc.NameIsFull] <b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>frotting</b> with [npc2.name]!"));
+								break;
+							case TAIL:
+								descriptionSB.append(UtilText.parse(entry.getKey(), target, "[npc.NameIsFull] giving [npc2.name] <b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>a tail-job</b>!"));
+								break;
+							case TENTACLE:
+								descriptionSB.append(UtilText.parse(entry.getKey(), target, "[npc.NameIsFull] giving [npc2.name] <b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>a tentacle-job</b>!"));
+								break;
+							case TONGUE:
+								descriptionSB.append(UtilText.parse(entry.getKey(), target, "[npc.NameIsFull] giving [npc2.name] <b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>a blowjob</b>!"));
+								break;
+							case CLIT:
+								descriptionSB.append(UtilText.parse(entry.getKey(), target, "[npc.NameIsFull] <b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>clit-frotting</b> with [npc2.name]!"));
+								break;
+							case TOES:
+								descriptionSB.append(UtilText.parse(entry.getKey(), target, "[npc.NameIsFull] giving [npc2.name] <b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>a foot-job</b>!"));
+								break;
+						}
+						
+					}
+				}
+			}
+			if(Sex.getContactingSexAreas(target, type).isEmpty()) {
+				descriptionSB.append("<b style='color:"+Colour.TEXT_GREY.toWebHexString()+";'>No ongoing action.</b>");
+			}
+
+			appendPenetrationAdditionGenericDescriptions(target, type, UtilText.parse(target, "[npc.NamePos] [npc.penis]"), descriptionSB);
+			
+			descriptionSB.append("</p>");
+			
+			return descriptionSB.toString();
+		}
+
+		@Override
+		public boolean isConditionsMet(GameCharacter target) {
+			return Main.game.isInSex()
+					&& Sex.getOngoingActionsMap(target)!=null
+					&& !Sex.getContactingSexAreas(target, SexAreaPenetration.PENIS).isEmpty()
+					&& !Collections.disjoint(
+							Sex.getContactingSexAreas(target, SexAreaPenetration.PENIS).get(Sex.getCharacterContactingSexArea(target, SexAreaPenetration.PENIS).get(0)),
+							Util.newArrayListOfValues(SexAreaPenetration.values()));
+		}
+		
+		@Override
+		public boolean isSexEffect() {
+			return true;
+		}
+		
+		@Override
+		public String getSVGString(GameCharacter owner) {
+			return getOrificeSVGString(owner, SexAreaPenetration.PENIS, SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypePenis());
 		}
 	},
 	
@@ -11629,6 +11735,51 @@ public enum StatusEffect {
 	
 	// Helper methods for sex effects:
 	
+	public static float getPenetrationArousalPerTurn(GameCharacter target, SexAreaPenetration penetration) {
+		float arousal = 0;
+		
+		if(!Sex.getContactingSexAreas(target, penetration).isEmpty()) {
+			arousal+=penetration.getBaseArousalWhenPenetrating();
+			
+			if(Sex.getWetAreas(target).get(penetration).isEmpty()) {
+				arousal += penetration.getArousalChangePenetratingDry();
+			}
+		}
+		
+		return arousal;
+	}
+	
+	public List<String> getPenetrationModifiersAsStringList(GameCharacter target, SexAreaPenetration penetration) {
+		modifiersList.clear();
+		
+		String targetName = target.isPlayer()?"your":UtilText.parse(target, "[npc.namePos]");
+
+		if(!Sex.getContactingSexAreas(target, penetration).isEmpty()
+				&& !Collections.disjoint(Sex.getContactingSexAreas(target, penetration).get(Sex.getCharacterContactingSexArea(target, penetration).get(0)), Util.newArrayListOfValues(SexAreaPenetration.values()))) {
+			
+			modifiersList.add("+"+penetration.getBaseArousalWhenPenetrating()
+				+" <b style='color: " + Colour.GENERIC_SEX.toWebHexString() + "'>"+targetName+" arousal/turn</b> (<b style='color: " + Colour.GENERIC_SEX.toWebHexString() + "'>Sex</b>)");
+			
+			if(Sex.getWetAreas(target).get(penetration).isEmpty()) {
+				modifiersList.add(penetration.getArousalChangePenetratingDry()
+						+ " <b style='color: " + Colour.GENERIC_SEX.toWebHexString() + "'>"+targetName+" arousal/turn</b> (<b style='color: " + Colour.GENERIC_BAD.toWebHexString() + "'>Dry</b>)");
+			}
+			
+			for(GameCharacter penetrator : Sex.getContactingSexAreas(target, penetration).keySet()) {
+				String penetratorName = penetrator.isPlayer()?"your":UtilText.parse(penetrator, "[npc.namePos]");
+				
+				if(!Sex.getContactingSexAreas(target, penetration).isEmpty()) {
+					modifiersList.add(
+							"+0 <b style='color: " + Colour.GENERIC_SEX.toWebHexString() + "'>"+penetratorName+" arousal/turn</b> (<b style='color: " + Colour.GENERIC_SEX.toWebHexString() + "'>Sex</b>)");
+				}
+			}
+			
+		} else {
+			modifiersList.add("[style.colourDisabled(No bonuses)]");
+		}
+		return modifiersList;
+	}
+	
 	public static float getOrificeArousalPerTurnSelf(GameCharacter target, SexAreaOrifice orifice) {
 		float arousal = 0;
 		
@@ -11678,7 +11829,7 @@ public enum StatusEffect {
 	public List<String> getOrificeModifiersAsStringList(GameCharacter target, SexAreaOrifice orifice) {
 		modifiersList.clear();
 		
-		String targetName = target.isPlayer()?"your":UtilText.parse(target, "[npc.name]'s");
+		String targetName = target.isPlayer()?"your":UtilText.parse(target, "[npc.namePos]");
 
 		if(!Sex.getContactingSexAreas(target, orifice).isEmpty()) {
 			modifiersList.add("+"+orifice.getBaseArousalWhenPenetrated()
@@ -11698,7 +11849,7 @@ public enum StatusEffect {
 			}
 			
 			for(GameCharacter penetrator : Sex.getContactingSexAreas(target, orifice).keySet()) {
-				String penetratorName = penetrator.isPlayer()?"your":UtilText.parse(penetrator, "[npc.name]'s");
+				String penetratorName = penetrator.isPlayer()?"your":UtilText.parse(penetrator, "[npc.namePos]");
 				
 				if(!Sex.getContactingSexAreas(target, orifice).isEmpty()) {
 					modifiersList.add("+"+getOrificeArousalPerTurnPartner(target, penetrator, orifice)
@@ -11723,6 +11874,38 @@ public enum StatusEffect {
 			modifiersList.add("[style.colourDisabled(No bonuses)]");
 		}
 		return modifiersList;
+	}
+	
+	public void appendPenetrationAdditionGenericDescriptions(GameCharacter owner, SexAreaPenetration penetration, String penetrationName, StringBuilder stringBuilderToAppendTo) {
+		
+		if(Sex.getWetAreas(owner).get(penetration).isEmpty()) {
+			stringBuilderToAppendTo.append("<br/>"+penetrationName+" "+(penetration.isPlural()?"are":"is")+" <b style='color:"+Colour.GENERIC_ARCANE.toWebHexString()+";'>dry</b>!");
+			
+		} else {
+			stringBuilderToAppendTo.append("<br/>"+penetrationName+" "+(penetration.isPlural()?"have":"has")+" been <b style='color:"+Colour.GENERIC_SEX.toWebHexString()+";'>lubricated</b> by:<br/>");
+			int i=0;
+			for(LubricationType lt : Sex.getWetAreas(owner).get(penetration)) {
+				if(i!=0) {
+					if(i == Sex.getWetAreas(owner).get(penetration).size()-1) {
+						stringBuilderToAppendTo.append(", and ");
+					} else {
+						stringBuilderToAppendTo.append(", ");
+					}
+				}
+				
+				if(i==0)
+					stringBuilderToAppendTo.append(Util.capitaliseSentence(lt.getName()));
+				else
+					stringBuilderToAppendTo.append(lt.getName());
+				
+				if(i == Sex.getWetAreas(owner).get(penetration).size()-1) {
+					stringBuilderToAppendTo.append(".");
+				}
+				
+				i++;
+			}
+		}
+		stringBuilderToAppendTo.append("</p>");
 	}
 	
 	public void appendOrificeAdditionGenericDescriptions(GameCharacter owner, SexAreaOrifice orificeType, String orificeName, StringBuilder stringBuilderToAppendTo) {
@@ -11772,10 +11955,55 @@ public enum StatusEffect {
 		stringBuilderToAppendTo.append("</p>");
 	}
 	
-	public String getOrificeSVGString(GameCharacter owner, SexAreaOrifice orifice, String baseSVG) {
+	public String getPenetrationSVGString(GameCharacter owner, SexAreaInterface penetration, String baseSVG) {
 		SVGImageSB = new StringBuilder();
 		
-		SVGImageSB.append(baseSVG);
+		SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;left:0;top:0;'>"+baseSVG+"</div>");
+		
+		if(!Sex.getContactingSexAreas(owner, penetration).isEmpty()) {
+			SexAreaPenetration firstPenetration = null;
+			outerloop:
+			for(Entry<GameCharacter, Set<SexAreaInterface>> entry : Sex.getContactingSexAreas(owner, penetration).entrySet()) {
+				for(SexAreaInterface sArea : entry.getValue()) {
+					if(sArea.isPenetration()) {
+						firstPenetration = (SexAreaPenetration) sArea;
+						break outerloop;
+					}
+				}
+			}
+			if(firstPenetration!=null) {
+				switch(firstPenetration){
+					case FINGER:
+						SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;right:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeFinger()+"</div>");
+						break;
+					case PENIS:
+						SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;right:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypePenis()+"</div>");
+						break;
+					case TAIL:
+						SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;right:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeTail()+"</div>");
+						break;
+					case TONGUE:
+						SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;right:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeTongue()+"</div>");
+						break;
+					default:
+						break;
+				}
+			}
+		}
+		
+		if(Sex.getWetAreas(owner).get(penetration).isEmpty()) {
+			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCombinationDry()+"</div>");
+		} else {
+			SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getCombinationWet()+"</div>");
+		}
+		
+		return SVGImageSB.toString();
+	}
+	
+	public String getOrificeSVGString(GameCharacter owner, SexAreaInterface orifice, String baseSVG) {
+		SVGImageSB = new StringBuilder();
+		
+		SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;left:0;top:0;'>"+baseSVG+"</div>");
 		
 		if(!Sex.getContactingSexAreas(owner, orifice).isEmpty()) {
 			SexAreaPenetration firstPenetration = SexAreaPenetration.FINGER;
@@ -11790,16 +12018,16 @@ public enum StatusEffect {
 			}
 			switch(firstPenetration){
 				case FINGER:
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeFinger()+"</div>");
+					SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;right:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeFinger()+"</div>");
 					break;
 				case PENIS:
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypePenis()+"</div>");
+					SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;right:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypePenis()+"</div>");
 					break;
 				case TAIL:
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeTail()+"</div>");
+					SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;right:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeTail()+"</div>");
 					break;
 				case TONGUE:
-					SVGImageSB.append("<div style='width:100%;height:100%;position:absolute;left:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeTongue()+"</div>");
+					SVGImageSB.append("<div style='width:50%;height:50%;position:absolute;right:0;bottom:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getPenetrationTypeTongue()+"</div>");
 					break;
 				default:
 					break;

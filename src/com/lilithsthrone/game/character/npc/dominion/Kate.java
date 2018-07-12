@@ -330,10 +330,8 @@ public class Kate extends NPC {
 	}
 
 	@Override
-	public void endSex(boolean applyEffects) {
-		if (applyEffects) {
-			setPenisType(PenisType.NONE);
-		}
+	public void endSex() {
+		setPenisType(PenisType.NONE);
 	}
 	
 	@Override
@@ -344,11 +342,6 @@ public class Kate extends NPC {
 	public static final DialogueNodeOld AFTER_SEX = new DialogueNodeOld("Step back", "Step back and allow Kate to recover.", true, true) {
 		private static final long serialVersionUID = 1L;
 		
-		@Override
-		public int getMinutesPassed(){
-			return 15;
-		}
-
 		@Override
 		public String getContent() {
 			return "<p>"
@@ -406,11 +399,6 @@ public class Kate extends NPC {
 		private static final long serialVersionUID = 1L;
 		
 		@Override
-		public int getMinutesPassed(){
-			return 15;
-		}
-
-		@Override
 		public String getContent() {
 			return  "<p>"
 					+ "Quickly sorting your own clothes back into position, you watch as Kate does the same."
@@ -461,7 +449,7 @@ public class Kate extends NPC {
 			}
 			
 		// NPC is using an item:
-		}else{
+		} else {
 			return Sex.getActivePartner().useItem(item, target, false);
 		}
 	}
@@ -493,8 +481,8 @@ public class Kate extends NPC {
 		}
 		return AbstractClothingType.getEquipDescriptions(target, equipper, rough,
 				"You tear open the packet and roll the condom down the length of your [pc.penis].",
-				"You tear open the packet and roll the condom down the length of [npc.name]'s [npc.penis].",
-				"You tear open the packet and forcefully roll the condom down the length [npc.name]'s [npc.penis].",
+				"You tear open the packet and roll the condom down the length of [npc.namePos] [npc.penis].",
+				"You tear open the packet and forcefully roll the condom down the length [npc.namePos] [npc.penis].",
 				"[npc.Name] tears open the packet and rolls the condom down the length of [npc.her] [npc.penis].",
 				"[npc.Name] tears open the packet and rolls the condom down the length of your [pc.penis].",
 				"[npc.Name] tears open the packet and forcefully rolls the condom down the length of your [pc.penis].", null, null);

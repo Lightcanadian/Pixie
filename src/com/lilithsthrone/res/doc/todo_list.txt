@@ -17,12 +17,6 @@
 	- Add an Imp gang attack.
 	- Adding in repeatable mini-quests for the Imp fortresses.
 	
-	Nightlife
-	- Add at least one club to start with.
-	- Add club's internal map.
-	- Add indication in characters present for crowds
-	- Add randomly-generated NPC interactions in the club.
-
 	Clothing todo:
 		Ribbons
 		Horn rings
@@ -37,63 +31,196 @@
 	
 	Patch notes:
 	
-Contributors:
-	Added: Fox-morphs (with Fennec, Youko, and Fennec-Youko subspecies), along with related essence, book, and TF food and drink. (Tukaima)
-	Added: Lynx, leopard, snow leopard, lion, tiger, cheetah, and caracal subspecies for cat-morphs. (Irbynx)
-
-Other:
-	Eye transformations now affect iris and pupil shape.
-	The 'Deny' action in sex is now always available (so long as you're the dom or have equal control as the sub).
-	Event log is now sorted with the most recent events at the top of the list.
-	Converted kissing actions to NPC-on-NPC format.
-
-Bugs:
-	Fixed Ralph not starting anal when you asked for big discount.
-	Fixed not being able to swap or change positions with Lilaya & Kate in their sex scenes.
-	Fixed slaves in the stocks and milking stalls using their hands, and added anal options for the 'standing behind' position.
-	Typo and parsing fixes.
-	Fixed 'Deny' sex action not working.
-	Fixed tattoos without any writing loading in as having blank 'normal grey text'.
-	Fixed the 'Age' content toggle not working.
-	Fixed blowjob not being available sometimes in sixty-nine position.
-	Fixed buttplugs not actually blocking anus.
-	Fixed NPCs choosing oral sex actions even if they hated or disliked it.
-	Fixed Lilaya and Kate sometimes continuously switching positions in their sex scenes.
-	Fixed tattoos sometimes being applied with the last letter in their writing being cut off.
-	You can now end sex when starting submissive sex with a companion.
-	Fixed case where dominant NPC would refuse to take any action in sex.
+	Sex action conversions:
+		Converted and improved descriptions of all penis+ass (hotdogging) actions.
+		Converted all penis+nipple actions.
+		Converted and improved descriptions of all penis+breast (paizuri/naizuri) actions.
+		Converted all thigh-sex actions (and renamed the in-game labels to 'intercrural').
+		Converted all penis+vaginal urethra actions.
+		Converted miscellaneous actions in several other classes (orgasms, stocks/milking stall, cultist, kneeling-oral)
+	
+	Contributors:
+		Fixed issue with the parser not performing capitalisation correctly. (Lightcanadian)
+		Improved aspects of the 'concealed race' mechanic. (Lightcanadian)
+	
+	Other:
+		Made you the dom in Lilaya's chair sex scenes, to give you control over positioning.
+		Added 'rainbow' as a dye colour for hair and other body coverings.
+		Area requests in sex are now available even if you're the dom.
+		Area requests in sex now work correctly, with your partner only saying 'no' if they dislike using that area, or if they're sadistic.
+		Changed clothing set bonuses to account for slots that are blocked by your racial parts. i.e. A horse-morph (with foot slot blocked due to hoofs) will still get the witch's set bonus if they are just wearing the hat & dress, ignoring the requirement to also be wearing the boots.
+		You no longer have the superpower of involuntarily pausing time while having sex. (Time now advances 1 minute per action.)
+		Improved sex status effect 'anus' icon.
+		Added sex status effect 'penis status' that's shown to indicate ongoing handjobs.
+		Cum and milk regeneration is no longer rounded to the nearest integer, to fix the issue of low cum storage values always regenerating very quickly.
+	
+	Bugs:
+		Fixed large underlying error in the game's parser that was causing some scenes to be displayed incorrectly. (This was mainly affecting the new dialogue in the nightclub.)
+		Fixed incorrect nipple fingering sex action description.
+		Typo fixes + fixing several grammatical errors in recently converted sex actions.
+		Fixed more 'command_unknown' errors.
+		Fixed 'Creampie' action's title sometimes not displaying.
+		Harpies spawning in the nightclub will now correctly be at a 'lesser' furry level (human with harpy arm-wings and legs, instead of fully bird-like).
+		Fixed impossible position of being able to ride the cock of someone who's locked in stocks while you're standing behind.
+		Fixed all cheetah genders always spawning in with breasts.
+		Fixed incorrect virginity loss descriptions.
+		Fixed incorrect positioning action descriptions in the toilet stall sex scene.
+		Fixed the female pregnancy roulette volunteers being named 'unknown male'.
+		Changing cum production in character creation no longer empties your balls.
+		Fixed 'Clit attention' action being available in resisting pace.
+		Fixed unintended ability to stop ongoing sex actions when having sex as a sub without equal control.
+		Fixed bug where you could spawn multiple elementals during combat.
+		Fixed a missing dialogue error when encountering slimes in the tunnels of Submission.
+		Fixed clit girth TF referencing a penis.
+		Fixed several minor formatting errors in ass, penis, testicle, clit, and vagina TFs.
+		Fixed 'breastfeed' action not draining the character's milk.
+		Fixed issue with slaves not being sent to the correct milking room.
+		Fixed incorrect sex action tooltips in (hopefully) every scene.
+		Fixed parsing issues related to NPCs equipping weapons.
 	
 	
+	
+	
+	gloryhole
+	
+	Add character import to club
+	
+	NPCs to use condoms
+	
+	Broken condom
+	
+	foot content
+	
+	scars!
+	
+	Sex intros for random NPCs
+	
+	PRs
+	
+	Give control over ages
+		NC ages
+		
+	TF fetish NPCs should always let you TF them (NC NPCS)
+		 i try to change someone i meet at the watering hole, but they refuse to take a tf potion despite them having the fetish
+	
+	Kalahari & Kruger drink spiking to give incest fetish for threesome
+	Dom partner
+	
+	There's still slaves using their hands in the stocks and such, you also might want to take some time to write some hands-free descriptions for teasing such as them simply thrusting their hips back to grind against you instead of just grabbing your penis and rubbing it on themselves
+	
+	Dress under jacket not visible
+
+	Is it a bug if a character rubs their butt against my dick, but then gets upset and stops the sex if I actually start anal
+	
+	The only issue I've been having is that I have not being able to fuck nipple-vaginas with my cock.
+	 It seems regardless of what position I use they can fuck my nipples but the option to fuck theirs is either greyed out or doesn't exist. I can use tails to do so sometimes but not use a cock.
+
+	I had a bug where an NPC slave initiated sex. Sex actions were working fine. I then went to the slave room to change clothing.
+	 When i went to remove a piece of clothing it would swap back to the sex dialogue text that had already happened outside of the slave's room.
+	  When I tried removing different pieces of clothing I would click to "unequip" and then it would shift back to the sex dialogue that already happened.
+	   I was able to work around this using the manage slave inventory thing. Also when I exited the game to restart it and try again it caused me to get stuck in the various menus without being able to back out or close inventory
+	
+	If resolve Zaranix quest peacefully, it makes no sense for Amber to be so angry on repeat visit.
+	
+	(Can't reproduce) it seems that modifying vaginal urethra stats applies to the penile urethra
+	
+	if you don't turn off their permission to wash their body, it wipes their pregnancy when they clean their creampie, and it will display in the phone as ready to birth.
+	
+	So I have an imported character and it always gives me the "you should talk to Lily" text after I defeat someone, but I can't actually talk to her about it anymore. I was pretty sure I already talked to her about it one this save
+
+	When I entered Zaranix's house, it was telling me I needed to respond to the maid before going up the stairs... When she wasn't in the same tile as me and hadn't said anything to me.
+	
+	Loading saves also returns the image of an enchanted hypno-watch to the regular one
+	
+	brittney/lexi/diana will take anything?
+	
+	Preset outfits
+		Club
+		Slut
+		Casual
+		Smart
+		Exhibitionist
+	
+	Check new cat-morph TF descriptions (especially face)
+	
+	Need to define races & body parts as "equine", "feline", etc.
+	
+	Need to make subspecies changer items
+		Feline's Fancy:
+			Tiger strike
+			Lion's roar
+			Leopard's lemonade
+			Leopard's lemonade (ice)
+			Cheetah dash
+			Lynx's lime
+			Cranberry caracal
+	
+	Make subspecies-specific SEs
+	
+	Improve cat icons
+		
+	pull out on their soles
+	
+	Even though i set Angels as the only ones to use the Artisanal milking room, on occasion the room will spontaneously generate human girlcum
+		just looked and one of my angel slaves has human hair
+		which somehow makes them produce human girlcum
+		can't say that makes sense to me
+	
+	Kanzashi stays on your head even if your hair length becomes 0
+		i think hair slot should be blocked if you have no hair
+	
+	add dialogue if you cum upon insertion 'Already?'
+		
+	Check sexman slave bug saves
+	importing an older save into this version added slave collars to a majority of my NPC slaves.  I dunno if that is part of the problem
+	
+	did you really not fix slaves washing themselves wiping out pregnancies
+	
+	If you transform a demon before sex using the menu and then transform yourself using the transformation menu afterwards it soft defaults to the options you changed on the demon.
+	 Meaning it doesn't change your current settings, but the changes are kept
 	
 	
 	NullPointer somehow when managing inventory in sex (something related to Game.restoreSavedContent(Game.java:2341))
 		The problem goes away if I remove his clothes through Management: Inventory. Only doing it from clicking him then clicking his inventory directly causes the issue
 	
 	
-	Add place descriptions
-	Add location actions
-	Add pickup mechanics
-	
-	Do misc. actions until approached/approach, then with that person (or 2 people) until you get rid of them or until sex
-	Club - The Watering Hole (Male lion runs it, with lionesses and zebra-girls/boys as staff)
-		Internal map: Entrance, dancefloor, bar, seating area, VIP area, toilets
-		Can: Dance, drink/loiter/flirt, use toilet (gloryhole)
-		-> Go home with him/her
-			If rough/rapist, they try to sex in alley
-			Else go home and have sex
-		-> Go into toilets (sex)
+	Nyan isnt cycling any of the "specials" in her shop besides the color of the Mega Milk shirt. its minor...but that means no butler outfits
+	The slaver person as well, you can work around it by buying something from them, and that makes them start to cycle inventory
 	
 	
+	 The capitalisation for her/his doesn't work in the parser
 	
-	Convert groping actions so threesome can interact
+	tidy up both the bat-morph and fox-morph lore
 	
-	Convert oral actions
+	Make broodmother/seeder better
+	
+	a slave in the holding cells who had "use you" permission just came out of nowhere and lewded me
+	
+	 Lilaya's Scene seems to work, but I can't get her to use her cock on my PC even after asking her to grow one and checking on her description to see if it says she has one.
+	
+	"Lilaya decides to switch positions, and, getting Lilaya to stand up, she sits down on the chair and pulls her down onto her lap.​ Looking up into her eyes, she gasps, Good girl!"
+my character is a guy, so this is super confusing lol
+	
+	 hair pulling during doggystyle and choking during missionary
+	
+	breeding stall to brothel
+	
+	Milking room bug.  If you have regular milk in the storage and change your own milk to a flavor (I was using chocolate), the room locks up when you come in (can't click buttons or move, but you can get to the system menu to reload). 
+	
+	I think I forgot to add facesitting to their available positions. I'll get that sorted for the next release. :3
+	
+	Add way to ask for feminine or masculine cients in brothel
+	
+	stop penetrations does nothing
+		My slave will not take her fingers off of her back door
 	
 	Lumi
 	
 	
+	if you have human legs it shouldn't tell you you're plantigrade
 	
-	
+	is brax keeping a feather in the primary slot and a demonstone in his inventory intentional
+		Add baton as modded weapon
 	
 	I think it's counting the slaves being in the stocks as having sex with me because a lot of my slaves say I've had sex with them over a hundred times, which is definately not true.
 	
@@ -103,7 +230,7 @@ Bugs:
 	
 	Exhibitionist slaves lose affection if you ask them to show themselves off for you and are pissy about it
 	
-	add in child spawns in the bat caverns 
+	Offspring for bat caverns and submission (slimes, bat-morphs, and rat-morphs)
 		
 	taunts and dirty talk similar to that in pregnancy roulette based on fetishes,
 	 for example once the npc switches what they want to fucking your pussy they could say "Im going to take that tight kitty of yours" or "Im going to breed your pussy" if they have a pregnancy fetish.
@@ -682,7 +809,6 @@ Bugs:
 	Is breast groping supposed to be blocked until the nipples are exposed? That makes no sense and I think it was different before. Where's my groping over clothing
 	
 	I'm so disappointed that transforming into a wolf-slime-thing doesn't let you access the relevant option with Brax. I mean, alright, it's not the same, but…
-		Also on the note of slimes, how the fuck they manage to fly with goo-wings is beyond me. I didn't expect that transformation to unlock the option.
 	
 	change the "New Game (Import)" to give you the option of starting before or after the prologue.
 	

@@ -1648,7 +1648,7 @@ public class MainControllerInitMethod {
 						MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
 	
 						TooltipInformationEventListener el =  new TooltipInformationEventListener().setInformation("Manage Slave's Job",
-								UtilText.parse(slave, "Set [npc.name]'s job and work hours."));
+								UtilText.parse(slave, "Set [npc.namePos] job and work hours."));
 						MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
 					}
 					
@@ -1661,7 +1661,7 @@ public class MainControllerInitMethod {
 						MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
 	
 						TooltipInformationEventListener el =  new TooltipInformationEventListener().setInformation("Manage Slave's Permissions",
-								UtilText.parse(slave, "Manage [npc.name]'s permissions."));
+								UtilText.parse(slave, "Manage [npc.namePos] permissions."));
 						MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
 					}
 					
@@ -1674,7 +1674,7 @@ public class MainControllerInitMethod {
 						MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
 	
 						TooltipInformationEventListener el =  new TooltipInformationEventListener().setInformation("Manage Slave's Inventory",
-								UtilText.parse(slave, "Manage [npc.name]'s inventory."));
+								UtilText.parse(slave, "Manage [npc.namePos] inventory."));
 						MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
 					}
 					
@@ -1796,7 +1796,7 @@ public class MainControllerInitMethod {
 						MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
 	
 						TooltipInformationEventListener el =  new TooltipInformationEventListener().setInformation("Manage Slave's Job",
-								UtilText.parse(slave, "You cannot manage [npc.name]'s job, as you don't own [npc.herHim]!"));
+								UtilText.parse(slave, "You cannot manage [npc.namePos] job, as you don't own [npc.herHim]!"));
 						MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
 					}
 					
@@ -1806,7 +1806,7 @@ public class MainControllerInitMethod {
 						MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
 
 						TooltipInformationEventListener el =  new TooltipInformationEventListener().setInformation("Manage Slave's Permissions",
-								UtilText.parse(slave, "You cannot manage [npc.name]'s permissions, as you don't own [npc.herHim]!"));
+								UtilText.parse(slave, "You cannot manage [npc.namePos] permissions, as you don't own [npc.herHim]!"));
 						MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
 					}
 					
@@ -1816,7 +1816,7 @@ public class MainControllerInitMethod {
 						MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
 
 						TooltipInformationEventListener el =  new TooltipInformationEventListener().setInformation("Manage Slave's Inventory",
-								UtilText.parse(slave, "You cannot manage [npc.name]'s inventory, as you don't own [npc.herHim]!"));
+								UtilText.parse(slave, "You cannot manage [npc.namePos] inventory, as you don't own [npc.herHim]!"));
 						MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
 					}
 					
@@ -1827,7 +1827,7 @@ public class MainControllerInitMethod {
 						MainController.addEventListener(MainController.document, id, "mouseleave", MainController.hideTooltipListener, false);
 	
 						TooltipInformationEventListener el =  new TooltipInformationEventListener().setInformation("Move Slave To Here",
-								UtilText.parse(slave, "You cannot move [npc.name] to this location, as you don't own [npc.herHim], as well as due to the fact that [npc.she]'s already here!"));
+								UtilText.parse(slave, "You cannot move [npc.name] to this location, as you don't own [npc.herHim], as well as due to the fact that [npc.sheIs] already here!"));
 						MainController.addEventListener(MainController.document, id, "mouseenter", el, false);
 					}
 					
@@ -1921,6 +1921,8 @@ public class MainControllerInitMethod {
 						if (((EventTarget) MainController.document.getElementById(id)) != null) {
 							((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
 								Main.game.setStartingDateMonth(month);
+								int age = Math.max(18, Main.game.getPlayer().getAge());
+								CharacterModificationUtils.performPlayerAgeCheck(age);
 								Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 							}, false);
 						}
@@ -2522,6 +2524,9 @@ public class MainControllerInitMethod {
 					if (((EventTarget) MainController.document.getElementById(id)) != null) {
 						((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e -> {
 							BodyChanging.getTarget().setPenisCumStorage(cp.getMedianValue());
+							if(!Main.game.isInNewWorld()) {
+								BodyChanging.getTarget().fillCumToMaxStorage();
+							}
 							Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 						}, false);
 					}

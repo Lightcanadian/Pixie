@@ -13,6 +13,7 @@ import com.lilithsthrone.game.character.body.CoverableArea;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.responses.ResponseEffectsOnly;
+import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.sex.ArousalIncrease;
 import com.lilithsthrone.game.sex.Sex;
 import com.lilithsthrone.game.sex.SexAreaInterface;
@@ -196,9 +197,12 @@ public interface SexActionInterface {
 	}
 	
 	public default boolean isBaseRequirementsMet() {
-		return this.getSexPace()==null
+		return (this.getSexPace()==null
 				|| (this.getSexPace().isDom() && Sex.getSexPace(Sex.getCharacterPerformingAction()).isDom())
-				|| (!this.getSexPace().isDom() && !Sex.getSexPace(Sex.getCharacterPerformingAction()).isDom());
+				|| (!this.getSexPace().isDom() && !Sex.getSexPace(Sex.getCharacterPerformingAction()).isDom()))
+				&& (this.getActionType()!=SexActionType.STOP_ONGOING
+					|| Sex.getSexPace(Sex.getCharacterPerformingAction()).isDom()
+					|| Sex.isSubHasEqualControl()); // Can only stop if dom or equal control
 	}
 	
 	/**
@@ -458,6 +462,35 @@ public interface SexActionInterface {
 				return convertToResponse();
 				
 				
+			} else if(getActionType()==SexActionType.REQUIRES_EXPOSED) {
+
+				// Check penetrations:
+				for(SexAreaPenetration sArea : this.getPerformingCharacterPenetrations()) {
+					if(!Sex.getCharacterPerformingAction().isPenetrationTypeExposed(sArea)) {
+						return convertToNullResponse();
+					}
+				}
+				for(SexAreaPenetration sArea : this.getTargetedCharacterPenetrations()) {
+					if(!Sex.getCharacterTargetedForSexAction(this).isPenetrationTypeExposed(sArea)) {
+						return convertToNullResponse();
+					}
+				}
+				
+				// Check orifices:
+				for(SexAreaOrifice sArea : this.getPerformingCharacterOrifices()) {
+					if(!Sex.getCharacterPerformingAction().isOrificeTypeExposed(sArea)) {
+						return convertToNullResponse();
+					}
+				}
+				for(SexAreaOrifice sArea : this.getTargetedCharacterOrifices()) {
+					if(!Sex.getCharacterTargetedForSexAction(this).isOrificeTypeExposed(sArea)) {
+						return convertToNullResponse();
+					}
+				}
+				
+				return convertToResponse();
+				
+				
 			} else if(getActionType()==SexActionType.REQUIRES_NO_PENETRATION) {
 
 				// Check penetrations:
@@ -555,8 +588,13 @@ public interface SexActionInterface {
 	
 	public default Response convertToResponse() {
 		if(getCategory() != SexActionCategory.CHARACTER_SWITCH) {
-			return new Response(getActionTitle(),
-					getActionDescription(),
+			return new Response(
+					this.endsSex()
+						?getActionTitle()
+						:UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(this), getActionTitle()),
+					this.endsSex()
+						?getActionDescription()
+						:UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(this), getActionDescription()),
 					Sex.SEX_DIALOGUE,
 					getFetishes(Main.game.getPlayer()),
 					getCorruptionNeeded(),
@@ -597,7 +635,13 @@ public interface SexActionInterface {
 				}
 			};
 		} else {
-			return new ResponseEffectsOnly(getActionTitle(), getActionDescription()){
+			return new ResponseEffectsOnly(
+					this.endsSex()
+						?getActionTitle()
+						:UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(this), getActionTitle()),
+					this.endsSex()
+						?getActionDescription()
+						:UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(this), getActionDescription())){
 				@Override
 				public void effects() {
 					SexActionInterface.this.applyEffects();
@@ -626,7 +670,14 @@ public interface SexActionInterface {
 		}
 		
 		if(getActionType()==SexActionType.POSITIONING) {
-			return new Response(getActionTitle(), getActionDescription(), null,
+			return new Response(
+					this.endsSex()
+						?getActionTitle()
+						:UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(this), getActionTitle()),
+					this.endsSex()
+						?getActionDescription()
+						:UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(this), getActionDescription()),
+					null,
 					getFetishes(Main.game.getPlayer()),
 					getCorruptionNeeded(),
 					null, null, null,
@@ -711,7 +762,14 @@ public interface SexActionInterface {
 		}
 		
 		
-		return new Response(getActionTitle(), getActionDescription(), null,
+		return new Response(
+				this.endsSex()
+					?getActionTitle()
+					:UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(this), getActionTitle()),
+				this.endsSex()
+					?getActionDescription()
+					:UtilText.parse(Sex.getCharacterPerformingAction(), Sex.getCharacterTargetedForSexAction(this), getActionDescription()),
+				null,
 				getFetishes(Main.game.getPlayer()),
 				getCorruptionNeeded(),
 				null, null, null,
@@ -740,15 +798,15 @@ public interface SexActionInterface {
 	}
 	
 	public default boolean isBannedFromSexManager() {
-		for(SexAreaInterface sArea : this.getPerformingCharacterOrifices()) {
-			if (Sex.getSexManager().getOrificesBannedMap().get(Sex.getCharacterPerformingAction()) != null
-					&& Sex.getSexManager().getOrificesBannedMap().get(Sex.getCharacterPerformingAction()).contains(sArea)) {
+		for(SexAreaInterface sArea : this.getSexAreaInteractions().keySet()) {
+			if (Sex.getSexManager().getAreasBannedMap().get(Sex.getCharacterPerformingAction()) != null
+					&& Sex.getSexManager().getAreasBannedMap().get(Sex.getCharacterPerformingAction()).contains(sArea)) {
 				return true;
 			}
 		}
-		for(SexAreaInterface sArea : this.getTargetedCharacterOrifices()) {
-			if (Sex.getSexManager().getOrificesBannedMap().get(Sex.getCharacterTargetedForSexAction(this)) != null
-					&& Sex.getSexManager().getOrificesBannedMap().get(Sex.getCharacterTargetedForSexAction(this)).contains(sArea)) {
+		for(SexAreaInterface sArea : this.getSexAreaInteractions().values()) {
+			if (Sex.getSexManager().getAreasBannedMap().get(Sex.getCharacterTargetedForSexAction(this)) != null
+					&& Sex.getSexManager().getAreasBannedMap().get(Sex.getCharacterTargetedForSexAction(this)).contains(sArea)) {
 				return true;
 			}
 		}

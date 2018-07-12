@@ -43,10 +43,7 @@ public class RalphOral {
 			CorruptionLevel.ONE_VANILLA,
 			Util.newHashMapOfValues(new Value<>(SexAreaOrifice.MOUTH, SexAreaPenetration.PENIS)),
 			SexParticipantType.NORMAL) {
-		@Override
-		public SexActionLimitation getLimitation() {
-			return SexActionLimitation.PLAYER_ONLY;
-		}
+		
 		@Override
 		public String getActionTitle() {
 			return "Start sucking";
@@ -59,7 +56,8 @@ public class RalphOral {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return !Sex.isAnyOngoingActionHappening();
+			return !Sex.isAnyOngoingActionHappening()
+					&& Sex.getCharacterPerformingAction().isPlayer();
 		}
 
 		@Override
@@ -1494,7 +1492,7 @@ public class RalphOral {
 
 		@Override
 		public String getActionDescription() {
-			return "You can feel that [npc.name] is fast approaching [npc.her] orgasm. Prepare yourself for it.";
+			return "You can feel that [npc2.name] is fast approaching [npc2.her] orgasm. Prepare yourself for it.";
 		}
 		
 		@Override
@@ -1642,7 +1640,7 @@ public class RalphOral {
 								UtilText.nodeContentSB.append(" You curl your fingers up deep inside your [pc.pussy+]"
 										+", and, while desperately stroking in a 'come-hither' motion, you let out a series of high-pitched moans as your vaginal muscles grip and squeeze around your intruding digits.");
 							} else {
-								UtilText.nodeContentSB.append(" [npc.Name]'s fingers carry on pumping away at your [pc.pussy+]"
+								UtilText.nodeContentSB.append(" [npc.NamePos] fingers carry on pumping away at your [pc.pussy+]"
 										+", and you let out a series of high-pitched moans as your vaginal muscles grip and squeeze around the intruding digits.");
 							}
 							break;
@@ -1659,7 +1657,7 @@ public class RalphOral {
 							if(characterPenetrating.isPlayer()) {
 								UtilText.nodeContentSB.append(" You carry on using your tail to fuck yourself through your orgasm, and you let out a series of high-pitched moans as your vaginal muscles grip and squeeze around the intruding object.");
 							} else {
-								UtilText.nodeContentSB.append(" [npc.Name]'s tail carries on fucking your [pc.pussy+]"
+								UtilText.nodeContentSB.append(" [npc.NamePos] tail carries on fucking your [pc.pussy+]"
 										+" through your orgasm, and you let out a series of high-pitched moans as your vaginal muscles grip and squeeze around the intruding object.");
 							}
 							break;

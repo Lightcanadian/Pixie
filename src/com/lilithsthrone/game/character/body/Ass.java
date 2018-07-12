@@ -84,7 +84,7 @@ public class Ass implements BodyPartInterface, Serializable {
 			} else {
 				UtilText.transformationContentSB.append(
 						"<p>"
-						+ "[npc.Name]'s [npc.ass] starts to soften and become very sensitive, and [npc.she] lets out [npc.a_moan+] as the transformation moves down into [npc.her] [npc.asshole] as well."
+						+ "[npc.NamePos] [npc.ass] starts to soften and become very sensitive, and [npc.she] lets out [npc.a_moan+] as the transformation moves down into [npc.her] [npc.asshole] as well."
 						+ " Panting and sighing, [npc.she] continues letting out the occasional [npc.moan] as [npc.her] [npc.ass] finishes shifting into a new form.<br/>");
 			}
 		}
@@ -360,33 +360,33 @@ public class Ass implements BodyPartInterface, Serializable {
 			if(owner.isPlayer()) {
 				return "<p style='text-align:center;'>[style.colourDisabled(The size of your ass doesn't change...)]</p>";
 			} else {
-				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled(The size of [npc.name]'s ass doesn't change...)]</p>");
+				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled(The size of [npc.namePos] ass doesn't change...)]</p>");
 			}
 		}
 		
 		String sizeDescriptor = getAssSize().getDescriptor();
 		if (sizeChange > 0) {
 			if (owner.isPlayer()) {
-				return "</p>"
+				return "<p>"
 							+ "You feel a little off-balance as your [pc.ass] suddenly seems to get heavier, and as you give it an experimental shake, you find that it's definitely [style.boldGrow(grown larger)].<br/>"
 							+ "You now have [style.boldSex(" + UtilText.generateSingularDeterminer(sizeDescriptor) + " " + sizeDescriptor + " ass)]!"
 						+ "</p>";
 			} else {
 				return UtilText.parse(owner,
-						"</p>"
+						"<p>"
 							+ "[npc.Name] looks to be a little off-balance as [npc.her] [npc.ass] suddenly seems to get bigger, and as [npc.she] gives it an experimental shake, [npc.she] discovers that it's definitely [style.boldGrow(grown larger)].<br/>"
 							+ "[npc.She] now has [style.boldSex(" + UtilText.generateSingularDeterminer(sizeDescriptor) + " " + sizeDescriptor + " ass)]!"
 						+ "</p>");
 			}
 		} else {
 			if (owner.isPlayer()) {
-				return "</p>"
+				return "<p>"
 							+ "You suddenly feel like a weight has been lifted from your rear end, and, giving your [pc.ass] an experimental shake, you discover that it's [style.boldShrink(shrunk)].<br/>"
 							+ "You now have [style.boldSex(" + UtilText.generateSingularDeterminer(sizeDescriptor) + " " + sizeDescriptor + " ass)]!"
 						+ "</p>";
 			} else {
 				return UtilText.parse(owner,
-						"</p>"
+						"<p>"
 							+ "[npc.Name] looks to be a little off-balance as [npc.her] [npc.ass] suddenly seems to get smaller, and as [npc.she] gives it an experimental shake, [npc.she] discovers that it's definitely [style.boldShrink(shrunk)].<br/>"
 							+ "[npc.She] now has [style.boldSex(" + UtilText.generateSingularDeterminer(sizeDescriptor) + " " + sizeDescriptor + " ass)]!"
 						+ "</p>");
@@ -415,7 +415,7 @@ public class Ass implements BodyPartInterface, Serializable {
 			if(owner.isPlayer()) {
 				return "<p style='text-align:center;'>[style.colourDisabled(The size of your hips doesn't change...)]</p>";
 			} else {
-				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled(The size of [npc.name]'s hips doesn't change...)]</p>");
+				return UtilText.parse(owner, "<p style='text-align:center;'>[style.colourDisabled(The size of [npc.namePos] hips doesn't change...)]</p>");
 			}
 		}
 		

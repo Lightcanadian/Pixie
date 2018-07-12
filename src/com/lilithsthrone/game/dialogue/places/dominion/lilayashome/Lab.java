@@ -317,7 +317,7 @@ public class Lab {
 									+ "Rose hooks her arms around Lilaya's neck and leans back, letting out a deep moan as the half-demon's fingers continue working away between her legs."
 									+ " She suddenly notices you out of the corner of her eye, and, turning to give you an evil grin, she pointedly grinds down against your demonic aunt,"
 										+ " before letting out a little eek and jumping to her feet as she feigns surprise."
-									+ " [rose.speech(M-Mistress! [pc.Name]'s here!)]"
+									+ " [rose.speech(M-Mistress! [pc.NamePos] here!)]"
 								+ "</p>"
 								+ "<p>"
 									+ "Lilaya, upon hearing that, mirrors her maid's movements and jumps out of her chair."
@@ -355,7 +355,7 @@ public class Lab {
 								"<p>"
 									+ "Rose hooks her arms around Lilaya's neck and leans back, letting out a deep moan as the half-demon's fingers continue working away between her legs."
 									+ " She suddenly notices you out of the corner of her eye, and, letting out a little eek, she quickly leaps up onto her feet."
-									+ " [rose.speech(M-Mistress! [pc.Name]'s here!)]"
+									+ " [rose.speech(M-Mistress! [pc.NamePos] here!)]"
 								+ "</p>"
 								+ "<p>"
 									+ "Lilaya, upon hearing that, mirrors her maid's movements and jumps out of her chair."
@@ -402,8 +402,8 @@ public class Lab {
 								Util.newArrayListOfValues(Fetish.FETISH_INCEST), null, CorruptionLevel.FOUR_LUSTFUL, null, null, null,
 								true, true,
 								new SMChair(
-										Util.newHashMapOfValues(new Value<>(Main.game.getLilaya(), SexPositionSlot.CHAIR_TOP)),
-										Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.CHAIR_BOTTOM))),
+										Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.CHAIR_BOTTOM)),
+										Util.newHashMapOfValues(new Value<>(Main.game.getLilaya(), SexPositionSlot.CHAIR_TOP))),
 								Lilaya.AUNT_END_SEX,
 								"<p>"
 									+ "Stepping forwards, you reach up and take Lilaya's head in your hands, eagerly pressing your lips against hers as you give her a clear response to her question."
@@ -430,8 +430,8 @@ public class Lab {
 								CorruptionLevel.FOUR_LUSTFUL, null, null, null,
 								true, true,
 								new SMChair(
-										Util.newHashMapOfValues(new Value<>(Main.game.getLilaya(), SexPositionSlot.CHAIR_TOP)),
-										Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.CHAIR_BOTTOM))),
+										Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.CHAIR_BOTTOM)),
+										Util.newHashMapOfValues(new Value<>(Main.game.getLilaya(), SexPositionSlot.CHAIR_TOP))),
 								Lilaya.AUNT_END_SEX,
 								"<p>"
 									+ "Stepping forwards, you reach up and take Lilaya's head in your hands, eagerly pressing your lips against hers as you give her a clear response to her question."
@@ -1850,8 +1850,8 @@ public class Lab {
 						CorruptionLevel.FOUR_LUSTFUL, null, null, null,
 						true, true,
 						new SMChair(
-								Util.newHashMapOfValues(new Value<>(Main.game.getLilaya(), SexPositionSlot.CHAIR_TOP)),
-								Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.CHAIR_BOTTOM))),
+								Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.CHAIR_BOTTOM)),
+								Util.newHashMapOfValues(new Value<>(Main.game.getLilaya(), SexPositionSlot.CHAIR_TOP))),
 						Lilaya.AUNT_END_SEX,
 						"<p>"
 							+ "You briefly wonder if it's your aura that's making Lilaya so horny, but whatever it is, you're feeling the same effects."
@@ -2095,8 +2095,8 @@ public class Lab {
 						null, CorruptionLevel.FOUR_LUSTFUL, null, null, null,
 						true, true,
 						new SMChair(
-								Util.newHashMapOfValues(new Value<>(Main.game.getLilaya(), SexPositionSlot.CHAIR_TOP)),
-								Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.CHAIR_BOTTOM))),
+								Util.newHashMapOfValues(new Value<>(Main.game.getPlayer(), SexPositionSlot.CHAIR_BOTTOM)),
+								Util.newHashMapOfValues(new Value<>(Main.game.getLilaya(), SexPositionSlot.CHAIR_TOP))),
 						Lilaya.AUNT_END_SEX,
 						"<p>"
 							+ "You briefly wonder if it's your aura that's making Lilaya so horny, but whatever it is, you're feeling the same effects."
@@ -3225,7 +3225,9 @@ public class Lab {
 					case ALLIGATOR_MORPH:
 						litterSB.append(" tough");
 						break;
-					case HARPY: case HARPY_RAVEN:
+					case HARPY:
+					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 						litterSB.append(" feminine");
 						break;
 					case HORSE_MORPH:
@@ -3258,6 +3260,7 @@ public class Lab {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:
@@ -3334,7 +3337,9 @@ public class Lab {
 					case ALLIGATOR_MORPH:
 						litterSB.append(" tough");
 						break;
-					case HARPY: case HARPY_RAVEN:
+					case HARPY:
+					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 						litterSB.append(" feminine");
 						break;
 					case HORSE_MORPH:
@@ -3367,6 +3372,7 @@ public class Lab {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:
@@ -3443,7 +3449,9 @@ public class Lab {
 					case ALLIGATOR_MORPH:
 						litterSB.append(" tough");
 						break;
-					case HARPY: case HARPY_RAVEN:
+					case HARPY:
+					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 						litterSB.append(" feminine");
 						break;
 					case HORSE_MORPH:
@@ -3476,6 +3484,7 @@ public class Lab {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:
@@ -3552,7 +3561,9 @@ public class Lab {
 					case ALLIGATOR_MORPH:
 						litterSB.append(" tough");
 						break;
-					case HARPY: case HARPY_RAVEN:
+					case HARPY:
+					case HARPY_RAVEN:
+					case HARPY_BALD_EAGLE:
 						litterSB.append(" feminine");
 						break;
 					case HORSE_MORPH:
@@ -3585,6 +3596,7 @@ public class Lab {
 					case SLIME_FOX_FENNEC:
 					case SLIME_HARPY:
 					case SLIME_HARPY_RAVEN:
+					case SLIME_HARPY_BALD_EAGLE:
 					case SLIME_HORSE:
 					case SLIME_IMP:
 					case SLIME_REINDEER:

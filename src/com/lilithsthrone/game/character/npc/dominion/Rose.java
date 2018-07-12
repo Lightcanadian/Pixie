@@ -131,26 +131,19 @@ public class Rose extends NPC {
 	}
 
 	@Override
-	public void endSex(boolean applyEffects) {
-		if(applyEffects) {
-			if(this.getClothingInSlot(InventorySlot.PENIS)!=null) {
-				this.unequipClothingIntoVoid(this.getClothingInSlot(InventorySlot.PENIS), true, this);
-				if(this.getClothingInSlot(InventorySlot.GROIN)==null) {
-					this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.GROIN_VSTRING, Colour.CLOTHING_BLACK, false), true, this);
-				}
-				this.replaceAllClothing();
+	public void endSex() {
+		if(this.getClothingInSlot(InventorySlot.PENIS)!=null) {
+			this.unequipClothingIntoVoid(this.getClothingInSlot(InventorySlot.PENIS), true, this);
+			if(this.getClothingInSlot(InventorySlot.GROIN)==null) {
+				this.equipClothingFromNowhere(AbstractClothingType.generateClothing(ClothingType.GROIN_VSTRING, Colour.CLOTHING_BLACK, false), true, this);
 			}
+			this.replaceAllClothing();
 		}
 	}
 	
 	public static final DialogueNodeOld END_HAND_SEX = new DialogueNodeOld("Recover", "Both you and Rose and exhausted from your hand-holding session.", true) {
 		private static final long serialVersionUID = 1L;
 		
-		@Override
-		public int getMinutesPassed(){
-			return 15;
-		}
-
 		@Override
 		public String getContent() {
 			return "<p>"
