@@ -42,6 +42,13 @@
 	]]>
 	</htmlContent>
 	
+	<htmlContent tag="PIXIE_FIRST_ENCOUNTER_NOCARE"><![CDATA[
+	<p>
+		PLACE_HOLDER PIXIE_FIRST_ENCOUNTER_NOCARE
+	</p>
+	]]>
+	</htmlContent>
+	
 	<htmlContent tag="PLACE_HOLDER"><![CDATA[
 	<p>
 		This is a place holder

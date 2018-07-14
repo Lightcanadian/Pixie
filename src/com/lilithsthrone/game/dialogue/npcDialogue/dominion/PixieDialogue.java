@@ -3,7 +3,10 @@ package com.lilithsthrone.game.dialogue.npcDialogue.dominion;
 import com.lilithsthrone.game.dialogue.DialogueFlagValue;
 import com.lilithsthrone.game.dialogue.DialogueNodeOld;
 import com.lilithsthrone.game.dialogue.responses.Response;
+import com.lilithsthrone.game.dialogue.responses.ResponseCombat;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
+import com.lilithsthrone.game.character.gender.GenderPreference;
+import com.lilithsthrone.game.character.npc.dominion.DominionAlleywayAttacker;
 import com.lilithsthrone.game.character.npc.dominion.Pixie;
 import com.lilithsthrone.main.Main;
 
@@ -104,7 +107,8 @@ public class PixieDialogue {
 					
 					@Override
 					public void effects() {
-						getPixie();
+						Main.game.setActiveNPC(new DominionAlleywayAttacker(GenderPreference.getGenderFromUserPreferences()));
+						Main.game.getActiveNPC().setLevel(Main.game.getPlayer().getLevel()+1);
 					}
 				};
 				
@@ -112,7 +116,7 @@ public class PixieDialogue {
 				return new Response("Challenge", "You can't stand such a weak display", null) {
 					@Override
 					public DialogueNodeOld getNextDialogue() {
-						return PIXIE_PLACE_HOLDER;
+						return PIXIE_NOCARE;
 					}
 					@Override
 					public void effects() {
@@ -121,9 +125,6 @@ public class PixieDialogue {
 			}
 			
 			return null;
-		}
-		private Pixie getPixie() {
-			return (Pixie)Main.game.getPixie();
 		}
 	};
 	
@@ -138,18 +139,7 @@ public class PixieDialogue {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index==1) {
-				return new Response("Comfort", "Try to comfort this poor soul.", null) {
-					@Override
-					public DialogueNodeOld getNextDialogue() {
-						return Main.game.getDefaultDialogueNoEncounter();
-					}
-					
-					@Override
-					public void effects() {
-						getPixie();
-					}
-				};
-				
+				return new ResponseCombat("Fight", "Defend yourself and you new friend.", Main.game.getActiveNPC());
 			} else if(index==2) {
 				return new Response("Challenge", "You can't stand such a weak display", null) {
 					@Override
@@ -164,8 +154,33 @@ public class PixieDialogue {
 			
 			return null;
 		}
-		private Pixie getPixie() {
-			return (Pixie)Main.game.getPixie();
+	};
+	
+	public static final DialogueNodeOld PIXIE_NOCARE = new DialogueNodeOld("Pixie", "", true) {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getContent() {
+			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_FIRST_ENCOUNTER_NOCARE");
+		}
+
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			if(index==1) {
+				return new ResponseCombat("Fight", "Defend yourself and you new friend.", Main.game.getActiveNPC());
+			} else if(index==2) {
+				return new Response("Challenge", "You can't stand such a weak display", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return PIXIE_PLACE_HOLDER;
+					}
+					@Override
+					public void effects() {
+					}
+				};
+			}
+			
+			return null;
 		}
 	};
 	
@@ -188,15 +203,11 @@ public class PixieDialogue {
 					
 					@Override
 					public void effects() {
-						getPixie();
 					}
 				};
 			}
 			
 			return null;
-		}
-		private Pixie getPixie() {
-			return (Pixie)Main.game.getPixie();
 		}
 	};
 }
