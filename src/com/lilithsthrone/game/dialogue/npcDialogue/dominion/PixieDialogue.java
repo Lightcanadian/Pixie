@@ -95,13 +95,15 @@ public class PixieDialogue {
 			
 			return null;
 		}
-		private Pixie getPixie() {
-			return (Pixie)Main.game.getPixie();
-		}
 	};
 	
 	public static final DialogueNodeOld PIXIE_FIRST_ENCOUNTER = new DialogueNodeOld("Stranger", "", true) {
 		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getAuthor() {
+			return "LightCanadian help by Sasha";
+		}
 		
 		@Override
 		public String getContent() {
@@ -153,6 +155,11 @@ public class PixieDialogue {
 		private static final long serialVersionUID = 1L;
 		
 		@Override
+		public String getAuthor() {
+			return "LightCanadian help by Sasha";
+		}
+		
+		@Override
 		public String getContent() {
 			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_FIRST_ENCOUNTER_COMFORT");
 		}
@@ -168,6 +175,11 @@ public class PixieDialogue {
 	
 	public static final DialogueNodeOld PIXIE_NOCARE = new DialogueNodeOld("Pixie", "", true) {
 		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getAuthor() {
+			return "LightCanadian help by Sasha";
+		}
 		
 		@Override
 		public String getContent() {
@@ -195,6 +207,11 @@ public class PixieDialogue {
 	
 	public static final DialogueNodeOld PIXIE_PLACE_HOLDER = new DialogueNodeOld("Stranger", "", true) {
 		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getAuthor() {
+			return "LightCanadian help by Sasha";
+		}
 		
 		@Override
 		public String getContent() {
