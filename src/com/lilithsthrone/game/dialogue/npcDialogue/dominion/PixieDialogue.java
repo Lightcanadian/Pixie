@@ -140,18 +140,7 @@ public class PixieDialogue {
 		public Response getResponse(int responseTab, int index) {
 			if(index==1) {
 				return new ResponseCombat("Fight", "Defend yourself and you new friend.", Main.game.getActiveNPC());
-			} else if(index==2) {
-				return new Response("Challenge", "You can't stand such a weak display", null) {
-					@Override
-					public DialogueNodeOld getNextDialogue() {
-						return PIXIE_PLACE_HOLDER;
-					}
-					@Override
-					public void effects() {
-					}
-				};
-			}
-			
+			} 			
 			return null;
 		}
 	};
