@@ -261,7 +261,7 @@ public enum Encounter {
 				return DominionEncounterDialogue.ALLEY_FIND_WEAPON;
 			
 			} else if(node == EncounterType.DOMINION_PIXIE_MEETING) {				
-				if (Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.pixieDisable)){
+				if (Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.pixieDisable) || Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.pixieFound)){
 					for (Entry<EncounterType, Float> e : getDialogues().entrySet()) {
 						if (e.getKey() == EncounterType.DOMINION_PIXIE_MEETING) {
 							e.setValue(0.0f);

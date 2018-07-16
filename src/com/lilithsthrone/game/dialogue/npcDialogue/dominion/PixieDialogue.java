@@ -8,11 +8,17 @@ import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.character.gender.GenderPreference;
 import com.lilithsthrone.game.character.npc.dominion.DominionAlleywayAttacker;
 import com.lilithsthrone.game.character.npc.dominion.Pixie;
+import com.lilithsthrone.game.character.npc.dominion.StorieTellerAttackerNPC;
 import com.lilithsthrone.main.Main;
 
 public class PixieDialogue {
 	public static final DialogueNodeOld PIXIE_INTRO = new DialogueNodeOld("Women running", "", true) {
 		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getAuthor() {
+			return "LightCanadian help by Sasha";
+		}
 		
 		@Override
 		public String getContent() {
@@ -43,7 +49,13 @@ public class PixieDialogue {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
+							getPixie().setRaceConceal(true);
 						}
+						
+					}
+					
+					public Pixie getPixie() {
+						return (Pixie)Main.game.getPixie();
 					}
 				};
 				
@@ -107,8 +119,12 @@ public class PixieDialogue {
 					
 					@Override
 					public void effects() {
-						Main.game.setActiveNPC(new DominionAlleywayAttacker(GenderPreference.getGenderFromUserPreferences()));
+						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieComfort, true);
+						Main.game.setActiveNPC(new StorieTellerAttackerNPC(GenderPreference.getGenderFromUserPreferences()));
 						Main.game.getActiveNPC().setLevel(Main.game.getPlayer().getLevel()+1);
+						((StorieTellerAttackerNPC)Main.game.getActiveNPC()).setVictoryCombatDialogue(PIXIE_PLACE_HOLDER);
+						Main.game.getActiveNPC().setHealthPercentage(100);
+						((Pixie)Main.game.getPixie()).setRaceConceal(false);
 					}
 				};
 				
@@ -120,10 +136,15 @@ public class PixieDialogue {
 					}
 					@Override
 					public void effects() {
+						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieNoCare, true);
+						Main.game.setActiveNPC(new StorieTellerAttackerNPC(GenderPreference.getGenderFromUserPreferences()));
+						Main.game.getActiveNPC().setLevel(Main.game.getPlayer().getLevel()+1);
+						((StorieTellerAttackerNPC)Main.game.getActiveNPC()).setVictoryCombatDialogue(PIXIE_PLACE_HOLDER);
+						Main.game.getActiveNPC().setHealthPercentage(100);
+						((Pixie)Main.game.getPixie()).setRaceConceal(false);
 					}
 				};
-			}
-			
+			}			
 			return null;
 		}
 	};
@@ -167,8 +188,7 @@ public class PixieDialogue {
 					public void effects() {
 					}
 				};
-			}
-			
+			}			
 			return null;
 		}
 	};
@@ -187,15 +207,14 @@ public class PixieDialogue {
 				return new Response("Back to game", "No more content is present at the moment", null) {
 					@Override
 					public DialogueNodeOld getNextDialogue() {
-						return Main.game.getDefaultDialogueNoEncounter();
+						return AlleywayAttackerDialogue.AFTER_COMBAT_VICTORY;
 					}
 					
 					@Override
 					public void effects() {
 					}
 				};
-			}
-			
+			}			
 			return null;
 		}
 	};
