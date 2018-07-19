@@ -116,7 +116,7 @@ public class PixieDialogue {
 				return new Response("Comfort", "Try to comfort this poor soul.", null) {
 					@Override
 					public DialogueNodeOld getNextDialogue() {
-						return PIXIE_COMFORT;
+						return PIXIE_ENCOUNTER_COMFORT;
 					}
 					
 					@Override
@@ -134,7 +134,7 @@ public class PixieDialogue {
 				return new Response("Challenge", "You can't stand such a weak display", null) {
 					@Override
 					public DialogueNodeOld getNextDialogue() {
-						return PIXIE_NOCARE;
+						return PIXIE_ENCOUNTER_INDIFFERENT;
 					}
 					@Override
 					public void effects() {
@@ -151,7 +151,7 @@ public class PixieDialogue {
 		}
 	};
 	
-	public static final DialogueNodeOld PIXIE_COMFORT = new DialogueNodeOld("Pixie", "", true) {
+	public static final DialogueNodeOld PIXIE_ENCOUNTER_COMFORT = new DialogueNodeOld("Pixie", "", true) {
 		private static final long serialVersionUID = 1L;
 		
 		@Override
@@ -173,7 +173,7 @@ public class PixieDialogue {
 		}
 	};
 	
-	public static final DialogueNodeOld PIXIE_NOCARE = new DialogueNodeOld("Pixie", "", true) {
+	public static final DialogueNodeOld PIXIE_ENCOUNTER_INDIFFERENT = new DialogueNodeOld("Pixie", "", true) {
 		private static final long serialVersionUID = 1L;
 		
 		@Override
@@ -183,23 +183,79 @@ public class PixieDialogue {
 		
 		@Override
 		public String getContent() {
-			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_FIRST_ENCOUNTER_NOCARE");
+			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_FIRST_ENCOUNTER_INDIFFERENT");
 		}
 
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index==1) {
 				return new ResponseCombat("Fight", "Defend yourself and you new friend.", Main.game.getActiveNPC());
-			} else if(index==2) {
-				return new Response("Challenge", "You can't stand such a weak display", null) {
-					@Override
-					public DialogueNodeOld getNextDialogue() {
-						return PIXIE_PLACE_HOLDER;
-					}
-					@Override
-					public void effects() {
-					}
-				};
+			}			
+			return null;
+		}
+	};
+	
+	public static final DialogueNodeOld PIXIE_ENCOUNTER_MANIPULATE = new DialogueNodeOld("Pixie", "", true) {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getAuthor() {
+			return "LightCanadian help by Sasha";
+		}
+		
+		@Override
+		public String getContent() {
+			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_FIRST_ENCOUNTER_MANIPULATE");
+		}
+
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			if(index==1) {
+				return new ResponseCombat("Fight", "Defend yourself and you new friend.", Main.game.getActiveNPC());
+			}			
+			return null;
+		}
+	};
+	
+	public static final DialogueNodeOld PIXIE_ENCOUNTER_EGOCENTRIC = new DialogueNodeOld("Pixie", "", true) {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getAuthor() {
+			return "LightCanadian help by Sasha";
+		}
+		
+		@Override
+		public String getContent() {
+			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_FIRST_ENCOUNTER_EGOCENTRIC");
+		}
+
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			if(index==1) {
+				return new ResponseCombat("Fight", "Defend yourself and your new property.", Main.game.getActiveNPC());
+			}			
+			return null;
+		}
+	};
+	
+	public static final DialogueNodeOld PIXIE_ENCOUNTER_CRUEL = new DialogueNodeOld("Pixie", "", true) {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public String getAuthor() {
+			return "LightCanadian help by Sasha";
+		}
+		
+		@Override
+		public String getContent() {
+			return UtilText.parseFromXMLFile("characters/dominion/pixie", "PIXIE_FIRST_ENCOUNTER_DOWNRIGHT_CRUEL");
+		}
+
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			if(index==1) {
+				return new ResponseCombat("Fight", "Defend yourself and your new property.", Main.game.getActiveNPC());
 			}			
 			return null;
 		}

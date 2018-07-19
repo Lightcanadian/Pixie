@@ -37,7 +37,7 @@
 		[pixie.HerPro] sentence was cut short by [pixie.herPro] knees suddenly buckling.​​​​​​​​​​​​​​​​​​​​​​​ As [pixie.she] seemingly about to collapse, you propose to sit down side by side against the wall.​​​​​​​​​​​​​​​​​​​​​​​ ​​​​​​​​​​​[​​​​​​​​​​​pixie.​​​​​​​​​​​say(A- as soon as she saw my ​​​​​​​​​​[​​​​​​​​​​pixie.​​​​​​​​​​horns] she started shouting and saying that I’m- a- a monster!)]</br></br> Tears rolling down her cheeks as [pixie.she] recounts the events that just unfolded.</br></br>​​​​​​​​​​​​​​​​​​​​After finishing [pixie.herPro] sentence, a few seconds of silence pass and [pixie.her] crying turns into heavy sobbing.​​​​​​​​​​​​​​​​​​​​​​​ To comfort [pixie.herPro] you, wrap your arms around her petite body.​​​​​​​​​​​​​​​​​​​​​​​ You softly tell her ​​​​​​​​​[​​​​​​​​​player.​​​​​​​​​say(It’s okay sweetie, she must have had her reasons.​​​​​​​​​​​​​​​​​​​​​​​ You’re in safe hands now, don’t worry.​​​​​​​​​​​​​​​​​​​​​​​ What’s your name, honey?)] through the wails and bawls, she answers ​​​​​​​​[​​​​​​​​pixie.​​​​​​​​say(Pixie)], wrapping her ​​​​​​[​​​​​​pixie.​​​​​​arms+] around your torso and squeezing you as tightly as she can.​​​​​​​​​​​​​​​​​​​​​​​</br></br> You stay with her and let her empty out her emotions and pent up stress until, after several minutes, you hear someone walking steadily down the alley towards you both.​​​​​​​​​​​​​​​​​​​​​​​
 	</p>
 	<p>
-		[npc.say(Well... well... well... What do we have here! Isn't a cute display that we have here. All that cutness just made me so <b>HORNY</b>.)] As [npc.he] finish [npc.his] sentence, [npc.he] charge toward you.
+		[npc.say(Well... well... well... What do we have here! Isn't it a cute display that we have here. All that cutness just made me so <b>HORNY</b>.)] As [npc.he] finish [npc.his] sentence, [npc.he] charge toward you.
 	</p>
 	<p>
 		(Affection +)
@@ -45,10 +45,55 @@
 	]]>
 	</htmlContent>
 	
-	<htmlContent tag="PIXIE_FIRST_ENCOUNTER_NOCARE"><![CDATA[
+	<htmlContent tag="PIXIE_FIRST_ENCOUNTER_INDIFFERENT"><![CDATA[
 	<p>
-		PLACE_HOLDER PIXIE_FIRST_ENCOUNTER_NOCARE
+	[pixie.Her] sentence is cut short has [pixie.she] collapses on [pixie.herPro] knees. [pixie.She] cradles [pixie.herPro] face with both hands and starts crying. You look at [pixie.her] and think [player.say( Really? I came here to fight a monster and all I find instead is a weeping vagrant?)] You look at [pixie.herPro] with an uninterested gaze as [pixie.she] bawls [pixie.her] [pixie.eyes+] out. After a brief moment, you figure out there's nothing of interest for you and turn around and start heading back the alley.
 	</p>
+	<p>
+	The young [pixie.gender] looks at you as [pixie.she] wipes [pixie.herPro] tears, stands up and yell [pixie.say(No!)]. You turn around to face [pixie.her] and [pixie.she] wobbles closer. You look at [pixie.her] with a neutral face and ask [pixie.her] [player.say(What do you want?)]. [pixie.She] looks at you, clearly confused, upset and exhausted and replies [pixie.say(I- I don’t know…)].[player.say(Well it's not an answer like that that'll keep me interested.)] you say as you look down at [pixie.her]. [player.say(What’s your name?)] you ask. [pixie.say(Give me a reason to not just walk out of this alleyway and leave you to your whining.)]. [pixie.say(What does my name matter to you?)][pixie.she] answers defiantly. [player.say(Ok then, whiner, have a nice life.)]. [pixie.She] panics at your dismissive answer and hurriedly answers [pixie.say(Okay, fine! You can call me [pixie.Name]! Please bring me along with you, I don't want to be alone!)]. 
+	</p>
+	<p>
+	[player.say(Well,[pixie.name], that's a cute name and all, but why should I bring you along? What can you provide that-)] as you were about to ask the lithe creature [pixie.herPro] worth to you, sounds of someone walking steadily towards you both echo down the empty alleyway.[player.say( Well, you either show me your worth right now or run and stay alone, pick fast because I'm about to pick for you!)]
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_FIRST_ENCOUNTER_MANIPULATE"><![CDATA[
+	<p>
+	[pixie.Her] sentence is cut short has [pixie.she] collapses on [pixie.her] knee. [pixie.She] cradles [pixie.her] face with both hands and starts crying. You look at [pixie.herPro], grin and say [player.say(Are you okay? I came here to fight a monster, is it anywhere around?)] while putting on the best knight in shining armor act you can muster. She looks at you with [pixie.her] small demonic eyes and says [pixie.say(No! I'm not a monster!)] through [pixie.her] tears.
+	</p>
+	<p>
+	You get closer, gaze at [pixie.herPro] with a mischievous grin on your face and answer [player.say(What are you then?)]. [pixie.She] looks up at you with puzzled eyes and answers [pixie.say(I- I don’t know...”)]. [player.say(Well how about this, if you come with me I'll offer you safety, food and goals to accomplish. How does that sound?)] you ask [pixie.herPro]. [pixie.say(What kinds of goals? Why would I trust you?)] [pixie.she] asks back.
+	</p>
+	<p>
+	[player.say(Well it's either that or the comforting, cold dampness of a back-alley filled with rats and violators. Your pick!)]. You shrug and size [pixie.her] up, looking up and down [pixie.her] lithe, nimble body. [player.say(She could be a great addition to the harem, I know a few people who'd like a taste of a demi-succubus.)] you think to yourself as you barely manage to hide your devilish grin.
+	</p>
+	<p>
+	[pixie.She] looks back at you reluctantly and says [pixie.say(Okay fine, I'll join you, you can call me [pixie.name].)]. As [pixie.she] finishes [pixie.her] answer you hear someone walking steadily down the alley towards you both. [npc.say(Well isn't this newly formed companionship wonderful? Let’s see if it lasts after I fuck the both of you!)] the newcomer say, facing the sound and preparing to fight.
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_FIRST_ENCOUNTER_EGOCENTRIC"><![CDATA[
+	<p>
+	[pixie.Her] sentence is cut short has [pixie.she] collapses on [pixie.her] knee. [pixie.She] cradles [pixie.her] face with both hands and starts crying. You look at [pixie.her] and say [player.say(Really? I came here to fight a monster and all I find instead is a sobbing little demonic bitch?!)] [pixie.She] looks at you, wipes [pixie.her] tears, stands up and yells [pixie.say(NO!!)]. You get closer, sizing [pixie.her] up with a grin on your face as you ask [player.say(What are you then?)]. [pixie.She] looks at you a bit confused and answers [pixie.say(I- I don’t know…)]. [player.say(Well it's not with this kind of attitude that you're going to serve me properly!)] you say, the future of the lithe demoness suddenly within your grasp.
+	</p>
+	<p>
+	[player.say(What’s your name?)] you ask, getting even closer. [pixie.say(Why would I tell you my name?)] [pixie.she] answers, hesitant and weary. [player.say(Fine then, how about... whiny demon mutt! A fitting name don't you think?)] [pixie.she] defiantly look at you, clearly unhappy about [pixie.her] new nickname and reluctantly says [pixie.say(Okay fine, my name is [pixie.name]!)]. As [pixie.she] finishes [pixie.her] answer you hear steps coming steadily down the alley towards you both. [player.say(Well presentations are nice and all, but if you want to have a future, you'll have to fight for me, slut! I'll see who I keep after I fuck the both of you!)].
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_FIRST_ENCOUNTER_DOWNRIGHT_CRUEL"><![CDATA[
+	<p>
+	[pixie.Her] sentence is cut short has [pixie.she] collapses on [pixie.her] knee. [pixie.She] cradles [pixie.her] face with both hands and starts crying. You look at [pixie.herPro] and grab [pixie.herPro] by the hair [player.say(I came in this piss-poor alley thinking I'd get to fight a monster and all I see around is grime, trash cans and a cum dumpster.)] [pixie.She] looks up at you, terrified as [pixie.her] tears keep drenching [pixie.her] face. You get closer, eyeing [pixie.herPro] with a lust-filled grin on your face and ask [player.say(What are you?)]. [pixie.She] stammers and stutters and eventually [pixie.she] softly mutters [pixie.say(I-.. I-.. I don't know.. my name is Pixie and-)].
+	</p>
+	<p>
+	You tug on [pixie.her] hair backwards, exposing [pixie.her] vulnerable neck and inciting a stifled whimper from the lithe demoness, abruptly interrupting [pixie.herPro]. [player.say(What do you mean "I don't know"? It should be obvious from your position alone that you're my bitch now, mutt!)]. You let go of [pixie.her] hair and [pixie.she] slumps back to [pixie.her] knees and hands. [player.say("Well, what are you waiting for, bitch? It's not with this attitude that you'll prove your worth to me.". "Get to work.”)] you say under your breath as you push [pixie.her] head towards your crotch. 
+	</p>
+	<p>
+	[pixie.She] looks at your groin reluctantly. As [pixie.she] gulps audibly and resigns herself to [pixie.her] new role, you hear someone walking steadily down the alley towards you both. You turn to face them, grab your harem's most recent addition by the hair and drag [pixie.herPro] in front of you. [pixie.say(Well it's a shame to be interrupted, but there isn’t a better way to show me what you can do than to test your mettle! We'll see your rank in the harem after I fuck both you and whoever's coming senseless!)].
+	<p>
 	]]>
 	</htmlContent>
 	
