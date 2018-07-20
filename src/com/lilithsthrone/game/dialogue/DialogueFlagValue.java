@@ -161,8 +161,11 @@ public enum DialogueFlagValue {
 	//Pixie
 	pixieFound,
 	pixieDisable,
-	pixieComfort,
-	pixieNoCare,
+	pixieEncounterComfort,
+	pixieEncounterIndifferent,
+	pixieEncounterManipulate,
+	pixieEncounterEgocentric,
+	pixieEncounterCruel,
 	
 	
 	;

@@ -109,7 +109,7 @@ public class Pixie extends NPC {
 			
 			this.setPlayerKnowsName(false);
 			//-----LOCATION-----//
-			this.setLocation(Main.game.getPlayer().getLocation());//For debuggin she spawn in our room at the beginning
+			//this.setLocation(Main.game.getPlayer().getLocation());//For debuggin she spawn in our room at the beginning
 		}
 
 	}

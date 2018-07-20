@@ -6,7 +6,6 @@ import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.responses.ResponseCombat;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.character.gender.GenderPreference;
-import com.lilithsthrone.game.character.npc.dominion.DominionAlleywayAttacker;
 import com.lilithsthrone.game.character.npc.dominion.Pixie;
 import com.lilithsthrone.game.character.npc.dominion.StorieTellerAttackerNPC;
 import com.lilithsthrone.main.Main;
@@ -121,34 +120,85 @@ public class PixieDialogue {
 					
 					@Override
 					public void effects() {
-						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieComfort, true);
-						Main.game.setActiveNPC(new StorieTellerAttackerNPC(GenderPreference.getGenderFromUserPreferences()));
-						Main.game.getActiveNPC().setLevel(Main.game.getPlayer().getLevel()+1);
+						initEvent();
+						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieEncounterComfort, true);
 						((StorieTellerAttackerNPC)Main.game.getActiveNPC()).setVictoryCombatDialogue(PIXIE_PLACE_HOLDER);
-						Main.game.getActiveNPC().setHealthPercentage(100);
-						((Pixie)Main.game.getPixie()).setRaceConceal(false);
 					}
 				};
 				
 			} else if(index==2) {
-				return new Response("Challenge", "You can't stand such a weak display", null) {
+				return new Response("Indifferent", "You dont really care about her story.", null) {
 					@Override
 					public DialogueNodeOld getNextDialogue() {
 						return PIXIE_ENCOUNTER_INDIFFERENT;
 					}
 					@Override
 					public void effects() {
-						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieNoCare, true);
-						Main.game.setActiveNPC(new StorieTellerAttackerNPC(GenderPreference.getGenderFromUserPreferences()));
-						Main.game.getActiveNPC().setLevel(Main.game.getPlayer().getLevel()+1);
+						initEvent();
+						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieEncounterIndifferent, true);
 						((StorieTellerAttackerNPC)Main.game.getActiveNPC()).setVictoryCombatDialogue(PIXIE_PLACE_HOLDER);
-						Main.game.getActiveNPC().setHealthPercentage(100);
-						((Pixie)Main.game.getPixie()).setRaceConceal(false);
 					}
 				};
-			}			
+			} else if(index==3) {
+				return new Response("Manipulate", "You want to manipulate her to add her to your collection", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return PIXIE_ENCOUNTER_MANIPULATE;
+					}
+					@Override
+					public void effects() {
+						initEvent();
+						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieEncounterManipulate, true);
+						((StorieTellerAttackerNPC)Main.game.getActiveNPC()).setVictoryCombatDialogue(PIXIE_PLACE_HOLDER);
+					}
+				};
+			} else if(index==4) {
+				return new Response("Egocentric", "She think that she's the only one with issue in this world! But you might get something out of this situation.", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return PIXIE_ENCOUNTER_EGOCENTRIC;
+					}
+					@Override
+					public void effects() {
+						initEvent();
+						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieEncounterEgocentric, true);
+						((StorieTellerAttackerNPC)Main.game.getActiveNPC()).setVictoryCombatDialogue(PIXIE_PLACE_HOLDER);
+					}
+				};
+			} else if(index==5) {
+				return new Response("Downright cruel", "YES!!! A new plaything. I was getting horny down there!", null) {
+					@Override
+					public DialogueNodeOld getNextDialogue() {
+						return PIXIE_ENCOUNTER_CRUEL;
+					}
+					@Override
+					public void effects() {						
+						initEvent();
+						((StorieTellerAttackerNPC)Main.game.getActiveNPC()).setVictoryCombatDialogue(PIXIE_PLACE_HOLDER);
+						Main.game.getDialogueFlags().setFlag(DialogueFlagValue.pixieEncounterCruel, true);
+					}
+				};
+			}
 			return null;
 		}
+		
+		private void initEvent() {
+			createEnemy();
+			getPixie().setRaceConceal(false);
+			getPixie().setPlayerKnowsName(true);
+		}
+		
+		private void createEnemy() {
+			Main.game.setActiveNPC(new StorieTellerAttackerNPC(GenderPreference.getGenderFromUserPreferences()));
+			Main.game.getActiveNPC().setLevel(Main.game.getPlayer().getLevel()+1);
+			//sometime the NPC doesn't have full health for some reason
+			Main.game.getActiveNPC().setHealthPercentage(100);
+		}
+		
+		private Pixie getPixie() {
+			return (Pixie)Main.game.getPixie();
+		}
+		
 	};
 	
 	public static final DialogueNodeOld PIXIE_ENCOUNTER_COMFORT = new DialogueNodeOld("Pixie", "", true) {
