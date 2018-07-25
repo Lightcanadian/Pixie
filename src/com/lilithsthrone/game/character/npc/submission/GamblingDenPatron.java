@@ -37,8 +37,6 @@ import com.lilithsthrone.world.places.PlaceType;
  * @author Innoxia
  */
 public class GamblingDenPatron extends NPC {
-
-	private static final long serialVersionUID = 1L;
 	
 	private DicePokerTable table;
 	
@@ -56,7 +54,7 @@ public class GamblingDenPatron extends NPC {
 	
 	public GamblingDenPatron(Gender gender, DicePokerTable table, boolean isImported) {
 		super(null, "",
-				Util.random.nextInt(21)+18, Util.randomItemFrom(Month.values()), 1+Util.random.nextInt(25),
+				Util.random.nextInt(28)+18, Util.randomItemFrom(Month.values()), 1+Util.random.nextInt(25),
 				3, gender, RacialBody.ALLIGATOR_MORPH, RaceStage.GREATER,
 				new CharacterInventory(10), WorldType.GAMBLING_DEN, PlaceType.GAMBLING_DEN_GAMBLING, false);
 		

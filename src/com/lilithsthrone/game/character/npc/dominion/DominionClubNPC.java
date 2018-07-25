@@ -31,8 +31,6 @@ import com.lilithsthrone.world.places.PlaceType;
  */
 public class DominionClubNPC extends NPC {
 
-	private static final long serialVersionUID = 1L;
-
 	public DominionClubNPC() {
 		this(Gender.F_V_B_FEMALE, Subspecies.DOG_MORPH, false);
 	}
@@ -43,7 +41,7 @@ public class DominionClubNPC extends NPC {
 	
 	public DominionClubNPC(Gender gender, Subspecies subspecies, boolean isImported) {
 		super(null, "",
-				25, Month.JUNE, 15,
+				Util.random.nextInt(28)+18, Util.randomItemFrom(Month.values()), 1+Util.random.nextInt(25),
 				3, gender, RacialBody.DOG_MORPH, RaceStage.GREATER,
 				new CharacterInventory(10), WorldType.DOMINION, PlaceType.DOMINION_STREET, false);
 

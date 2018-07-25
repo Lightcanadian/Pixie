@@ -929,7 +929,9 @@ public enum Combat {
 				if(targetedCombatant.equals(allCombatants.get(index-12))) {
 					return new Response(Util.capitaliseSentence(allCombatants.get(index-12).getName()), "You are already targeting "+allCombatants.get(index-12).getName()+"!", null);
 				} else {
-					return new Response(Util.capitaliseSentence(allCombatants.get(index-12).getName()), "Switch your target to "+allCombatants.get(index-12).getName()+".", ENEMY_ATTACK){
+					return new Response(Util.capitaliseSentence(allCombatants.get(index-12).getName()),
+							"Switch your target to "+allCombatants.get(index-12).getName()+" (You can also do this by clicking on their name in the side bar.).",
+							ENEMY_ATTACK){
 						@Override
 						public void effects() {
 							targetedCombatant = allCombatants.get(index-12);
@@ -1193,6 +1195,7 @@ public enum Combat {
 		}
 		
 		if(attacker.hasStatusEffect(StatusEffect.MELEE_FIRE)
+				&& isHit
 				&& (((attackType==Attack.MAIN || attackType==Attack.DUAL) && (attacker.getMainWeapon() == null || attacker.getMainWeapon().getWeaponType().isMelee()))
 						|| ((attackType==Attack.OFFHAND || attackType==Attack.DUAL) && (attacker.getOffhandWeapon() == null || attacker.getOffhandWeapon().getWeaponType().isMelee())))) {
 			float fireDamage = Math.round(2 * (1 + (Util.getModifiedDropoffValue(attacker.getAttributeValue(Attribute.DAMAGE_FIRE), 100)/100f)));

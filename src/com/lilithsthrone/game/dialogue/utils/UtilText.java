@@ -34,6 +34,7 @@ import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.gender.GenderPronoun;
+import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.persona.History;
 import com.lilithsthrone.game.character.race.Subspecies;
 import com.lilithsthrone.game.dialogue.DebugDialogue;
@@ -495,6 +496,13 @@ public class UtilText {
 	public static String parseFromXMLFile(String pathName, String tag) {
 		return parseFromXMLFile(pathName, tag, new ArrayList<>());
 	}
+
+	/**
+	 * Parses the tagged htmlContent from an xml file. If there is more than one htmlContent entry, it returns a random one.
+	 */
+	public static String parseFromXMLFile(String pathName, String tag, GameCharacter... specialNPCs) {
+		return parseFromXMLFile(pathName, tag, Util.newArrayListOfValues(specialNPCs));
+	}
 	
 	/**
 	 * Parses the tagged htmlContent from an xml file. If there is more than one htmlContent entry, it returns a random one.
@@ -512,7 +520,6 @@ public class UtilText {
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();
-				
 				
 				for(int i=0; i<((Element) doc.getElementsByTagName("dialogue").item(0)).getElementsByTagName("htmlContent").getLength(); i++){
 					Element e = (Element) ((Element) doc.getElementsByTagName("dialogue").item(0)).getElementsByTagName("htmlContent").item(i);
@@ -787,6 +794,22 @@ public class UtilText {
 			@Override
 			public String parse(String command, String arguments, String target) {
 				return UtilText.formatAsMoneyUncoloured(Integer.valueOf(arguments.split(", ")[0]), arguments.split(", ")[1]);
+			}
+		});
+
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues("random"),
+				true,
+				false,
+				"(text1 | text2 | text3)",
+				"Returns a random string from the supplied arguments."){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				List<String> strings = new ArrayList<>();
+				for(String s : arguments.split("\\|")) {
+					strings.add(s);
+				}
+				return Util.randomItemFrom(strings);
 			}
 		});
 		
@@ -1380,6 +1403,25 @@ public class UtilText {
 							+"</span>";
 				}
 				return character.getRaceStage().getName();
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"preferredBody"),
+				false,
+				false,
+				"(tag)",
+				"Returns the description of this character's preferred body."){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(!(character instanceof NPC)) {
+					return "<i style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>preferredBody_not_npc</i>";
+				}
+				if(arguments!=null) {
+					return ((NPC) character).getPreferredBodyDescription(arguments);
+				}
+				return ((NPC) character).getPreferredBodyDescription("b");
 			}
 		});
 		
@@ -2805,6 +2847,38 @@ public class UtilText {
 							return Gender.M_P_MALE.getSecondPerson() + "'s";
 						} else {
 							return GenderPronoun.SECOND_PERSON.getMasculine() + "'s";
+						}
+					}
+				}
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"sheHasFull",
+						"sheHeHasFull",
+						"heHasFull",
+						"heSheHasFull"),
+				true,
+				true,
+				"",
+				"Returns the correct gender-specific pronoun contraction for this character (you have, she has, he has). By default, returns 'you have' for player character."){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(target.startsWith("npc") && character.isPlayer()) {
+					return "you have";
+				} else {
+					if(character.isFeminine()) {
+						if(character.isPlayer()) {
+							return Gender.F_V_B_FEMALE.getSecondPerson() + " has";
+						} else {
+							return GenderPronoun.SECOND_PERSON.getFeminine() + " has";
+						}
+					} else {
+						if(character.isPlayer()) {
+							return Gender.M_P_MALE.getSecondPerson() + " has";
+						} else {
+							return GenderPronoun.SECOND_PERSON.getMasculine() + " has";
 						}
 					}
 				}
@@ -4863,7 +4937,13 @@ public class UtilText {
 		if (parserTarget == null) {
 			return "INVALID_TARGET_NAME("+target+")";
 		}
-		character = parserTarget.getCharacter(target.toLowerCase());
+		
+		try {
+			character = parserTarget.getCharacter(target.toLowerCase());
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			return "<i style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>Error: parserTarget.getCharacter() not found!</i>";
+		}
 		
 		// Commands with arguments:
 		ParserCommand cmd = findCommandWithTag(command.replaceAll("\u200b", ""));
@@ -4942,6 +5022,7 @@ public class UtilText {
 		for(History history : History.values()) {
 			engine.put("HISTORY_"+history.toString(), history);
 		}
+		engine.put("sex", Main.sexEngine); //TODO static methods don't work...
 		
 //		StringBuilder sb = new StringBuilder();
 //		for(Entry<String, Object> entry : engine.getBindings(ScriptContext.ENGINE_SCOPE).entrySet()) {

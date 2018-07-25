@@ -427,7 +427,11 @@ public enum Colour {
 			+ "<span style='color:#6EE64C;'>n</span>"
 			+ "<span style='color:#4CB2E6;'>b</span>"
 			+ "<span style='color:#AD4CE6;'>o</span>"
-			+ "<span style='color:#E64CA8;'>w</span>"),
+			+ "<span style='color:#E64CA8;'>w</span>") {
+		public boolean isRainbow() {
+			return true;
+		}
+	},
 
 	// Feathers:
 //	FEATHERS_RED(false, BaseColour.RED, "red"),
@@ -539,7 +543,11 @@ public enum Colour {
 			+ "<span style='color:#6EE64C;'>n</span>"
 			+ "<span style='color:#4CB2E6;'>b</span>"
 			+ "<span style='color:#AD4CE6;'>o</span>"
-			+ "<span style='color:#E64CA8;'>w</span>"),
+			+ "<span style='color:#E64CA8;'>w</span>") {
+		public boolean isRainbow() {
+			return true;
+		}
+	},
 	COVERING_NONE(false, BaseColour.GREY, "none"),
 
 	// Eye colours:
@@ -572,7 +580,6 @@ public enum Colour {
 	// Skin/fur/body part groups:
 	
 	public static List<Colour> humanSkinColours = Util.newArrayListOfValues(
-
 			Colour.SKIN_PORCELAIN,
 			Colour.SKIN_PALE,
 			Colour.SKIN_LIGHT,
@@ -587,7 +594,6 @@ public enum Colour {
 			Colour.SKIN_PINK_LIGHT);
 	
 	public static List<Colour> demonSkinColours = Util.newArrayListOfValues(
-
 			Colour.SKIN_PORCELAIN,
 			Colour.SKIN_PALE,
 			Colour.SKIN_LIGHT,
@@ -726,28 +732,41 @@ public enum Colour {
 			Colour.COVERING_GREY,
 			Colour.COVERING_BLACK);
 
-	public static List<Colour> dyeFurColours = Util.newArrayListOfValues(
+	public static List<Colour> allCoveringColours = Util.newArrayListOfValues(
 			Colour.COVERING_PLATINUM,
 			Colour.COVERING_GOLD,
 			Colour.COVERING_SILVER,
 			Colour.COVERING_COPPER,
 			Colour.COVERING_STEEL,
 			Colour.COVERING_ROSE_GOLD,
+			
+			Colour.COVERING_WHITE,
+			Colour.COVERING_GREY,
+			Colour.COVERING_BLACK,
+			Colour.COVERING_RED,
+			Colour.COVERING_RED_DARK,
+			Colour.COVERING_BROWN_DARK,
+			Colour.COVERING_BROWN,
+			Colour.COVERING_TAN,
+			Colour.COVERING_ORANGE,
+			Colour.COVERING_GINGER,
 			Colour.COVERING_BLEACH_BLONDE,
+			Colour.COVERING_BLONDE,
+			Colour.COVERING_YELLOW,
+			Colour.COVERING_AMBER,
+			Colour.COVERING_GREEN,
+			Colour.COVERING_GREEN_DARK,
 			Colour.COVERING_BLUE_LIGHT,
 			Colour.COVERING_BLUE,
 			Colour.COVERING_BLUE_DARK,
-			Colour.COVERING_GREEN,
-			Colour.COVERING_GREEN_DARK,
-			Colour.COVERING_PINK,
-			Colour.COVERING_PINK_DARK,
 			Colour.COVERING_PERIWINKLE,
+			Colour.COVERING_LILAC,
 			Colour.COVERING_PURPLE,
 			Colour.COVERING_PURPLE_DARK,
-			Colour.COVERING_ROSE_GOLD,
-			Colour.COVERING_RED,
-			Colour.COVERING_RED_DARK,
-			Colour.COVERING_RAINBOW);
+			Colour.COVERING_PINK,
+			Colour.COVERING_PINK_LIGHT,
+			Colour.COVERING_RAINBOW
+			);
 
 	public static List<Colour> naturalScaleColours = Util.newArrayListOfValues(
 			Colour.COVERING_WHITE,
@@ -755,30 +774,6 @@ public enum Colour {
 			Colour.COVERING_TAN,
 			Colour.COVERING_BROWN_DARK,
 			Colour.COVERING_BLACK);
-
-	public static List<Colour> dyeScaleColours = Util.newArrayListOfValues(
-			Colour.COVERING_PLATINUM,
-			Colour.COVERING_GOLD,
-			Colour.COVERING_SILVER,
-			Colour.COVERING_COPPER,
-			Colour.COVERING_STEEL,
-			Colour.COVERING_ROSE_GOLD,
-			Colour.COVERING_BLEACH_BLONDE,
-			Colour.COVERING_BLONDE,
-			Colour.COVERING_BLUE_LIGHT,
-			Colour.COVERING_BLUE,
-			Colour.COVERING_BLUE_DARK,
-			Colour.COVERING_GINGER,
-			Colour.COVERING_GREEN,
-			Colour.COVERING_GREEN_DARK,
-			Colour.COVERING_PINK,
-			Colour.COVERING_PINK_DARK,
-			Colour.COVERING_PERIWINKLE,
-			Colour.COVERING_PURPLE,
-			Colour.COVERING_PURPLE_DARK,
-			Colour.COVERING_RED,
-			Colour.COVERING_RED_DARK,
-			Colour.COVERING_RAINBOW);
 
 	public static List<Colour> hornColours = Util.newArrayListOfValues(
 			Colour.HORN_WHITE,
@@ -834,30 +829,6 @@ public enum Colour {
 			Colour.COVERING_AUBURN,
 			Colour.COVERING_GREY,
 			Colour.COVERING_BLACK);
-	
-	public static List<Colour> dyeHairColours = Util.newArrayListOfValues(
-			Colour.COVERING_PLATINUM,
-			Colour.COVERING_GOLD,
-			Colour.COVERING_SILVER,
-			Colour.COVERING_COPPER,
-			Colour.COVERING_STEEL,
-			Colour.COVERING_ROSE_GOLD,
-			Colour.COVERING_BLEACH_BLONDE,
-			Colour.COVERING_BLUE_LIGHT,
-			Colour.COVERING_BLUE,
-			Colour.COVERING_BLUE_DARK,
-			Colour.COVERING_GREEN,
-			Colour.COVERING_GREEN_DARK,
-			Colour.COVERING_PINK,
-			Colour.COVERING_PINK_DARK,
-			Colour.COVERING_PERIWINKLE,
-			Colour.COVERING_PURPLE,
-			Colour.COVERING_PURPLE_DARK,
-			Colour.COVERING_ORANGE,
-			Colour.COVERING_AMBER,
-			Colour.COVERING_RED,
-			Colour.COVERING_RED_DARK,
-			Colour.COVERING_RAINBOW);
 	
 	// Eyes:
 	
@@ -1043,6 +1014,10 @@ public enum Colour {
 
 	public boolean isMetallic() {
 		return metallic;
+	}
+
+	public boolean isRainbow() {
+		return false;
 	}
 
 	public String getName() {
