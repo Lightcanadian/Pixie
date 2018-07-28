@@ -97,6 +97,62 @@
 	]]>
 	</htmlContent>
 	
+	<htmlContent tag="PIXIE_INTRO_AFTER_COMBAT_KIND_WIN"><![CDATA[
+	<p>
+		This is a place holder PIXIE_INTRO_AFTER_COMBAT_KIND
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_INTRO_AFTER_COMBAT_KIND_LOSS"><![CDATA[
+	<p>
+		This is a place holder PIXIE_INTRO_AFTER_COMBAT_KIND_LOSS
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_INTRO_AFTER_COMBAT_KIND_LOSS"><![CDATA[
+	<p>
+		This is a place holder PIXIE_INTRO_AFTER_COMBAT_KIND_LOSS_SEX
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_INTRO_AFTER_COMBAT_NEUTRAL_LOSS"><![CDATA[
+	<p>
+		This is a place holder PIXIE_INTRO_AFTER_COMBAT_NEUTRAL_LOSS
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_INTRO_AFTER_COMBAT_NEUTRAL_LOSS_SEX"><![CDATA[
+	<p>
+		This is a place holder PIXIE_INTRO_AFTER_COMBAT_NEUTRAL_LOSS_SEX
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_INTRO_AFTER_COMBAT_MEAN_WIN"><![CDATA[
+	<p>
+		This is a place holder PIXIE_INTRO_AFTER_COMBAT_MEAN_WIN
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_INTRO_AFTER_COMBAT_MEAN_LOSS"><![CDATA[
+	<p>
+		This is a place holder PIXIE_INTRO_AFTER_COMBAT_MEAN_LOSS
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="PIXIE_INTRO_AFTER_COMBAT_MEAN_LOSS_SEX"><![CDATA[
+	<p>
+		This is a place holder PIXIE_INTRO_AFTER_COMBAT_MEAN_LOSS_SEX
+	</p>
+	]]>
+	</htmlContent>
+	
 	<htmlContent tag="PLACE_HOLDER"><![CDATA[
 	<p>
 		This is a place holder
