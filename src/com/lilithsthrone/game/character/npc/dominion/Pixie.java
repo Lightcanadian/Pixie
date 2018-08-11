@@ -42,6 +42,10 @@ public class Pixie extends NPC {
 	
 	private boolean concealed = true;
 	
+	private Pixie domTarget;
+	private Pixie subTarget;
+	
+	
 	public Pixie() {
 		this(false);
 	}
@@ -110,6 +114,9 @@ public class Pixie extends NPC {
 			this.setPlayerKnowsName(false);
 			//-----LOCATION-----//
 			//this.setLocation(Main.game.getPlayer().getLocation());//For debuggin she spawn in our room at the beginning
+			
+			initSubTarget();
+			initDomTarget();
 		}
 
 	}
@@ -141,4 +148,44 @@ public class Pixie extends NPC {
 	public void setRaceConceal(boolean conceal)	{
 		concealed = conceal;	
 	}
+	
+	private void initSubTarget() {
+		//Height
+		subTarget.setHeight(152);
+		
+		//-----BODY SHAPE-----//
+		this.setMuscle(Muscle.ZERO_SOFT.getMedianValue());
+		this.setBodySize(BodySize.ZERO_SKINNY.getMedianValue());//Give gaunt bodyshape
+		
+		//-----BREAST-----//
+		this.setBreastSize(CupSize.A.getMeasurement());
+		
+		//-----HORN-----//
+		this.setHornLength(1);
+	}
+	
+	private void initDomTarget() {
+		//Height
+		subTarget.setHeight(182);
+		
+		//-----BODY SHAPE-----//
+		this.setMuscle(Muscle.THREE_MUSCULAR.getMedianValue());
+		this.setBodySize(BodySize.TWO_AVERAGE.getMedianValue());
+		
+		//-----BREAST-----//
+		this.setBreastSize(CupSize.DD.getMeasurement());
+		
+		//-----HORN-----//
+		this.setHornLength(6);
+	}
+	
+	public Pixie getSubTarget() {
+		return subTarget;
+	}
+	
+	public Pixie getDomTarget() {
+		return domTarget;
+	}
+	
+	
 }
