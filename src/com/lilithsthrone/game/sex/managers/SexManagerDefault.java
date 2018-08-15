@@ -344,7 +344,9 @@ public abstract class SexManagerDefault implements SexManagerInterface {
 					bannedActions.add(action); // Ban self-anal actions unless the character loves anal
 				}
 				
-				if(action.getSexAreaInteractions().keySet()!=SexAreaPenetration.PENIS && !Sex.getCharacterPerformingAction().hasFetish(Fetish.FETISH_ANAL_RECEIVING)) {
+				if(!action.getSexAreaInteractions().keySet().contains(SexAreaPenetration.PENIS)
+						&& !action.getSexAreaInteractions().values().contains(SexAreaPenetration.PENIS)
+						&& !Sex.getCharacterPerformingAction().hasFetish(Fetish.FETISH_ANAL_RECEIVING)) {
 					bannedActions.add(action); // Ban non-penis anal actions (like fingering and tail sex) unless the character loves anal
 				}
 				
@@ -498,8 +500,9 @@ public abstract class SexManagerDefault implements SexManagerInterface {
 			if((pen.isTakesVirginity() || (performingCharacter.getMainSexPreference(targetedCharacter)!=null && performingCharacter.getMainSexPreference(targetedCharacter).getPerformingSexArea()==pen))
 					&& Sex.getOngoingActionsMap(performingCharacter).get(pen).containsKey(targetedCharacter)) {
 				for(SexAreaInterface sai : Sex.getOngoingActionsMap(performingCharacter).get(pen).get(targetedCharacter)) {
-					if(sai.isOrifice() && ((SexAreaOrifice) sai).isTakesPenisVirginity()
-							|| (performingCharacter.getMainSexPreference(targetedCharacter)!=null && performingCharacter.getMainSexPreference(targetedCharacter).getTargetedSexArea()==sai)) {
+					if(sai.isOrifice() && ((SexAreaOrifice) sai).isInternalOrifice()
+							|| (performingCharacter.getMainSexPreference(targetedCharacter)!=null && performingCharacter.getMainSexPreference(targetedCharacter).getTargetedSexArea()==sai
+									&& (sai!=SexAreaOrifice.ASS || !targetedCharacter.isAbleToAccessCoverableArea(CoverableArea.ANUS, true)))) {
 						isSexPenetration = true;
 						break outerloop;
 					}
@@ -508,8 +511,9 @@ public abstract class SexManagerDefault implements SexManagerInterface {
 			if((pen.isTakesVirginity() || (performingCharacter.getMainSexPreference(targetedCharacter)!=null && performingCharacter.getMainSexPreference(targetedCharacter).getTargetedSexArea()==pen))
 					&& Sex.getOngoingActionsMap(targetedCharacter).get(pen).containsKey(performingCharacter)) {
 				for(SexAreaInterface sai : Sex.getOngoingActionsMap(targetedCharacter).get(pen).get(performingCharacter)) {
-					if(sai.isOrifice() && ((SexAreaOrifice) sai).isTakesPenisVirginity()
-							|| (performingCharacter.getMainSexPreference(targetedCharacter)!=null && performingCharacter.getMainSexPreference(targetedCharacter).getPerformingSexArea()==sai)) {
+					if(sai.isOrifice() && ((SexAreaOrifice) sai).isInternalOrifice()
+							|| (performingCharacter.getMainSexPreference(targetedCharacter)!=null && performingCharacter.getMainSexPreference(targetedCharacter).getPerformingSexArea()==sai
+									&& (sai!=SexAreaOrifice.ASS || !targetedCharacter.isAbleToAccessCoverableArea(CoverableArea.ANUS, true)))) {
 						isSexPenetration = true;
 						break outerloop;
 					}
@@ -605,8 +609,8 @@ public abstract class SexManagerDefault implements SexManagerInterface {
 			penetrativeActionList.removeAll(bannedActions);
 			
 			List<SexActionInterface> actualOrifices = new ArrayList<>(penetrativeActionList);
-			actualOrifices.removeIf((ac) -> (!ac.getPerformingCharacterOrifices().isEmpty() && !ac.getPerformingCharacterOrifices().get(0).isTakesPenisVirginity())
-					|| (!ac.getTargetedCharacterOrifices().isEmpty() && !ac.getTargetedCharacterOrifices().get(0).isTakesPenisVirginity()));
+			actualOrifices.removeIf((ac) -> (!ac.getPerformingCharacterOrifices().isEmpty() && !ac.getPerformingCharacterOrifices().get(0).isInternalOrifice())
+					|| (!ac.getTargetedCharacterOrifices().isEmpty() && !ac.getTargetedCharacterOrifices().get(0).isInternalOrifice()));
 			
 			List<SexActionInterface> nonPenetrativeOrifices = new ArrayList<>(penetrativeActionList);
 			nonPenetrativeOrifices.removeAll(actualOrifices);
@@ -622,8 +626,8 @@ public abstract class SexManagerDefault implements SexManagerInterface {
 			returnableActions.removeAll(bannedActions);
 			
 			actualOrifices = new ArrayList<>(returnableActions);
-			actualOrifices.removeIf((ac) -> (!ac.getPerformingCharacterOrifices().isEmpty() && !ac.getPerformingCharacterOrifices().get(0).isTakesPenisVirginity())
-					|| (!ac.getTargetedCharacterOrifices().isEmpty() && !ac.getTargetedCharacterOrifices().get(0).isTakesPenisVirginity()));
+			actualOrifices.removeIf((ac) -> (!ac.getPerformingCharacterOrifices().isEmpty() && !ac.getPerformingCharacterOrifices().get(0).isInternalOrifice())
+					|| (!ac.getTargetedCharacterOrifices().isEmpty() && !ac.getTargetedCharacterOrifices().get(0).isInternalOrifice()));
 			
 			nonPenetrativeOrifices = new ArrayList<>(returnableActions);
 			nonPenetrativeOrifices.removeAll(actualOrifices);

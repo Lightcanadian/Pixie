@@ -13,8 +13,8 @@ import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.item.AbstractItemType;
 import com.lilithsthrone.game.inventory.item.ItemType;
-import com.lilithsthrone.game.slavery.SlaveJob;
-import com.lilithsthrone.game.slavery.SlavePermissionSetting;
+import com.lilithsthrone.game.occupantManagement.SlaveJob;
+import com.lilithsthrone.game.occupantManagement.SlavePermissionSetting;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.RenderingEngine;
 import com.lilithsthrone.world.Cell;
@@ -566,6 +566,9 @@ public class Library {
 				return bookResponse(ItemType.BOOK_RABBIT_MORPH, Race.RABBIT_MORPH);
 
 			} else if (field == 4) {
+				return bookResponse(ItemType.BOOK_FOX_MORPH, Race.FOX_MORPH);
+
+			} else if (field == 5) {
 				return bookResponse(ItemType.BOOK_REINDEER_MORPH, Race.REINDEER_MORPH);
 
 			} else if (field == 0) {

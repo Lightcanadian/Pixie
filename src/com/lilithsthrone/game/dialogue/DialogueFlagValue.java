@@ -69,7 +69,6 @@ public enum DialogueFlagValue {
 	
 	reactedToKatePregnancy,
 	
-	
 	// Lilaya's Home:
 	knowsDate,
 	lilayaDateTalk,

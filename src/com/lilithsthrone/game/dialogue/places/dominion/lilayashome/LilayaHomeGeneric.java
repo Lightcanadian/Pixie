@@ -1,7 +1,9 @@
 package com.lilithsthrone.game.dialogue.places.dominion.lilayashome;
 
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.CoverableArea;
@@ -13,7 +15,8 @@ import com.lilithsthrone.game.character.quests.Quest;
 import com.lilithsthrone.game.character.quests.QuestLine;
 import com.lilithsthrone.game.dialogue.DialogueFlagValue;
 import com.lilithsthrone.game.dialogue.DialogueNodeOld;
-import com.lilithsthrone.game.dialogue.SlaveryManagementDialogue;
+import com.lilithsthrone.game.dialogue.OccupantManagementDialogue;
+import com.lilithsthrone.game.dialogue.npcDialogue.OccupantDialogue;
 import com.lilithsthrone.game.dialogue.npcDialogue.SlaveDialogue;
 import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.responses.ResponseEffectsOnly;
@@ -21,11 +24,11 @@ import com.lilithsthrone.game.dialogue.responses.ResponseSex;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.item.AbstractItemType;
 import com.lilithsthrone.game.inventory.item.ItemType;
+import com.lilithsthrone.game.occupantManagement.MilkingRoom;
+import com.lilithsthrone.game.occupantManagement.SlaveJob;
+import com.lilithsthrone.game.occupantManagement.SlavePermissionSetting;
 import com.lilithsthrone.game.sex.SexPositionSlot;
 import com.lilithsthrone.game.sex.managers.dominion.SMRoseHands;
-import com.lilithsthrone.game.slavery.MilkingRoom;
-import com.lilithsthrone.game.slavery.SlaveJob;
-import com.lilithsthrone.game.slavery.SlavePermissionSetting;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.BaseColour;
 import com.lilithsthrone.utils.Colour;
@@ -200,7 +203,7 @@ public class LilayaHomeGeneric {
 		if(milkingRoom) {
 			slavesAssignedToRoom.addAll(charactersPresent);
 		} else {
-			for(String slave : Main.game.getPlayer().getSlavesOwned()) {
+			for(String slave : Util.mergeLists(Main.game.getPlayer().getFriendlyOccupants(), Main.game.getPlayer().getSlavesOwned())) {
 				NPC slaveNPC = (NPC)Main.game.getNPCById(slave);
 				if(slaveNPC != null && (slaveNPC.getHomeWorldLocation()==Main.game.getPlayer().getWorldLocation() && slaveNPC.getHomeLocation().equals(Main.game.getPlayer().getLocation()))) {
 					slavesAssignedToRoom.add(slaveNPC);
@@ -213,31 +216,31 @@ public class LilayaHomeGeneric {
 			return null;
 			
 		} else if (index == 1) {
-			if(Main.game.getPlayer().isHasSlaverLicense()) {
-				return new Response("Manage Room", "Enter the management screen for this particular room.", SlaveryManagementDialogue.ROOM_UPGRADES) {
+			if(Main.game.getPlayer().isAbleToAccessRoomManagement()) {
+				return new Response("Manage room", "Enter the management screen for this particular room.", OccupantManagementDialogue.ROOM_UPGRADES) {
 					@Override
 					public void effects() {
-						SlaveryManagementDialogue.cellToInspect = Main.game.getPlayerCell();
+						OccupantManagementDialogue.cellToInspect = Main.game.getPlayerCell();
 					}
 				};
 			} else {
-				return new Response("Manage Room", "You'll need a slaver license before you can access this menu!",  null);
+				return new Response("Manage room", "You'll either need a slaver license, or permission from Lilaya to house your friends, before you can access this menu!",  null);
 			}
 			
 		}  else if (index == 2) {
-			if(Main.game.getPlayer().isHasSlaverLicense()) {
-				return new Response("Slave List", "Enter the slave management screen.", CORRIDOR) {
+			if(Main.game.getPlayer().isAbleToAccessRoomManagement()) {
+				return new Response("Manage people", "Enter the management screen for your slaves and friendly occupants.", CORRIDOR) {
 					@Override
 					public DialogueNodeOld getNextDialogue() {
-						return SlaveryManagementDialogue.getSlaveryRoomListDialogue(null);
+						return OccupantManagementDialogue.getSlaveryRoomListDialogue(null);
 					}
 				};
 			} else {
-				return new Response("Slave List", "You'll need a slaver license before you can access this menu!",  null);
+				return new Response("Manage people", "You'll either need a slaver license, or permission from Lilaya to house your friends, before you can access this menu!",  null);
 			}
 			
 		} else if(milkingRoom) {
-			MilkingRoom room = Main.game.getSlaveryUtil().getMilkingRoom(Main.game.getPlayerCell().getType(), Main.game.getPlayerCell().getLocation());
+			MilkingRoom room = Main.game.getOccupancyUtil().getMilkingRoom(Main.game.getPlayerCell().getType(), Main.game.getPlayerCell().getLocation());
 			
 			if(index==3) {
 				if(Main.game.getPlayer().getBreastRawStoredMilkValue()==0) {
@@ -568,16 +571,17 @@ public class LilayaHomeGeneric {
 			}
 			
 		} else if(index-3<slavesAssignedToRoom.size()) {
-			if(charactersPresent.contains(slavesAssignedToRoom.get(index-3))) {
-				return new Response(UtilText.parse(slavesAssignedToRoom.get(index-3), "[npc.Name]"), UtilText.parse(slavesAssignedToRoom.get(index-3), "Interact with [npc.name]."), SlaveDialogue.SLAVE_START) {
+			NPC character = slavesAssignedToRoom.get(index-3);
+			if(charactersPresent.contains(character)) {
+				return new Response(UtilText.parse(character, "[npc.Name]"), UtilText.parse(character, "Interact with [npc.name]."), character.isSlave()?SlaveDialogue.SLAVE_START:OccupantDialogue.OCCUPANT_START) {
 					@Override
 					public void effects() {
-						Main.game.setActiveNPC(slavesAssignedToRoom.get(index-3));
+						Main.game.setActiveNPC(character);
 					}
 				};
 				
 			} else {
-				return new Response(UtilText.parse(slavesAssignedToRoom.get(index-3), "[npc.Name]"), UtilText.parse(slavesAssignedToRoom.get(index-3), "Although this is [npc.namePos] room, [npc.sheIs] not here at the moment."), null);
+				return new Response(UtilText.parse(slavesAssignedToRoom.get(index-3), "[npc.Name]"), UtilText.parse(slavesAssignedToRoom.get(index-3), "Although this is [npc.namePos] room, [npc.sheIs] out at work at the moment."), null);
 			}
 			
 		}
@@ -593,6 +597,27 @@ public class LilayaHomeGeneric {
 		for(PlaceUpgrade pu : PlaceUpgrade.values()) {
 			if(place.getPlaceUpgrades().contains(pu)) {
 				roomSB.append(formatRoomUpgrade(pu));
+			}
+		}
+		
+		if(place.getPlaceUpgrades().contains(PlaceUpgrade.LILAYA_GUEST_ROOM)) {
+			List<NPC> charactersHome = Main.game.getCharactersTreatingCellAsHome(Main.game.getPlayerCell());
+			for(String occupantId: Main.game.getPlayer().getFriendlyOccupants()) {
+				NPC occupant = (NPC) Main.game.getNPCById(occupantId);
+				if(occupant!=null && charactersHome.contains(occupant) && !Main.game.getCharactersPresent().contains(occupant)) {
+					roomSB.append(UtilText.parse(occupant,
+							"<p>"
+								+ "[npc.Name] doesn't appear to be here at the moment, and as you briefly scan the room for any sign of [npc.herHim], you see a little note has been left on [npc.her] bedside cabinet."
+										+ " Walking over and picking it up, you read:"
+							+ "</p>"
+							+ "<p style='text-align:center;'><i>"
+								+ "Hi, [pc.name]!<br/>"
+								+ "I'm out at work at the moment, my hours are from "+occupant.getHistory().getWorkHourStart()+":00 to "+occupant.getHistory().getWorkHourEnd()+":00, "
+									+occupant.getHistory().getStartDay().getDisplayName(TextStyle.FULL, Locale.getDefault())+"-"+occupant.getHistory().getEndDay().getDisplayName(TextStyle.FULL, Locale.getDefault())+"<br/>"
+								+ "Come and see me when I'm not at work!<br/>"
+								+ "- [npc.Name]"
+							+ "</i></p>"));
+				}
 			}
 		}
 		

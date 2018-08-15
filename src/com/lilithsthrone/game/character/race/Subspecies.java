@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.CharacterUtils;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.Body;
@@ -25,6 +26,7 @@ import com.lilithsthrone.game.character.body.valueEnums.CoveringPattern;
 import com.lilithsthrone.game.character.body.valueEnums.CupSize;
 import com.lilithsthrone.game.character.body.valueEnums.Height;
 import com.lilithsthrone.game.character.body.valueEnums.Muscle;
+import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Colour;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.world.WorldType;
@@ -526,7 +528,9 @@ public enum Subspecies {
 			body.getCoverings().put(BodyCoveringType.FELINE_FUR, new Covering(BodyCoveringType.FELINE_FUR, CoveringPattern.SPOTTED, CoveringModifier.FLUFFY, primaryColor, false, secondaryColor, false));
 			body.getCoverings().put(BodyCoveringType.HAIR_FELINE_FUR, new Covering(BodyCoveringType.FELINE_FUR, CoveringPattern.NONE, primaryColor, false, secondaryColor, false));
 			body.updateCoverings(true, true, true, true);
-			body.getFace().setType(null, FaceType.CAT_MORPH_PANTHER);
+			if(body.getFace().getType()==FaceType.CAT_MORPH) {
+				body.getFace().setType(null, FaceType.CAT_MORPH_PANTHER);
+			}
 			body.getTail().setType(null, TailType.CAT_MORPH);
 			
 			body.setBodySize(BodySize.TWO_AVERAGE.getMedianValue());
@@ -559,7 +563,9 @@ public enum Subspecies {
 			body.getCoverings().put(BodyCoveringType.FELINE_FUR, new Covering(BodyCoveringType.FELINE_FUR, CoveringPattern.SPOTTED, CoveringModifier.SHORT, primaryColor, false, secondaryColor, false));
 			body.getCoverings().put(BodyCoveringType.HAIR_FELINE_FUR, new Covering(BodyCoveringType.FELINE_FUR, CoveringPattern.NONE, primaryColor, false, secondaryColor, false));
 			body.updateCoverings(true, true, true, true);
-			body.getFace().setType(null, FaceType.CAT_MORPH_PANTHER);
+			if(body.getFace().getType()==FaceType.CAT_MORPH) {
+				body.getFace().setType(null, FaceType.CAT_MORPH_PANTHER);
+			}
 			body.getTail().setType(null, TailType.CAT_MORPH);
 			
 			body.setBodySize(BodySize.TWO_AVERAGE.getMedianValue());
@@ -595,7 +601,9 @@ public enum Subspecies {
 			body.getCoverings().put(BodyCoveringType.FELINE_FUR, new Covering(BodyCoveringType.FELINE_FUR, CoveringPattern.NONE, CoveringModifier.SHORT, primaryColor, false, secondaryColor, false));
 			body.getCoverings().put(BodyCoveringType.HAIR_FELINE_FUR, new Covering(BodyCoveringType.FELINE_FUR, CoveringPattern.NONE, primaryColor, false, secondaryColor, false));
 			body.updateCoverings(true, true, true, true);
-			body.getFace().setType(null, FaceType.CAT_MORPH_PANTHER);
+			if(body.getFace().getType()==FaceType.CAT_MORPH) {
+				body.getFace().setType(null, FaceType.CAT_MORPH_PANTHER);
+			}
 			body.getTail().setType(null, TailType.CAT_MORPH_TUFTED);
 			
 			body.setBodySize(BodySize.TWO_AVERAGE.getMedianValue());
@@ -631,7 +639,9 @@ public enum Subspecies {
 			body.getCoverings().put(BodyCoveringType.FELINE_FUR, new Covering(BodyCoveringType.FELINE_FUR, CoveringPattern.STRIPED, CoveringModifier.SHORT, primaryColor, false, secondaryColor, false));
 			body.getCoverings().put(BodyCoveringType.HAIR_FELINE_FUR, new Covering(BodyCoveringType.FELINE_FUR, CoveringPattern.NONE, primaryColor, false, secondaryColor, false));
 			body.updateCoverings(true, true, true, true);
-			body.getFace().setType(null, FaceType.CAT_MORPH_PANTHER);
+			if(body.getFace().getType()==FaceType.CAT_MORPH) {
+				body.getFace().setType(null, FaceType.CAT_MORPH_PANTHER);
+			}
 			body.getTail().setType(null, TailType.CAT_MORPH);
 			
 			body.setBodySize(BodySize.TWO_AVERAGE.getMedianValue());
@@ -1840,48 +1850,45 @@ public enum Subspecies {
 				break;
 			case CAT_MORPH:
 				subspecies = Subspecies.CAT_MORPH;
+				FaceType faceType = body.getFace().getType();
+				
 				if(body.getHair().getType() == HairType.CAT_MORPH_SIDEFLUFF
-						&& body.getEar().getType()==EarType.CAT_MORPH_TUFTED
-						&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.FLUFFY
-						&& body.getTail().getType()==TailType.CAT_MORPH_SHORT
-						) {
-						subspecies = Subspecies.CAT_MORPH_LYNX;
-					}
-				else if(body.getFace().getType() == FaceType.CAT_MORPH_PANTHER
-						&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getPattern() == CoveringPattern.SPOTTED
-						&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.FLUFFY
-						&& body.getTail().getType()==TailType.CAT_MORPH
-						) {
-						subspecies = Subspecies.CAT_MORPH_LEOPARD_SNOW;
-					}
-				else if(body.getFace().getType() == FaceType.CAT_MORPH_PANTHER
-						&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getPattern() == CoveringPattern.SPOTTED
-						&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.SHORT
-						&& body.getTail().getType()==TailType.CAT_MORPH
-						) {
-						subspecies = Subspecies.CAT_MORPH_LEOPARD;
-					}
-				else if(body.getFace().getType() == FaceType.CAT_MORPH_PANTHER
-						&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.SHORT
-						&& body.getTail().getType()==TailType.CAT_MORPH_TUFTED
-						) {
-						subspecies = Subspecies.CAT_MORPH_LION;
-					}
-				else if(body.getFace().getType() == FaceType.CAT_MORPH_PANTHER
-						&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getPattern() == CoveringPattern.STRIPED
-						&& body.getTail().getType()==TailType.CAT_MORPH
-						) {
-						subspecies = Subspecies.CAT_MORPH_TIGER;
-					}
-				else if(body.getCoverings().get(BodyCoveringType.FELINE_FUR).getPattern() == CoveringPattern.SPOTTED
-						&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.SHORT
-						) {
-						subspecies = Subspecies.CAT_MORPH_CHEETAH;
-					}
-				else if(body.getEar().getType()==EarType.CAT_MORPH_TUFTED) {
-						subspecies = Subspecies.CAT_MORPH_CARACAL;
-					}
+					&& body.getEar().getType()==EarType.CAT_MORPH_TUFTED
+					&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.FLUFFY
+					&& body.getTail().getType()==TailType.CAT_MORPH_SHORT) {
+					subspecies = Subspecies.CAT_MORPH_LYNX;
+						
+				} else if((faceType == FaceType.CAT_MORPH_PANTHER || faceType == FaceType.HUMAN)
+					&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getPattern() == CoveringPattern.SPOTTED
+					&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.FLUFFY
+					&& body.getTail().getType()==TailType.CAT_MORPH) {
+					subspecies = Subspecies.CAT_MORPH_LEOPARD_SNOW;
+					
+				} else if((faceType == FaceType.CAT_MORPH_PANTHER || faceType == FaceType.HUMAN)
+					&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getPattern() == CoveringPattern.SPOTTED
+					&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.SHORT
+					&& body.getTail().getType()==TailType.CAT_MORPH) {
+					subspecies = Subspecies.CAT_MORPH_LEOPARD;
+					
+				} else if((faceType == FaceType.CAT_MORPH_PANTHER || faceType == FaceType.HUMAN)
+					&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.SHORT
+					&& body.getTail().getType()==TailType.CAT_MORPH_TUFTED) {
+					subspecies = Subspecies.CAT_MORPH_LION;
+					
+				} else if((faceType == FaceType.CAT_MORPH_PANTHER || faceType == FaceType.HUMAN)
+					&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getPattern() == CoveringPattern.STRIPED
+					&& body.getTail().getType()==TailType.CAT_MORPH) {
+					subspecies = Subspecies.CAT_MORPH_TIGER;
+					
+				} else if(body.getCoverings().get(BodyCoveringType.FELINE_FUR).getPattern() == CoveringPattern.SPOTTED
+					&& body.getCoverings().get(BodyCoveringType.FELINE_FUR).getModifier() == CoveringModifier.SHORT) {
+					subspecies = Subspecies.CAT_MORPH_CHEETAH;
+					
+				} else if(body.getEar().getType()==EarType.CAT_MORPH_TUFTED) {
+					subspecies = Subspecies.CAT_MORPH_CARACAL;
+				}
 				break;
+				
 			case COW_MORPH:
 				subspecies = Subspecies.COW_MORPH;
 				break;
@@ -2183,11 +2190,21 @@ public enum Subspecies {
 	}
 	
 	public String getSingularMaleName() {
-		return singularMaleName;
+		if(getRace() == Race.WOLF_MORPH && Main.getProperties().hasValue(PropertyValue.sillyMode)){
+			return "awoo-boy";
+		}
+		else{
+			return singularMaleName;
+		}
 	}
 
 	public String getSingularFemaleName() {
-		return singularFemaleName;
+		if(getRace() == Race.WOLF_MORPH && Main.getProperties().hasValue(PropertyValue.sillyMode)){
+			return "awoo-girl";
+		}
+		else{
+			return singularFemaleName;
+		}
 	}
 	
 	public String getPluralMaleName() {

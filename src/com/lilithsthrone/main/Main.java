@@ -51,7 +51,7 @@ import javafx.scene.control.ButtonType;
 
 /**
  * @since 0.1.0
- * @version 0.2.9
+ * @version 0.2.10
  * @author Innoxia
  */
 public class Main extends Application {
@@ -66,7 +66,7 @@ public class Main extends Application {
 	public static Stage primaryStage;
 	public static String author = "Innoxia";
 
-	public static final String VERSION_NUMBER = "0.2.9.1",
+	public static final String VERSION_NUMBER = "0.2.10.2",
 			VERSION_DESCRIPTION = "Alpha";
 	
 	private final static boolean DEBUG = false;
@@ -82,11 +82,13 @@ public class Main extends Application {
 		+ "</p>"
 			
 		+ "<p>"
-			+ "Here's the promised hotfix for 0.2.9! While it doesn't add any new content, it does fix all of the new bugs reported in this latest version, as well as improving the AI in sex."
+			+ "Here's 0.2.10! I've got all the non-slavery moving in content added for alleyway attackers, as well ad adding in all the dialogue that was placeholders for the dom clubber route in 0.2.9.5."
+			+ " I've also added some more shops to Slaver Alley, as well adding a few other things here and there."
+			+ " Alexa's content will have to be added in the next version, as I simply ran out of time in which to get it finished."
 		+ "</p>"
 		
 		+ "<p>"
-			+ "Two and a half days isn't enough time for me to get any real content added, so I'm going to push the next github/Patreon update to the 1st August, with the full release coming out the week after that (8th August)."
+			+ "This version (0.2.10.1) is a hotfix, addressing some issues that cropped up in 0.2.10."
 		+ "</p>"
 			
 		+ "<p>"
@@ -97,146 +99,192 @@ public class Main extends Application {
 		+ "<br/>"
 
 		+ "<list>"
-			+ "<h6>v0.2.8.5</h6>"
-			+"<li>Engine:</li>"
-			+"<li>Sex action conversions:</li>"
-			+"<ul>Converted and improved descriptions of all penis+ass (hotdogging) actions.</ul>"
-			+"<ul>Converted all penis+nipple actions.</ul>"
-			+"<ul>Converted and improved descriptions of all penis+breast (paizuri/naizuri) actions.</ul>"
-			+"<ul>Converted all thigh-sex actions (and renamed the in-game labels to 'intercrural').</ul>"
-			+"<ul>Converted all penis+vaginal urethra actions.</ul>"
-			+"<ul>Converted miscellaneous actions in several other classes (orgasms, stocks/milking stall, cultist, kneeling-oral)</ul>"
-
-			+"<li>Contributors:</li>"
-			+"<ul>Fixed issue with the parser not performing capitalisation correctly. (Lightcanadian)</ul>"
-			+"<ul>Improved aspects of the 'concealed race' mechanic. (Lightcanadian)</ul>"
+			+ "<h6>v0.2.9.5</h6>"
+			+"<li>Gameplay:</li>"
+			+"<ul>Added footjob/hoofjob sex actions, with variations for single or double footjob (single variation is used when standing).</ul>"
+			+"<ul>Added 'creampie/cum over' variations for hotdogging (cum over back and ass), paizuri/naizuri (cum over chest and face), thigh sex (cum over legs), handjobs (cum over hands), and footjobs (cum over feet).</ul>"
+			+"<ul>Improved alleyway attacker dialogue and pregnancy reactions for when you have a companion. Also changed companion detection so that your elemental (if you have one) can take part in the sex scenes.</ul>"
+			+"<ul>In progress: Added a submissive route to the nightclub, but the descriptions are still placeholders.</ul>"
+			+"<ul>In progress: Added most of the framework for getting non-slave NPCs to move in with you. All the dialogue is placeholders for the moment, and it only works for Dominion alleyway NPCs.</ul>"
 
 			+"<li>Other:</li>"
-			+"<ul>Made you the dom in Lilaya's chair sex scenes, to give you control over positioning.</ul>"
-			+"<ul>Added 'rainbow' as a dye colour for hair and other body coverings.</ul>"
-			+"<ul>Area requests in sex are now available even if you're the dom.</ul>"
-			+"<ul>Area requests in sex now work correctly, with your partner only saying 'no' if they dislike using that area, or if they're sadistic.</ul>"
-			+"<ul>Changed clothing set bonuses to account for slots that are blocked by your racial parts. i.e. A horse-morph (with foot slot blocked due to hoofs) will still get the witch's set bonus if they are just wearing the hat & dress, ignoring the requirement to also be wearing the boots.</ul>"
-			+"<ul>You no longer have the superpower of involuntarily pausing time while having sex. (Time now advances 1 minute per action.)</ul>"
-			+"<ul>Improved sex status effect 'anus' icon.</ul>"
-			+"<ul>Added sex status effect 'penis status' that's shown to indicate ongoing handjobs.</ul>"
-			+"<ul>Cum and milk regeneration is no longer rounded to the nearest integer, to fix the issue of low cum storage values always regenerating very quickly.</ul>"
+			+"<ul>Improved 'bald' description in selfie.</ul>"
+			+"<ul>Changed hair TF category from 'lesser' to 'minor', so 'minor' furry NPCs will now spawn with race-specific hair.</ul>"
+			+"<ul>Added detection for shoes blocking foot actions in sex. (I'll add shoe-related actions later on.)</ul>"
+			+"<ul>Added 'blunt' TF modifier to enchanting penis and clit.</ul>"
+			+"<ul>Harpy wings no longer block the finger slot.</ul>"
+			+"<ul>NPCs can no longer gain affection towards you from sex, but can still lose it (if they are resisting at the end without the sub non con fetish, or if they didn't orgasm). This was changed due to the intention of affection being used as a content progression mechanic.</ul>"
+
+			+"<li>Sex AI:</li>"
+			+"<ul>NPCs no longer prefer pulling out in all sex scenes, and now instead have a 66% chance to want to creampie. (100% chance if they have an associated fetish.)</ul>"
+			+"<ul>NPCs will no longer deny requests if they either like or love the request's associated fetish.</ul>"
+			+"<ul>NPCs with the anal fetish will now prefer anal penetration instead of hotdogging.</ul>"
+			+"<ul>Fixed issue where NPCs would be unwilling to initiate any penetrative anal actions. (Mainly an issue in glory hole scenes.)</ul>"
 
 			+"<li>Bugs:</li>"
-			+"<ul>Fixed large underlying error in the game's parser that was causing some scenes to be displayed incorrectly. (This was mainly affecting the new dialogue in the nightclub.)</ul>"
-			+"<ul>Fixed incorrect nipple fingering sex action description.</ul>"
-			+"<ul>Typo fixes + fixing several grammatical errors in recently converted sex actions.</ul>"
-			+"<ul>Fixed more 'command_unknown' errors.</ul>"
-			+"<ul>Fixed 'Creampie' action's title sometimes not displaying.</ul>"
-			+"<ul>Harpies spawning in the nightclub will now correctly be at a 'lesser' furry level (human with harpy arm-wings and legs, instead of fully bird-like).</ul>"
-			+"<ul>Fixed impossible position of being able to ride the cock of someone who's locked in stocks while you're standing behind.</ul>"
-			+"<ul>Fixed all cheetah genders always spawning in with breasts.</ul>"
-			+"<ul>Fixed incorrect virginity loss descriptions.</ul>"
-			+"<ul>Fixed incorrect positioning action descriptions in the toilet stall sex scene.</ul>"
-			+"<ul>Fixed the female pregnancy roulette volunteers being named 'unknown male'.</ul>"
-			+"<ul>Changing cum production in character creation no longer empties your balls.</ul>"
-			+"<ul>Fixed 'Clit attention' action being available in resisting pace.</ul>"
-			+"<ul>Fixed unintended ability to stop ongoing sex actions when having sex as a sub without equal control.</ul>"
-			+"<ul>Fixed bug where you could spawn multiple elementals during combat.</ul>"
-			+"<ul>Fixed a missing dialogue error when encountering slimes in the tunnels of Submission.</ul>"
-			+"<ul>Fixed clit girth TF referencing a penis.</ul>"
-			+"<ul>Fixed several minor formatting errors in ass, penis, testicle, clit, and vagina TFs.</ul>"
-			+"<ul>Fixed 'breastfeed' action not draining the character's milk.</ul>"
-			+"<ul>Fixed issue with slaves not being sent to the correct milking room.</ul>"
-			+"<ul>Fixed incorrect sex action tooltips in (hopefully) every scene.</ul>"
-			+"<ul>Fixed parsing issues related to NPCs equipping weapons.</ul>"
+			+"<ul>Fixed NPCs wanting to use tail+breast actions, even though there are none currently in the game.</ul>"
+			+"<ul>Fixed parsing error in Zaranix post-victory dialogue, and in a few of the harpy matriarch scenes.</ul>"
+			+"<ul>Fixed Kruger, Vicky, and Cultists not progressing through positions in sex properly.</ul>"
+			+"<ul>Fixed sex scenes marked as 'public' (such as Kruger's), repeating the end sex dialogue about essence gains.</ul>"
+			+"<ul>Fixed 'Tease nipple' action being available when nipple penetration content was turned off.</ul>"
+			+"<ul>Naked character portraits in tooltips are now correctly concealed if you've never had sex with that character before.</ul>"
+			+"<ul>Fixed incorrect parsing of virginity loss descriptions.</ul>"
+			+"<ul>Fixed 'Slap ass' action in stocks sex being available in incorrect positions, and returning errors when used.</ul>"
+			+"<ul>Fixed incorrect breast grope tooltip description.</ul>"
+			+"<ul>Numerous typo fixes and corrections to the grammar in sex actions.</ul>"
+			+"<ul>Fixed angel faces having human skin, and angels having human tongues. (Angels aren't officially in-game yet, this is just through the debug menu.)</ul>"
+			+"<ul>Amber now correctly prefers the doggy style position.</ul>"
+			+"<ul>Slightly altered detection for cat-morph subspecies to allow for lesser/minor tigers, lions, and leopards (by detecting either a panther or human face).</ul>"
+			+"<ul>Sex with your companion in the night club's seating area or toilets is no longer public, and sex in the VIP or seating area using the chair sex options.</ul>"
+			+"<ul>Fixed incorrect action availability in milking stall sex scenes.</ul>"
+			+"<ul>Fixed issue with parser targets not applying correctly to characters present.</ul>"
+			+"<ul>Fixed 'Nympho Queen' option in the 'Angry Harpies' quest not being available even if requirements were met.</ul>"
+			+"<ul>Fixed litters using a simple day counter for tracking time of conception and birth, which was leading to incorrect descriptions of conception and birth dates.</ul>"
+			+"<ul>Fixed issue where upon starting a new game, some characters wouldn't display their artwork until after saving & loading.</ul>"
+			+"<ul>Fixed issue with NPC pregnancy reactions not being saved/applied correctly. The change I made in the code means that some NPCs that have already reacted to being pregnant might react to their pregnancies once more.</ul>"
 		+ "</list>"
-		
-	+ "<br/>"
 
-	+ "<list>"
-		+ "<h6>v0.2.9</h6>"
-		+"<li>Gameplay:</li>"
-		+"<ul>Added glory holes to the nightclub's toilets. You can either use them, or service them.</ul>"
-		+"<ul>Improved some of the dialogue in the Dominion alleyway attack scenes, and added pre-sex dialogue for all of their sex scenes.</ul>"
-		+"<ul>Added threesomes and companion + enemy sex scenes for if losing combat against the Dominion alleyway attacker while having people in your party. (The companion + enemy sex scenes are disabled by default, behind a new 'NTR' content toggle.)</ul>"
-		
-		+"<li>Contributors:</li>"
-		+"<ul>Made several back-end improvements to image loading, drastically cutting down custom artwork load times. (DJ4ddi)</ul>"
-		+"<ul>Added functionality to give any NPC a custom image (see res/images/characters/modding.txt for instructions). (DJ4ddi)</ul>"
-		+"<ul>Added option to display custom character's artwork in their race/appearance tooltip. (DJ4ddi)</ul>"
-		+"<ul>Added vaginal urethra modifier enchantments for clothing. (HarelMym)</ul>"
-		+"<ul>Refactored offspring encounter code. (uglybead)</ul>"
-		
-		+"<li>Other:</li>"
-		+"<ul>Added more options for changing the colours of glasses.</ul>"
-		+"<ul>You can now click on an NPC's name in sex and combat to switch target to them.</ul>"
-		+"<ul>Expanded sex request actions.</ul>"
-		+"<ul>Clothing that plugs orifices is no longer counted when calculating whether to apply the 'dirty clothing' status effect.</ul>"
-		
-		+"<li>Sex AI:</li>"
-		+"<ul>NPCs will no longer perform self-anal actions (fingering/tail-penetration) unless they have the anal fetish.</ul>"
-		+"<ul>Fixed issue where NPCs would repeatedly get penetrated then make you pull out.</ul>"
-		+"<ul>NPCs will no longer perform hotdogging actions if they dislike/hate anal.</ul>"
-		+"<ul>NPCs will no longer use the 'performing oral behind' position to suck their partner's cock in doggy-style.</ul>"
-		+"<ul>NPCs will now try to penetrate their partner's ass, if their partner has no vagina. (Still restricted by fetish desires.)</ul>"
-		
-		+"<li>Bugs:</li>"
-		+"<ul>Fixed Ralph having black fur, when he should have had dark brown.</ul>"
-		+"<ul>Fixed incorrect colouring for 'fox-morph intuition' status effect.</ul>"
-		+"<ul>Fixed (hopefully) the last causes of the bug where non-human vaginas/breasts/penises would incorrectly produce human fluids.</ul>"
-		+"<ul>Fixed parsing errors in orifice stretching descriptions.</ul>"
-		+"<ul>Fixed broken creampie status effect icons.</ul>"
-		+"<ul>Fixed descriptions of a real cock being inside of you while getting fucked by a dildo.</ul>"
-		+"<ul>Fixed incorrect parsing in area reveals during and before sex.</ul>"
-		+"<ul>Fixed group sex orgasms only triggering once you targeted the character who's orgasming.</ul>"
-		+"<ul>Typo fixes.</ul>"
-		+"<ul>Fixed issue where tooltips could sometimes get stuck on your screen.</ul>"
-		+"<ul>Fixed issue where panty masturbation scene would break at orgasm.</ul>"
-		+"<ul>Fixed incorrect lubrication descriptions in sex.</ul>"
-		+"<ul>Fixed 'clit attention' sex action being available even if vagina was concealed.</ul>"
-		+"<ul>Fixed bug where some sex actions would be incorrectly available (such as 'cock slap' while submissive).</ul>"
-		+"<ul>Fixed incorrect colours being available for fur.</ul>"
-		+"<ul>Fixed duplicate colours appearing in the recolouring menus.</ul>"
-		+"<ul>Fixed sex stat tracking not taking into account who you were having sex with. (This will reset your sex counts.)</ul>"
-		+"<ul>Fixed more incorrect parsing instances in sex actions.</ul>"
-		+"<ul>Fixed Pix being labelled as using the incorrect position in her shower sex scene.</ul>"
-	+ "</list>"
+		+ "<br/>"
 
-	+ "<br/>"
+		+ "<list>"
+			+ "<h6>v0.2.10</h6>"
+			+"<li>Engine:</li>"
+			+"<ul>Added support for the parsing engine to use the same scripting feature as it's conditional statements in regular parsing statements. (Basically, just put a '#' at the start of the parsing command, then use the same syntax as conditional IFs.)</ul>"
+			
+			+"<li>Gameplay:</li>"
+			+"<ul>Added all descriptions for the club's 'sub' scenes (where an NPC is leading you around the club), with variations for nice/normal/sleazy partners.</ul>"
+			+"<ul>Filled in all the placeholders for the alleyway attacker's non-violent scenes, with variations of the 'talk' action based on their affection towards you.</ul>"
+			+"<ul>Added more talk options for non-slave occupants, and some further progression for them in the form of them getting a job (10% chance each day) and being able to move out into their own apartment (after getting a job).</ul>"
+			+"<ul>Enabled 'Inspect' and 'Send to Kate' options for non-slave occupants.</ul>"
+			+"<ul>You can now manage your slaves' and friendly occupants' perks. The action is alongside the other management ones (Inspect/Job/etc.).</ul>"
+			+"<ul>Updated Slaver Alley's map to add some stores that you can buy slaves from, as well as some new descriptions for the other tiles.</ul>"
+			
+			+"<li>Other:</li>"
+			+"<ul>Both sub and dom NPCs that are re-encountered in the club (through the 'contacts' action) now have their affection towards you reset to 5, so that they'll go through the full sequence of buying drinks/talking/flirting each time you encounter them.</ul>"
+			+"<ul>Added ability for NPCs to remember your body areas, so they won't be surprised every time they see your penis/vagina, and improved reveal dialogue. (Their reactions will reset if you TF your genitalia/breasts/nipples.)</ul>"
+			+"<ul>Repositioned talk/manage/sex tabs in slavery & occupant dialogue to be in the same as in the view character dialogue (so all three now have the format: talk/sex/manage).</ul>"
+			+"<ul>Added day of the week + year to date tooltip (when hovering over the calendar icon above the minimap).</ul>"
+			+"<ul>Clicking on your name while in combat will now set your target to yourself, instead of opening the perk screen.</ul>"
+			+"<ul>Added version of Java used to compile LT at the top of the README.</ul>"
+			+"<ul>Added footjob climaxes given/received to tattoo counter types.</ul>"
+			+"<ul>Improved creampie/pull out requests to be available for paizuri and footjobs.</ul>"
+			+"<ul>Added feet as an orgasm target.</ul>"
+			+"<ul>Alexa now stocks 3 slaves instead of 5.</ul>"
+			
+			+"<li>Bugs:</li>"
+			+"<ul>Fixed typos and parsing errors.</ul>"
+			+"<ul>Slaves will no longer go to their job while having sex with you.</ul>"
+			+"<ul>Fixed alleyway attackers incorrectly saying you were the one to get them pregnant, even if it wasn't you.</ul>"
+			+"<ul>Added catch for null characters being returned by some methods, which will have fixed some instances of the game becoming unresponsive.</ul>"
+			+"<ul>Fixed clothing mods' 'imageEquippedName' not working correctly.</ul>"
+			+"<ul>Fixed issue in group sex orgasm scenes where incorrect characters would be described as performing or being targeted by actions.</ul>"
+			+"<ul>Fixed knotting orgasm scenes describing hands/breasts/thighs/ass getting locked to the knot.</ul>"
+			+"<ul>Fixed squirrel face TF being labelled as simply 'furry' instead of 'squirrel'.</ul>"
+			+"<ul>Fixed issue that was causing some newly spawned characters to have a conception date three years earlier than intended.</ul>"
+			+"<ul>Fixed bug where accessing your perk screen while in slavery management could cause a background error to be thrown.</ul>"
+			+"<ul>Fixed issue where sex scenes with you watching your companion + NPC could go on forever if your companion was resisting.</ul>"
+			+"<ul>Cumming on feet/hands will now correctly dirty any clothing in the foot/hand slot.</ul>"
+			+"<ul>Fixed autosave code so that the game now correctly autosaves when entering a new area, except if the entrance dialogue is unique. (e.g. The first entry to the Harpy Nests, where the Enforcer questions you, won't autosave, but subsequent visits will.)</ul>"
+		+ "</list>"
 
-	+ "<list>"
-		+ "<h6>v0.2.9.1</h6>"
-		+"<li>Other:</li>"
-		+"<ul>Added vaginal urethra modification options to slime and demon transform menus.</ul>"
-		+"<ul>NPCs in the nightclub can now be any age from 18 to 45. Other NPCs' age range is now 18-45 (instead of 18-38).</ul>"
-		+"<ul>Slightly reduced base values of arousal increases from sex actions, and limited arousal gains/turn to a maximum of 15. (To prevent huge arousal increase/turn when in a group sex scene.)</ul>"
-		+"<ul>Reduced chance of NPCs spawning with non-natural hair colours from 20% to 10%.</ul>"
-		
-		+"<li>Sex AI:</li>"
-		+"<ul>NPCs should no longer use non-penis-related anal actions unless they have the anal fetish. (So now they shouldn't finger your/their ass, unless they love anal actions.)</ul>"
-		+"<ul>Fixed issue where NPCs would take their own anal, nipple, and oral virginity.</ul>"
-		+"<ul>NPCs should now correctly prioritise vagina+penis actions if they have pregnancy or impregnation fetishes.</ul>"
-		+"<ul>NPCs should be less likely to perform self-penetration actions before penetrating their partner.</ul>"
-		+"<ul>Fetishes are now taken into account for when NPCs are deciding what penetrative action to use.</ul>"
-		+"<ul>NPCs will now prefer to perform actual penetration actions once past their 'foreplay' stage. This should reduce the amount of hotdogging, paizuri, and thigh sex from NPCs that don't have an associated fetish.</ul>"
-		+"<ul>Fixed issue with NPCs not choosing position correctly.</ul>"
-		+"<ul>Fixed issue where NPCs would sometimes ignore their preferences.</ul>"
-		+"<ul>NPCs no longer hold back from losing their oral virginity.</ul>"
-		+"<ul>Fixed (yet another) cause of NPCs repeatedly penetrating/stopping penetration every turn.</ul>"
-		 
-		+"<li>Bugs:</li>"
-		+"<ul>Fixed several parsing errors.</ul>"
-		+"<ul>Typo fixes.</ul>"
-		+"<ul>Fixed severe issue where games would not save/load correctly after using the glory holes, and added a catch in the game's code to handle corrupted saves. (So your broken 0.2.9 saves should load in correctly in this hotfix.)</ul>"
-		+"<ul>Fixed slime rainbow colouring not being displayed as a rainbow icon.</ul>"
-		+"<ul>Fixed vaginal and penile urethra modifiers not being displayed correctly in selfie, and fixed selfie's formatting of vaginal pubic hair.</ul>"
-		+"<ul>The extra damage from 'Flaming Strikes' is no longer applied when the attack misses.</ul>"
-		+"<ul>Characters who are in the 'watching' position during sex no longer influence NPCs' willingness to end/continue a sex scene. (Fixes issue where offering yourself or your companion would result in a sex scene that never ends.)</ul>"
-		+"<ul>Fixed characters without penises spawning in at the glory holes.</ul>"
-		+"<ul>Fixed yet another issue that was causing fluids to always be loaded in as 'human'.</ul>"
-		+"<ul>Fixed tooltip in phone's 'contacts' menu revealing concealed race information.</ul>"
-		+"<ul>Fixed NPCs never spawning with 'rosy', 'tanned', or 'chocolate' skin colour.</ul>"
-		+"<ul>Fixed partner penetrating your urethra not counting as penetrative sex for the purposes of requesting pullout or creampie.</ul>"
-		+"<ul>Fixed 'Suck clit' action being disabled during ongoing cunnilingus.</ul>"
-		+"<ul>Fixed cum count stats being reset every time you loaded the game.</ul>"
-	+ "</list>"
-	
+		+ "<br/>"
+
+		+ "<list>"
+			+ "<h6>v0.2.10.1</h6>"
+			+"<li>Gameplay:</li>"
+			+"<ul>Enabled friendly occupants to be added as party members, both from their room, and new apartment (if you get them to move out).</ul>"
+			+"<ul>All non-unique NPCs that have the 'transformation test subject' fetish will now accept all TF potions that you ask for them to drink.</ul>"
+			
+			+"<li>Contributors:</li>"
+			+"<ul>Fixed bug where having a hash character in the save file path would cause saves to not work. (HomeofTrees PR#884)</ul>"
+			+"<ul>Added keybind presets, and the ability to save custom keybind presets. Added response cursor navigation keys to keybinds. (DJ4ddi PR#882)</ul>"
+			+"<ul>Added: Arcane Bow. Sold by Vicky, and comes in Physical, Fire, Ice, and Poison types. (Rfpnj PR#669)</ul>"
+			+"<ul>Added fox-morph book to Lilaya's Library. (Rfpnj PR#871)</ul>"
+			+"<ul>Added a couple more entries to DisplacementType Enum: OPEN and UNBUCKLE. (Rfpnj PR#877)</ul>"
+			+"<ul>Added support for silly mode (disabled by default), which for now just changes the race name 'wolf-morph' to 'awoo-morph'. (Nnxx PR#887)</ul>"
+			+"<ul>Added: Leather belt, sold by Nyan. Masculine, hip slot. (kobolds PR#879)</ul>"
+			
+			+"<li>DJ4ddi's Artwork image improvements (PR#881):</li>"
+			+"<ul>Improved image scaling (removes jagged edges from a lot of in-game images).</ul>"
+			+"<ul>Naked player images are no longer hidden.</ul>"
+			+"<ul>Image selection controls now work for the player.</ul>"
+			+"<ul>Newly created NPCs (e.g. after starting a new game) now have their artwork loaded immediately.</ul>"
+			+"<ul>Unrecognized file name prefixes are now loaded as clothed.</ul>"
+			+"<ul>The tooltip image is now hidden if it is locked in the info screen.</ul>"
+			+"<ul>JPG images actually work.</ul>"
+			+"<ul><b>Added:</b> A small button with an encircled '+' icon is now placed next to the artist information button (or in the same spot, if there is no artwork). Clicking it opens a dialogue that allows selecting one or more image files which are copied into the character's folder and imported into the game. A log entry indicates success or failure of the import.</ul>"
+			
+			+"<li>Other:</li>"
+			+"<ul>You can now use non-transformative items on Elementals.</ul>"
+			+"<ul>Standardised the decision making of all non-unique NPCs in regards to accepting an item from you, and improved some of the descriptions of them using items you give to them, based on their fetishes.</ul>"
+			+"<ul>Slaves and friendly occupants are now always no longer affected by level scaling, instead of only being reset to their real level once added to your party.</ul>"
+			+"<ul>Changed the 'Important status effects' interrupt screen's continue button placement from action 6 to action 0. (So it's easier to continue by just pressing space instead of 6.)</ul>"
+			+"<ul>Added NPC icons to the phone's map, and information in the tooltip to show who is present in that tile. (With a greyed-out name if that tile is the character's home tile, but they are currently elsewhere.)</ul>"
+			+"<ul>Masochistic slaves now gain affection from being spanked, and both masochistic and exhibitionist slaves gain affection from being inspected.</ul>"
+			+"<ul>Improved virginity loss tracking code, and added virginity-taken counts to tattoo count types. Also improved the tattoo count UI a little. (Virginity counts will all start at 0 from this version, as previous versions didn't track who took a character's virginity.)</ul>"
+			+"<ul>Added hair modification as a secondary element to penis and vagina transformation potions, which increases/decreases pubic hair. (Not displayed if pubic hair is turned off in content options.)</ul>"
+			+"<ul>Added foot actions to face-sitting sex position.</ul>"
+			
+			+"<li>Bugs:</li>"
+			+"<ul>Fixed major issue of friendly occupants accidentally being deleted once they'd moved out to their new apartment.</ul>"
+			+"<ul>Fixed 'Butler' job not being available at character creation.</ul>"
+			+"<ul>Fixed issue where some sex scenes would not correctly re-equip all clothing after sex.</ul>"
+			+"<ul>Added a new ClothingSlot 'ANUS', and applied it to all clothing and butt plugs, so they can't be inserted/removed through clothing anymore.</ul>"
+			+"<ul>Fixed issue where the game would softlock when anyone orgasmed while performing paizuri or thigh sex.</ul>"
+			+"<ul>You can no longer use the 'Talk' option after combat with arcane storm attackers.</ul>"
+			+"<ul>Orgasming while hotdogging or performing paizuri or thigh-sex will now correctly cover your partner's ass/breasts+face/legs with cum.</ul>"
+			+"<ul>Facials will now correctly cover the mouth, neck, and eye clothing slots in cum, or, if covered, the clothing in those slots.</ul>"
+			+"<ul>Doggy style 'Cum over back' orgasm should now correctly cover the targets back & clothing in cum.</ul>"
+			+"<ul>Androgynous characters now have access to glasses in character creation.</ul>"
+			+"<ul>Dirty inventory slots will now correctly be saved/loaded.</ul>"
+			+"<ul>Fixed UI bug in enchantment screen, where, depending on the order in which you removed enchantments, the remove button would stop showing the removal price.</ul>"
+			+"<ul>Footjobs are no longer disabled in kneeling oral position when there's an ongoing blowjob.</ul>"
+			+"<ul>Fixed some issues in body part descriptors that were throwing errors in sex.</ul>"
+			+"<ul>Fixed conditional parsing errors in new alleyway attacker dialogue.</ul>"
+			+"<ul>Fixed bug where in the nightclub, if you bought a drink that gets you drunk, your speech would be slurred before being described as drinking it.</ul>"
+			+"<ul>Fixed issue where enslaving a friendly occupant would break a lot of menus and slavery management options.</ul>"
+			+"<ul>Fixed issue where friendly occupants added to your house in v0.2.9.5 would not have their name known.</ul>"
+			+"<ul>Fixed exploit where you could get any NPC to use any transformation item if you first placed it in their inventory.</ul>"
+			+"<ul>Fixed some grammatical mistakes in sex actions.</ul>"
+			+"<ul>Fixed 'Slap ass' action in 'stocks' and 'milking stall' sex scenes returning a huge amount of errors.</ul>"
+			+"<ul>Added support for clothing/tattoo mods to use a correctly-spelled version of the 'coreAtributes' element.</ul>"
+			+"<ul>Fixed alleyway attackers being referred to by their name before they've told you it.</ul>"
+			+"<ul>Fixed issue where setting all or all-but-one gender preferences to off would cause background errors to be thrown, which most notably disabled the 'New Game' action.</ul>"
+			+"<ul>You can no longer install guest rooms before finishing the quest 'Bed & Board'. (The one where you get permission from Lilaya to install guest rooms.)</ul>"
+			+"<ul>Fixed nightclub dialogue where, as the sub, you refuse to have sex in the toilet.</ul>"
+			+"<ul>Fixed incorrect foot descriptions being used in the request to cum on feet.</ul>"
+			+"<ul>Fixed peaceful canal introduction dialogue not being found.</ul>"
+			+"<ul>You can no longer send slaves which you do not own to Kate, or assign their perk points.</ul>"
+			+"<ul>Fixed bug that could sometimes cause NPCs to use your ass after accepting your request to use theirs.</ul>"
+			+"<ul>Fixed not being able to interact with your friend's apartment if they were out at work.</ul>"
+			+"<ul>Fixed NPCs in group sex scenes always losing affection towards only you, instead of each of the people they're having sex with.</ul>"
+			+"<ul>Wrapped some code in try-catch blocks to try and handle the issue where Nyan and Finch sometimes don't restock correctly.</ul>"
+			+"<ul>Typo fixes.</ul>"
+			+"<ul>Fixed issue where you'd lose all knowledge of NPCs' areas upon loading your game.</ul>"
+			+"<ul>Fixed alleyway attackers incorrectly saying that you were the one to get them pregnant.</ul>"
+			+"<ul>Fixed NPCs referring to the wrong person while dirty talking in group sex scenes.</ul>"
+			+"<ul>Fixed issue where cleaning clothes in your inventory (through your room's 'wash' action) would cause a background error, making the cleaned clothes impossible to select.</ul>"
+			+"<ul>Loading a game will no longer trigger autosave once loading is complete.</ul>"
+			+"<ul>Dominant/submissive clubbers can no longer spawn in hating or disliking dominant/submissive fetishes, respectively.</ul>"
+			+"<ul>Fixed bug where friendly occupants could move into a guest room already occupied by someone else.</ul>"
+			+"<ul>Fixed bug where if one of the friendly occupants had moved out to an apartment, the 'Manage People' action in rooms would no longer work.</ul>"
+			+"<ul>Fixed being able to move friendly occupants back into your guest rooms from their apartments</ul>"
+			+"<ul>Fixed penis/testicle transformations being applied to your dildo if you were wearing one.</ul>"
+			+"<ul>Removing a strapon that is engaged in penetration during sex will now correctly stop that penetration.</ul>"
+			+"<ul>NPCs arousal is no longer affected by self actions that you perform.</ul>"
+		+ "</list>"
+
+		+ "<br/>"
+
+		+ "<list>"
+			+ "<h6>v0.2.10.2</h6>"
+			+"<li>Bugs:</li>"
+			+"<ul>Fixed errors in 'Seductive look' action.</ul>"
+			+"<ul>Fixed issue where if you had a companion that was a slave that you imported through the Auction Block, the game would break.</ul>"
+			+"<ul>Fixed not being able to penetrate partners vaginally when you're in the missionary (on your back) position.</ul>"
+			+"<ul>Fixed tattoo defloration counters being reset each time you loaded a game.</ul>"
+			+"<ul>Typo fixes.</ul>"
+		+ "</list>"
 	;
 	
 	public static String disclaimer = "<h6 style='text-align: center; color:"+Colour.GENERIC_ARCANE.toWebHexString()+";'>You must read and agree to the following in order to play this game!</h6>"
@@ -431,6 +479,7 @@ public class Main extends Application {
 		credits.add(new CreditsSlot("shrikes", "", 0, 0, 3, 0));
 		credits.add(new CreditsSlot("Sig", "", 0, 0, 4, 0));
 		credits.add(new CreditsSlot("Silentark", "", 0, 0, 9, 0));
+		credits.add(new CreditsSlot("Sir beans", "", 0, 0, 3, 0));
 		credits.add(new CreditsSlot("Sorter", "", 0, 0, 0, 9));
 		credits.add(new CreditsSlot("Spectacular", "", 0, 0, 4, 0));
 		credits.add(new CreditsSlot("Spookermen", "", 0, 0, 0, 12));
@@ -648,9 +697,18 @@ public class Main extends Application {
 		try {
 			int maxlength = (v1.length > v2.length) ? v1.length : v2.length;
 			for (int i = 0; i < maxlength; i++) {
-				int v1i = (i < v1.length) ? Integer.valueOf((v1[i]+"00").substring(0, 3)) : 0;
-				int v2i = (i < v2.length) ? Integer.valueOf((v2[i]+"00").substring(0, 3)) : 0;
-			
+				int v1i;
+				int v2i;
+				
+				if(v1[1].charAt(0)=='1') { // Versions prior to 0.2.x used an old system of the format: 0.1.10.1 being a lower version than 0.1.9.1:
+					v1i = (i < v1.length) ? Integer.valueOf((v1[i]+"00").substring(0, 3)) : 0;
+					v2i = (i < v2.length) ? Integer.valueOf((v2[i]+"00").substring(0, 3)) : 0;
+					
+				} else { // Versions of 0.2.x and higher use a new system of the format: 0.2.10.1 being a higher version than 0.2.9.1:
+					v1i = (i < v1.length) ? Integer.valueOf(v1[i]) : 0;
+					v2i = (i < v2.length) ? Integer.valueOf(v2[i]) : 0;
+				}
+				
 				if (v1i < v2i) {
 					return true;
 				} else if (v1i > v2i) {

@@ -1,4 +1,4 @@
-package com.lilithsthrone.game.slavery;
+package com.lilithsthrone.game.occupantManagement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -200,7 +200,7 @@ public enum SlaveJob {
 
 		@Override
 		public int getSlaveLimit() {
-			return Main.game.getSlaveryUtil().getMilkingRooms().size()*8;
+			return Main.game.getOccupancyUtil().getMilkingRooms().size()*8;
 		}
 		
 		@Override
@@ -373,11 +373,13 @@ public enum SlaveJob {
 				value += (milked * character.getGirlcum().getValuePerMl());
 			}
 		}
-		
-		if(character.getOwner().hasTrait(Perk.JOB_OFFICE_WORKER, true)) {
-			return (int) (1.25f * value);
-		} else if((character.getOwner().hasTrait(Perk.JOB_MAID, true) || character.getOwner().hasTrait(Perk.JOB_BUTLER, true)) && this==SlaveJob.CLEANING) {
-			return 2 * value;
+
+		if(character.isSlave()) {
+			if(character.getOwner().hasTrait(Perk.JOB_OFFICE_WORKER, true)) {
+				return (int) (1.25f * value);
+			} else if((character.getOwner().hasTrait(Perk.JOB_MAID, true) || character.getOwner().hasTrait(Perk.JOB_BUTLER, true)) && this==SlaveJob.CLEANING) {
+				return 2 * value;
+			}
 		}
 		
 		return value;
@@ -403,10 +405,12 @@ public enum SlaveJob {
 			value *= character.getTotalHoursWorked();
 		}
 		
-		if(character.getOwner().hasTrait(Perk.JOB_OFFICE_WORKER, true)) {
-			return (int) (1.25f * value);
-		} else if((character.getOwner().hasTrait(Perk.JOB_MAID, true) || character.getOwner().hasTrait(Perk.JOB_BUTLER, true)) && this==SlaveJob.CLEANING) {
-			return 2 * value;
+		if(character.isSlave()) {
+			if(character.getOwner().hasTrait(Perk.JOB_OFFICE_WORKER, true)) {
+				return (int) (1.25f * value);
+			} else if((character.getOwner().hasTrait(Perk.JOB_MAID, true) || character.getOwner().hasTrait(Perk.JOB_BUTLER, true)) && this==SlaveJob.CLEANING) {
+				return 2 * value;
+			}
 		}
 		
 		return value;

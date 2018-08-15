@@ -1,14 +1,13 @@
 package com.lilithsthrone.controller.eventListeners;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.lilithsthrone.game.PropertyValue;
-import com.lilithsthrone.utils.CachedImage;
-import com.lilithsthrone.utils.ImageCache;
+import com.lilithsthrone.rendering.CachedImage;
+import com.lilithsthrone.rendering.ImageCache;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 
@@ -216,7 +215,7 @@ public class TooltipInformationEventListener implements EventListener {
 			tooltipSB.append("<div class='picture'>" + levelUpPerk.getSVGString() + "</div>");
 
 			// Description:
-			tooltipSB.append("<div class='description'>" + levelUpPerk.getDescription(Main.game.getPlayer()) + "</div>");
+			tooltipSB.append("<div class='description'>" + levelUpPerk.getDescription(owner) + "</div>");
 
 			if(levelUpPerk.isEquippableTrait()) {
 				if(levelUpPerk.getPerkCategory()==PerkCategory.JOB) {
@@ -224,7 +223,7 @@ public class TooltipInformationEventListener implements EventListener {
 					
 				} else {
 					if(!owner.hasPerkInTree(perkRow, levelUpPerk)) {
-						if(!PerkManager.MANAGER.isPerkAvailable(perkRow, levelUpPerk)) {
+						if(!PerkManager.MANAGER.isPerkAvailable(owner, perkRow, levelUpPerk)) {
 							tooltipSB.append("<div class='subTitle' style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>Purchasing requires a connecting perk or trait.</div>");
 						} else {
 							tooltipSB.append("<div class='subTitle' style='color:"+Colour.GENERIC_MINOR_GOOD.toWebHexString()+";'>Click to purchase trait.</div>");
@@ -244,7 +243,7 @@ public class TooltipInformationEventListener implements EventListener {
 				
 			} else {
 				if(!owner.hasPerkInTree(perkRow, levelUpPerk)) {
-					if(!PerkManager.MANAGER.isPerkAvailable(perkRow, levelUpPerk)) {
+					if(!PerkManager.MANAGER.isPerkAvailable(owner, perkRow, levelUpPerk)) {
 						tooltipSB.append("<div class='subTitle' style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>Purchasing requires a connecting perk or trait.</div>");
 					} else {
 						tooltipSB.append("<div class='subTitle' style='color:"+Colour.GENERIC_MINOR_GOOD.toWebHexString()+";'>Click to purchase perk.</div>");
@@ -605,18 +604,22 @@ public class TooltipInformationEventListener implements EventListener {
 					
 				} else {
 					CachedImage image = null;
-					if (owner.hasArtwork()) {
-						image = ImageCache.INSTANCE.requestImage(new File(owner.getCurrentArtwork().getCurrentImage()));
-					}
-					boolean displayImage = image != null
-							&& Main.getProperties().hasValue(PropertyValue.thumbnail)
+					boolean displayImage = Main.getProperties().hasValue(PropertyValue.thumbnail)
 							&& Main.getProperties().hasValue(PropertyValue.artwork);
+					if (displayImage) {
+						if (owner.hasArtwork()) {
+							image = ImageCache.INSTANCE.requestImage(owner.getCurrentArtwork().getCurrentImage());
+						}
+						displayImage = image != null;
+					}
 
 					int[] dimensions = new int[]{419, 508};
 					int imagePadding = 0;
+					int imageWidth = 0;
 					if (displayImage) {
 						// Add the scaled width to the tooltip dimensions
 						int[] scaledSize = image.getAdjustedSize(300, 445);
+						imageWidth = scaledSize[0];
 						dimensions[0] += scaledSize[0];
 						// ... and place it in the bottom right corner of the tooltip
 						imagePadding = Math.max(0, 455 - scaledSize[1]);
@@ -672,7 +675,7 @@ public class TooltipInformationEventListener implements EventListener {
 					}
 					
 					// SEXUAL:
-					if(!owner.isPlayer() && !owner.getPlayerKnowsAreas().contains(CoverableArea.VAGINA)) {
+					if(!owner.isPlayer() && !owner.isAreaKnownByCharacter(CoverableArea.VAGINA, Main.game.getPlayer())) {
 						tooltipSB.append(getEmptyBodyPartDiv("Vagina", "Unknown!"));
 					} else {
 						if (owner.getVaginaType() != VaginaType.NONE) {
@@ -682,7 +685,7 @@ public class TooltipInformationEventListener implements EventListener {
 						}
 					}
 					
-					if(!owner.isPlayer() && !owner.getPlayerKnowsAreas().contains(CoverableArea.PENIS)) {
+					if(!owner.isPlayer() && !owner.isAreaKnownByCharacter(CoverableArea.PENIS, Main.game.getPlayer())) {
 						tooltipSB.append(getEmptyBodyPartDiv("Penis", "Unknown!"));
 					} else {
 						if (owner.hasPenis()) {
@@ -695,9 +698,13 @@ public class TooltipInformationEventListener implements EventListener {
 					tooltipSB.append(getBodyPartDiv(owner.hasBreasts()?"Breasts":"Chest", owner.getBreastRace(), owner.getBreastType().getBodyCoveringType(owner)));
 
 					if (displayImage) {
-						tooltipSB.append("</div><div style='float: left;'>"
-								+ "<img id='CHARACTER_IMAGE' style='width: auto; height: auto; max-width: 300; max-height: 445; padding-top: " + imagePadding + "px;' src='" + image.getImageString()
-								+ "'/></div>");
+						boolean revealed = owner.isImageRevealed();
+						tooltipSB.append("</div>"
+								+ "<div style='float: left;'>"
+									+ "<img id='CHARACTER_IMAGE' style='"+(revealed?"":"-webkit-filter: brightness(0%);")
+										+" width: auto; height: auto; max-width: 300; max-height: 445; padding-top: " + imagePadding + "px;' src='" + image.getImageString()+ "'/>"
+										+(revealed?"":"<p style='position:absolute; top:33%; right:0; width:"+imageWidth+"; font-weight:bold; text-align:center; color:"+Colour.BASE_GREY.toWebHexString()+";'>Unlocked through sex!</p>")
+								+ "</div>");
 					}
 				}
 				
@@ -929,7 +936,13 @@ public class TooltipInformationEventListener implements EventListener {
 	}
 	
 	private String getBodyPartDiv(String name, Race race, BodyCoveringType covering) {
-		return "<div class='subTitle' style='font-weight:normal; text-align:left; margin-top:2px; white-space: nowrap;'>"+ name + ": <span style='color:" + race.getColour().toWebHexString() + ";'>"+ Util.capitaliseSentence(race.getName()) + "</span> - "
+		String raceName;
+		raceName = race.getName();
+
+		if(raceName.equals("wolf-morph") && Main.getProperties().hasValue(PropertyValue.sillyMode)){
+			raceName = "awoo-morph";
+		}
+		return "<div class='subTitle' style='font-weight:normal; text-align:left; margin-top:2px; white-space: nowrap;'>"+ name + ": <span style='color:" + race.getColour().toWebHexString() + ";'>"+ Util.capitaliseSentence(raceName) + "</span> - "
 					+ owner.getCovering(covering).getColourDescriptor(owner, true, true) + " " + owner.getCovering(covering).getName(owner)+"</div>";
 	}
 	

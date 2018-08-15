@@ -3,6 +3,7 @@ package com.lilithsthrone.game.dialogue.utils;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -14,6 +15,8 @@ import javax.script.ScriptException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.lilithsthrone.game.PropertyValue;
+import com.lilithsthrone.game.character.race.Race;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -35,12 +38,15 @@ import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.gender.GenderPronoun;
 import com.lilithsthrone.game.character.npc.NPC;
-import com.lilithsthrone.game.character.persona.History;
+import com.lilithsthrone.game.character.persona.Occupation;
+import com.lilithsthrone.game.character.quests.Quest;
+import com.lilithsthrone.game.character.quests.QuestLine;
 import com.lilithsthrone.game.character.race.Subspecies;
 import com.lilithsthrone.game.dialogue.DebugDialogue;
 import com.lilithsthrone.game.dialogue.DialogueFlagValue;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.enchanting.TFEssence;
+import com.lilithsthrone.game.occupantManagement.SlavePermissionSetting;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.game.sex.Sex;
 import com.lilithsthrone.game.sex.SexPace;
@@ -52,7 +58,7 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 /**
  * @since 0.1.0
- * @version 0.2.8
+ * @version 0.2.10
  * @author Innoxia, Pimvgd
  */
 public class UtilText {
@@ -557,7 +563,8 @@ public class UtilText {
 	enum ParseMode {
 		UNKNOWN,
 		CONDITIONAL,
-		REGULAR
+		REGULAR,
+		REGULAR_SCRIPT;
 	}
 	
 	/**
@@ -600,7 +607,7 @@ public class UtilText {
 			for (int i = 0; i < input.length(); i++) {
 				char c = input.charAt(i);
 				
-				if (currentParseMode != ParseMode.REGULAR) {
+				if (currentParseMode != ParseMode.REGULAR && currentParseMode != ParseMode.REGULAR_SCRIPT) {
 					if (c == 'F' && substringMatchesInReverseAtIndex(input, "#IF", i)) {
 						if (openBrackets == 0) {
 							currentParseMode = ParseMode.CONDITIONAL;
@@ -648,7 +655,11 @@ public class UtilText {
 				if (currentParseMode != ParseMode.CONDITIONAL) {
 					if (c == '[') {
 						if(openBrackets==0) {
-							currentParseMode = ParseMode.REGULAR;
+							if(input.charAt(i+1) == '#') {
+								currentParseMode = ParseMode.REGULAR_SCRIPT;
+							} else {
+								currentParseMode = ParseMode.REGULAR;
+							}
 							startIndex = i;
 						}
 						
@@ -687,6 +698,20 @@ public class UtilText {
 								endIndex = i;
 							}
 						}
+						
+					} else if (currentParseMode == ParseMode.REGULAR_SCRIPT) {
+						if (c == ']') {
+							closeBrackets++;
+							
+							if (openBrackets == closeBrackets) {
+								if (command == null) {
+									command = sb.toString().substring(2); // Cut off the '[#' at the start.
+									sb.setLength(0);
+								}
+			
+								endIndex = i;
+							}
+						}
 					}
 				}
 				
@@ -703,7 +728,7 @@ public class UtilText {
 					// resetParsingEngine();
 					String subResult = (currentParseMode == ParseMode.CONDITIONAL
 							? parseConditionalSyntaxNew(specialNPC, conditionalStatement, conditionalTrue, conditionalFalse)
-							: parseSyntaxNew(target, command, arguments, specialNPC)
+							: parseSyntaxNew(target, command, arguments, specialNPC, currentParseMode)
 						);
 					if (openBrackets > 1) {
 						subResult = parse(specialNPC, subResult);
@@ -764,6 +789,8 @@ public class UtilText {
 	
 	public static List<ParserCommand> commandsList = new ArrayList<>();
 	public static Map<BodyPartType, List<ParserCommand>> commandsMap = new EnumMap<>(BodyPartType.class);
+
+	private static String[] lastDescriptors = new String[2];
 	
 	static{
 
@@ -934,6 +961,24 @@ public class UtilText {
 				}
 			}
 		});
+
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues("nameHasFull"),
+				true,
+				false,
+				"",
+				"Returns a contractive version of the name of the target, <b>automatically appending</b> 'the' to names that don't start with a capital letter, followed by 'has' or 'have'.") {
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(target.startsWith("npc") && character.isPlayer()) {
+					return "you have";
+				}
+				if(character.isPlayerKnowsName()) {
+					return character.getName() + " has";
+				}
+				return character.getName("the") + " has";
+			}
+		});
 		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(
@@ -1040,6 +1085,66 @@ public class UtilText {
 					return character.getSlaveJob().getName(character);
 				}
 				return character.getHistory().getName();
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"jobHourStart",
+						"jobStartHour"),
+				true,
+				true,
+				"",
+				"Returns the twenty-four hour start time for this character's job. Does not work for slave jobs."){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return String.valueOf(character.getHistory().getWorkHourStart());
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"jobHourEnd",
+						"jobEndHour",
+						"jobHourFinish",
+						"jobFinishHour"),
+				true,
+				true,
+				"",
+				"Returns the twenty-four hour end time for this character's job. Does not work for slave jobs."){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return String.valueOf(character.getHistory().getWorkHourEnd());
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"jobDayStart",
+						"jobStartDay"),
+				true,
+				true,
+				"",
+				"Returns the day of the week start for this character's job. Does not work for slave jobs."){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getHistory().getStartDay().getDisplayName(TextStyle.FULL, Locale.getDefault());
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"jobDayEnd",
+						"jobEndDay",
+						"jobDayFinish",
+						"jobFinishDay"),
+				true,
+				true,
+				"",
+				"Returns the day of the week end for this character's job. Does not work for slave jobs."){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				return character.getHistory().getEndDay().getDisplayName(TextStyle.FULL, Locale.getDefault());
 			}
 		});
 		
@@ -1244,6 +1349,24 @@ public class UtilText {
 		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(
+						"miss",
+						"sir"),
+				true,
+				true,
+				"",//TODO
+				"Description of method"){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(character.isFeminine()) {
+					return "miss";
+				} else {
+					return "sir";
+				}
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
 						"heroine",
 						"hero"),
 				true,
@@ -1312,6 +1435,24 @@ public class UtilText {
 					return UtilText.returnStringAtRandom("bitch", "slut", "cunt", "whore", "skank");
 				} else {
 					return UtilText.returnStringAtRandom("asshole", "bastard", "fuckface", "fucker");
+				}
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"hun",
+						"babe"),
+				true,
+				true,
+				"",
+				"Returns a random mean word to describe this person, based on their femininity."){ // R-Rude!
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(character.isFeminine()) {
+					return "babe";
+				} else {
+					return "hun";
 				}
 			}
 		});
@@ -2203,6 +2344,13 @@ public class UtilText {
 						} else {
 							return returnStringAtRandom("miserable", "pathetic", "distressed") + " " + returnStringAtRandom("shout", "cry");
 						}
+						
+					} else if(Sex.getSexPace(character)==SexPace.DOM_GENTLE) {
+						if(character.isFeminine()) {
+							return returnStringAtRandom("soft", "gentle", "quiet") + " " + returnStringAtRandom("moan", "sigh", "gasp");
+						} else {
+							return returnStringAtRandom("soft", "gentle", "quiet") + " " + returnStringAtRandom("groan", "grunt");
+						}
 					}
 				}
 				
@@ -2301,6 +2449,13 @@ public class UtilText {
 							} else {
 								return returnStringAtRandom("miserably", "pathetically") + " " + returnStringAtRandom("shout", "cry");
 							}
+							
+						} else if(Sex.getSexPace(character)==SexPace.DOM_GENTLE) {
+							if(character.isFeminine()) {
+								return returnStringAtRandom("softly", "gently", "quietly") + " " + returnStringAtRandom("moan", "sigh", "cry", "gasp");
+							} else {
+								return returnStringAtRandom("softly", "gently", "quietly") + " " + returnStringAtRandom("groans", "grunts");
+							}
 						}
 					}
 					
@@ -2316,6 +2471,13 @@ public class UtilText {
 								return returnStringAtRandom("miserably", "pathetically", "desperately") + " " + returnStringAtRandom("sobs", "cries");
 							} else {
 								return returnStringAtRandom("miserably", "pathetically", "desperately") + " " + returnStringAtRandom("shouts", "cries");
+							}
+							
+						} else if(Sex.getSexPace(character)==SexPace.DOM_GENTLE) {
+							if(character.isFeminine()) {
+								return returnStringAtRandom("softly", "gently", "quietly") + " " + returnStringAtRandom("moans", "sighs", "gasps");
+							} else {
+								return returnStringAtRandom("softly", "gently", "quietly") + " " + returnStringAtRandom("groans", "grunts");
 							}
 						}
 					}
@@ -2344,7 +2506,7 @@ public class UtilText {
 			@Override
 			public String parse(String command, String arguments, String target) {
 				if(Main.game.isInSex()) {
-					if((character.isPlayer() && Sex.getSexPace(Main.game.getPlayer())==SexPace.SUB_RESISTING) || (!character.isPlayer() && Sex.getSexPace(Sex.getActivePartner())==SexPace.SUB_RESISTING)) {
+					if(Sex.getSexPace(character)==SexPace.SUB_RESISTING) {
 						if(character.isFeminine()) {
 							return returnStringAtRandom("sobs", "cries");
 						} else {
@@ -2381,11 +2543,18 @@ public class UtilText {
 			@Override
 			public String parse(String command, String arguments, String target) {
 				if(Main.game.isInSex()) {
-					if((character.isPlayer() && Sex.getSexPace(Main.game.getPlayer())==SexPace.SUB_RESISTING) || (!character.isPlayer() && Sex.getSexPace(Sex.getActivePartner())==SexPace.SUB_RESISTING)) {
+					if(Sex.getSexPace(character)==SexPace.SUB_RESISTING) {
 						if(character.isFeminine()) {
 							return returnStringAtRandom("miserable", "pathetic", "distressed") + " " + returnStringAtRandom("sobs", "cries");
 						} else {
 							return returnStringAtRandom("miserable", "pathetic", "distressed") + " " + returnStringAtRandom("shouts", "cries");
+						}
+						
+					} else if(Sex.getSexPace(character)==SexPace.DOM_GENTLE) {
+						if(character.isFeminine()) {
+							return returnStringAtRandom("softly", "gently", "quietly") + " " + returnStringAtRandom("moans", "sighs", "gasps");
+						} else {
+							return returnStringAtRandom("softly", "gently", "quietly") + " " + returnStringAtRandom("groans", "grunts");
 						}
 					}
 				}
@@ -2411,7 +2580,7 @@ public class UtilText {
 			@Override
 			public String parse(String command, String arguments, String target) {
 				if(Main.game.isInSex()) {
-					if((character.isPlayer() && Sex.getSexPace(Main.game.getPlayer())==SexPace.SUB_RESISTING) || (!character.isPlayer() && Sex.getSexPace(Sex.getActivePartner())==SexPace.SUB_RESISTING)) {
+					if(Sex.getSexPace(character)==SexPace.SUB_RESISTING) {
 						if(character.isFeminine()) {
 							return returnStringAtRandom("sobbing", "crying");
 						} else {
@@ -2445,11 +2614,18 @@ public class UtilText {
 			@Override
 			public String parse(String command, String arguments, String target) {
 				if(Main.game.isInSex()) {
-					if((character.isPlayer() && Sex.getSexPace(Main.game.getPlayer())==SexPace.SUB_RESISTING) || (!character.isPlayer() && Sex.getSexPace(Sex.getActivePartner())==SexPace.SUB_RESISTING)) {
+					if(Sex.getSexPace(character)==SexPace.SUB_RESISTING) {
 						if(character.isFeminine()) {
 							return returnStringAtRandom("miserably", "pathetically", "desperately") + " " + returnStringAtRandom("sobbing", "crying");
 						} else {
 							return returnStringAtRandom("miserably", "pathetically", "desperately") + " " + returnStringAtRandom("shouting", "protesting");
+						}
+						
+					} else if(Sex.getSexPace(character)==SexPace.DOM_GENTLE) {
+						if(character.isFeminine()) {
+							return returnStringAtRandom("softly", "gently", "quietly") + " " + returnStringAtRandom("moaning", "sighing");
+						} else {
+							return returnStringAtRandom("softly", "gently", "quietly") + " " + returnStringAtRandom("groaning", "grunting");
 						}
 					}
 				}
@@ -2459,6 +2635,67 @@ public class UtilText {
 				} else {
 					return returnStringAtRandom("lewdly", "eagerly", "desperately") + " " + returnStringAtRandom("groaning", "grunting");
 				}
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"eagerly",
+						"gently",
+						"roughly"),
+				true,
+				false,
+				"(Alternative start string)",
+				"Returns an appropriate descriptor based on the pace of the character. The argument is used in place of a descriptor if the pace is SUB_NORMAL."){
+			@Override
+			public String parse(String command, String arguments, String target) {
+				if(Main.game.isInSex()) {
+					List<String> descriptors = new ArrayList<>();
+					switch(Sex.getSexPace(character)) {
+						case DOM_GENTLE:
+							descriptors = Util.newArrayListOfValues("gently", "softly", "lovingly");
+							break;
+						case DOM_NORMAL:
+							descriptors = Util.newArrayListOfValues("happily", "eagerly", "enthusiastically", "desperately");
+							break;
+						case DOM_ROUGH:
+							descriptors = Util.newArrayListOfValues("roughly", "forcefully", "violently", "dominantly");
+							break;
+						case SUB_EAGER:
+							descriptors = Util.newArrayListOfValues("happily", "eagerly", "enthusiastically", "desperately");
+							break;
+						case SUB_NORMAL:
+							if(arguments!=null && !arguments.isEmpty()) {
+								return Util.capitaliseSentence(arguments); // Assume start of setnece, so capitalise.
+							} else if(Character.isUpperCase(command.charAt(0))) {
+								descriptors = Util.newArrayListOfValues("happily", "eagerly", "willingly"); // If start of sentence, need descriptor.
+								break;
+							} else {
+								return "";
+							}
+						case SUB_RESISTING:
+							descriptors = Util.newArrayListOfValues("frantically", "desperately", "maniacally");
+							break;
+					}
+					
+					
+					for(int i=lastDescriptors.length-1; i>=0; i--) {
+						descriptors.remove(lastDescriptors[i]);
+						if(i>0) {
+							lastDescriptors[i] = lastDescriptors[i-1];
+						}
+					}
+					String returnString = Util.randomItemFrom(descriptors);
+					
+					lastDescriptors[0] = returnString;
+
+					if(arguments!=null && !arguments.isEmpty()) {
+						return returnString+" "+arguments;
+					}
+					return returnString;
+				}
+					
+				return "eagerly";
 			}
 		});
 		
@@ -4064,6 +4301,29 @@ public class UtilText {
 			}
 		});
 		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"footjob"),
+				true,
+				true,
+				"",
+				"Description of method",
+				BodyPartType.LEG){//TODO
+			@Override
+			public String parse(String command, String arguments, String target) {
+				switch(character.getLegType().getFootType()) {
+					case HOOFS:
+						return "hoofjob";
+					case HUMANOID:
+					case PAWS:
+						return "footjob";
+					case TALONS:
+						return "clawjob";
+				}
+				return "footjob";
+			}
+		});
+		
 		// Penis:
 		
 		commandsList.add(new ParserCommand(
@@ -4916,7 +5176,37 @@ public class UtilText {
 	private static GameCharacter character;
 	private static List<GameCharacter> specialNPCList = new ArrayList<>();
 	private static boolean parseCapitalise, parseAddPronoun;
-	private static String parseSyntaxNew(String target, String command, String arguments, List<GameCharacter> specialNPCList) {
+	private static String parseSyntaxNew(String target, String command, String arguments, List<GameCharacter> specialNPCList, ParseMode currentParseMode) {
+		
+		if(currentParseMode == ParseMode.REGULAR_SCRIPT) {
+			if(engine==null) {
+				initScriptEngine();
+			}
+			if(!specialNPCList.isEmpty()) {
+				for(int i = 0; i<specialNPCList.size(); i++) {
+					if(i==0) {
+						engine.put("npc", specialNPCList.get(i));
+					}
+					engine.put("npc"+(i+1), specialNPCList.get(i));
+				}
+			} else {
+				try { // Getting the target NPC can throw a NullPointerException, so if it does (i.e., there's no NPC suitable for parsing), just catch it and carry on.
+					engine.put("npc", ParserTarget.NPC.getCharacter("npc"));
+				} catch(Exception ex) {
+				}
+			}
+			
+			try {
+				return String.valueOf(engine.eval(command));
+				
+			} catch (ScriptException e) {
+				System.err.println("Scripting parsing error: "+command);
+				System.err.println(e.getMessage());
+				return "<i style='color:"+Colour.GENERIC_BAD.toWebHexString()+";'>(Error in script parsing!)</i>";
+			}
+		}
+		
+		// Non-script parsing:
 		
 		UtilText.specialNPCList = specialNPCList;
 		parseCapitalise = false;
@@ -5019,8 +5309,17 @@ public class UtilText {
 		for(DialogueFlagValue flag : DialogueFlagValue.values()) {
 			engine.put("FLAG_"+flag.toString(), flag);
 		}
-		for(History history : History.values()) {
-			engine.put("HISTORY_"+history.toString(), history);
+		for(Occupation occupation : Occupation.values()) {
+			engine.put("OCCUPATION_"+occupation.toString(), occupation);
+		}
+		for(SlavePermissionSetting permission : SlavePermissionSetting.values()) {
+			engine.put("SLAVE_PERMISSION_SETTING_"+permission.toString(), permission);
+		}
+		for(QuestLine questLine : QuestLine.values()) {
+			engine.put("QUEST_LINE_"+questLine.toString(), questLine);
+		}
+		for(Quest quest : Quest.values()) {
+			engine.put("QUEST_"+quest.toString(), quest);
 		}
 		engine.put("sex", Main.sexEngine); //TODO static methods don't work...
 		
@@ -5433,8 +5732,14 @@ public class UtilText {
 		if(race==null)
 			return "";
 		if (character.isFeminine()) {
+			if(character.getRace() == Race.WOLF_MORPH && Main.getProperties().hasValue(PropertyValue.sillyMode)){
+				return "awoo-girl";
+			}
 			return race.getSingularFemaleName();
 		} else {
+			if(character.getRace() == Race.WOLF_MORPH && Main.getProperties().hasValue(PropertyValue.sillyMode)){
+				return "awoo-boy";
+			}
 			return race.getSingularMaleName();
 		}
 	}

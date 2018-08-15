@@ -377,6 +377,27 @@ public enum Quest {
 		}
 	},
 	
+	// Accommodation:
+	
+	SIDE_ACCOMMODATION_NEED_LILAYAS_PERMISSION(QuestType.SIDE, 1, 5) {
+		@Override
+		public String getName() {
+			return "Lilaya the Landlady";
+		}
+
+		@Override
+		public String getDescription() {
+			return "After getting to know one of the residents of Dominion's alleyways, you'd like to offer them a real home. Lilaya's mansion is full of empty rooms, so you should ask her if you could use one to house your new friend.";
+		}
+
+		@Override
+		public String getCompletedDescription() {
+			return "Lilaya gave you permission to use the empty rooms to house your friends and family, on the condition that you pay for the expenses that are incurred.";
+		}
+	},
+	
+	// Other:
+	
 	SIDE_HYPNO_WATCH_VICKY(QuestType.SIDE, 1, 10) {
 		@Override
 		public String getName() {
@@ -553,7 +574,7 @@ public enum Quest {
 		@Override
 		public String getDescription() {
 			return "When you first arrived in Submission, an enforcer informed you of an ongoing situation in the tunnels."
-					+ " Apparently, there are are an increasing number of Slimes who are attacking innocent travellers and transforming them into more Slimes."
+					+ " Apparently, there are an increasing number of Slimes who are attacking innocent travellers and transforming them into more Slimes."
 					+ " If you're able to offer any information on where these aggressive Slimes are coming from, you could earn a one-thousand flame reward.";
 		}
 

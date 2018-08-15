@@ -13,12 +13,19 @@ import org.w3c.dom.NodeList;
 import com.lilithsthrone.game.character.CharacterImportSetting;
 import com.lilithsthrone.game.character.body.Covering;
 import com.lilithsthrone.game.character.body.types.BodyCoveringType;
+import com.lilithsthrone.game.character.body.types.FootStructure;
+import com.lilithsthrone.game.character.body.valueEnums.AreolaeSize;
+import com.lilithsthrone.game.character.body.valueEnums.AssSize;
 import com.lilithsthrone.game.character.body.valueEnums.BodySize;
+import com.lilithsthrone.game.character.body.valueEnums.BreastShape;
 import com.lilithsthrone.game.character.body.valueEnums.CupSize;
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
 import com.lilithsthrone.game.character.body.valueEnums.HairLength;
 import com.lilithsthrone.game.character.body.valueEnums.HairStyle;
+import com.lilithsthrone.game.character.body.valueEnums.HipSize;
+import com.lilithsthrone.game.character.body.valueEnums.LabiaSize;
 import com.lilithsthrone.game.character.body.valueEnums.Muscle;
+import com.lilithsthrone.game.character.body.valueEnums.NippleSize;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.gender.Gender;
@@ -91,16 +98,26 @@ public class Nyan extends NPC {
 			
 			this.setEyeCovering(new Covering(BodyCoveringType.EYE_FELINE, Colour.EYE_BLUE));
 			this.setHairCovering(new Covering(BodyCoveringType.HAIR_FELINE_FUR, Colour.COVERING_BLACK), true);
-			this.setHairLength(HairLength.FOUR_MID_BACK.getMedianValue());
+			this.setHairLength(HairLength.THREE_SHOULDER_LENGTH.getMedianValue());
 			this.setHairStyle(HairStyle.LOOSE);
 			
 			this.setSkinCovering(new Covering(BodyCoveringType.FELINE_FUR, Colour.COVERING_BLACK), true);
 			this.setSkinCovering(new Covering(BodyCoveringType.HUMAN, Colour.SKIN_LIGHT), true);
 	
-			this.setBreastSize(CupSize.B.getMeasurement());
-	
 			this.setMuscle(Muscle.ONE_LIGHTLY_MUSCLED.getMedianValue());
 			this.setBodySize(BodySize.ZERO_SKINNY.getMedianValue());
+			
+			this.setFootStructure(FootStructure.PLANTIGRADE);
+	
+			this.setBreastSize(CupSize.B.getMeasurement());
+			this.setBreastShape(BreastShape.POINTY);
+			this.setNippleSize(NippleSize.ONE_SMALL.getValue());
+			this.setAreolaeSize(AreolaeSize.TWO_BIG.getValue());
+			
+			this.setAssSize(AssSize.THREE_NORMAL.getValue());
+			this.setHipSize(HipSize.THREE_GIRLY.getValue());
+			
+			this.setVaginaLabiaSize(LabiaSize.ONE_SMALL.getValue());
 			
 			this.setMoney(10);
 			
@@ -167,6 +184,18 @@ public class Nyan extends NPC {
 		loadNPCVariablesFromXML(this, null, parentElement, doc, settings);
 		this.setHairCovering(new Covering(BodyCoveringType.HAIR_FELINE_FUR, Colour.COVERING_BLACK), true);
 		this.setSkinCovering(new Covering(BodyCoveringType.FELINE_FUR, Colour.COVERING_BLACK), true);
+		this.setHairLength(HairLength.THREE_SHOULDER_LENGTH.getMedianValue());
+
+		this.setFootStructure(FootStructure.PLANTIGRADE);
+		
+		this.setBreastShape(BreastShape.POINTY);
+		this.setNippleSize(NippleSize.ONE_SMALL.getValue());
+		this.setAreolaeSize(AreolaeSize.TWO_BIG.getValue());
+		
+		this.setAssSize(AssSize.THREE_NORMAL.getValue());
+		this.setHipSize(HipSize.THREE_GIRLY.getValue());
+		
+		this.setVaginaLabiaSize(LabiaSize.ONE_SMALL.getValue());
 		
 		this.unequipAllClothingIntoVoid();
 		
@@ -232,45 +261,50 @@ public class Nyan extends NPC {
 		specials.clear();
 
 		for(AbstractClothingType clothing : ClothingType.getAllClothing()) {
-			if(clothing!=null && clothing.getItemTags().contains(ItemTag.SOLD_BY_NYAN)) {
-				if(clothing.getRarity() == Rarity.COMMON) {
-					if(clothing.getFemininityRestriction()==Femininity.FEMININE) {
-						if(ClothingType.getCoreClothingSlots().contains(clothing.getSlot())) {
-							commonFemaleClothing.add(AbstractClothingType.generateClothing(clothing, false));
+			try {
+				if(clothing!=null && clothing.getItemTags().contains(ItemTag.SOLD_BY_NYAN)) {
+					if(clothing.getRarity() == Rarity.COMMON) {
+						if(clothing.getFemininityRestriction()==Femininity.FEMININE) {
+							if(ClothingType.getCoreClothingSlots().contains(clothing.getSlot())) {
+								commonFemaleClothing.add(AbstractClothingType.generateClothing(clothing, false));
+								
+							} else if(ClothingType.getLingerieSlots().contains(clothing.getSlot())) {
+								commonFemaleUnderwear.add(AbstractClothingType.generateClothing(clothing, false));
+								
+							} else {
+								commonFemaleAccessories.add(AbstractClothingType.generateClothing(clothing, false));
+							}
 							
-						} else if(ClothingType.getLingerieSlots().contains(clothing.getSlot())) {
-							commonFemaleUnderwear.add(AbstractClothingType.generateClothing(clothing, false));
+						} else if(clothing.getFemininityRestriction()==Femininity.MASCULINE) {
+							if(ClothingType.getCoreClothingSlots().contains(clothing.getSlot())) {
+								commonMaleClothing.add(AbstractClothingType.generateClothing(clothing, false));
+								
+							} else if(ClothingType.getLingerieSlots().contains(clothing.getSlot())) {
+								commonMaleLingerie.add(AbstractClothingType.generateClothing(clothing, false));
+								
+							} else {
+								commonMaleAccessories.add(AbstractClothingType.generateClothing(clothing, false));
+							}
 							
 						} else {
-							commonFemaleAccessories.add(AbstractClothingType.generateClothing(clothing, false));
-						}
-						
-					} else if(clothing.getFemininityRestriction()==Femininity.MASCULINE) {
-						if(ClothingType.getCoreClothingSlots().contains(clothing.getSlot())) {
-							commonMaleClothing.add(AbstractClothingType.generateClothing(clothing, false));
-							
-						} else if(ClothingType.getLingerieSlots().contains(clothing.getSlot())) {
-							commonMaleLingerie.add(AbstractClothingType.generateClothing(clothing, false));
-							
-						} else {
-							commonMaleAccessories.add(AbstractClothingType.generateClothing(clothing, false));
+							if(ClothingType.getCoreClothingSlots().contains(clothing.getSlot())) {
+								commonAndrogynousClothing.add(AbstractClothingType.generateClothing(clothing, false));
+								
+							} else if(ClothingType.getLingerieSlots().contains(clothing.getSlot())) {
+								commonAndrogynousLingerie.add(AbstractClothingType.generateClothing(clothing, false));
+								
+							} else {
+								commonAndrogynousAccessories.add(AbstractClothingType.generateClothing(clothing, false));
+							}
 						}
 						
 					} else {
-						if(ClothingType.getCoreClothingSlots().contains(clothing.getSlot())) {
-							commonAndrogynousClothing.add(AbstractClothingType.generateClothing(clothing, false));
-							
-						} else if(ClothingType.getLingerieSlots().contains(clothing.getSlot())) {
-							commonAndrogynousLingerie.add(AbstractClothingType.generateClothing(clothing, false));
-							
-						} else {
-							commonAndrogynousAccessories.add(AbstractClothingType.generateClothing(clothing, false));
-						}
+						specials.add(AbstractClothingType.generateClothing(clothing, false));
 					}
-					
-				} else {
-					specials.add(AbstractClothingType.generateClothing(clothing, false));
-				}
+				} 
+				
+			} catch(Exception ex) {
+				ex.printStackTrace();
 			}
 		}
 		

@@ -32,80 +32,131 @@
 	
 	Patch notes:
 	
-	Other:
-		Added vaginal urethra modification options to slime and demon transform menus.
-		NPCs in the nightclub can now be any age from 18 to 45. Other NPCs' age range is now 18-45 (instead of 18-38).
-		Slightly reduced base values of arousal increases from sex actions, and limited arousal gains/turn to a maximum of 15. (To prevent huge arousal increase/turn when in a group sex scene.)
-		Reduced chance of NPCs spawning with non-natural hair colours from 20% to 10%.
 	
-	Sex AI:
-		NPCs should no longer use non-penis-related anal actions unless they have the anal fetish. (So now they shouldn't finger your/their ass, unless they love anal actions.)
-		Fixed issue where NPCs would take their own anal, nipple, and oral virginity.
-		NPCs should now correctly prioritise vagina+penis actions if they have pregnancy or impregnation fetishes.
-		NPCs should be less likely to perform self-penetration actions before penetrating their partner.
-		Fetishes are now taken into account for when NPCs are deciding what penetrative action to use.
-		NPCs will now prefer to perform actual penetration actions once past their 'foreplay' stage. This should reduce the amount of hotdogging, paizuri, and thigh sex from NPCs that don't have an associated fetish.
-		Fixed issue with NPCs not choosing position correctly.
-		Fixed issue where NPCs would sometimes ignore their preferences.
-		NPCs no longer hold back from losing their oral virginity.
-		Fixed (yet another) cause of NPCs repeatedly penetrating/stopping penetration every turn.
-	 
 	Bugs:
-		Fixed several parsing errors.
+		Fixed errors in 'Seductive look' action.
+		Fixed issue where if you had a companion that was a slave that you imported through the Auction Block, the game would break.
+		Fixed not being able to penetrate partners vaginally when you're in the missionary (on your back) position.
+		Fixed tattoo defloration counters being reset each time you loaded a game.
 		Typo fixes.
-		Fixed severe issue where games would not save/load correctly after using the glory holes, and added a catch in the game's code to handle corrupted saves. (So your broken 0.2.9 saves should load in correctly in this hotfix.)
-		Fixed slime rainbow colouring not being displayed as a rainbow icon.
-		Fixed vaginal and penile urethra modifiers not being displayed correctly in selfie, and fixed selfie's formatting of vaginal pubic hair.
-		The extra damage from 'Flaming Strikes' is no longer applied when the attack misses.
-		Characters who are in the 'watching' position during sex no longer influence NPCs' willingness to end/continue a sex scene. (Fixes issue where offering yourself or your companion would result in a sex scene that never ends.)
-		Fixed characters without penises spawning in at the glory holes.
-		Fixed yet another issue that was causing fluids to always be loaded in as 'human'.
-		Fixed tooltip in phone's 'contacts' menu revealing concealed race information.
-		Fixed NPCs never spawning with 'rosy', 'tanned', or 'chocolate' skin colour.
-		Fixed partner penetrating your urethra not counting as penetrative sex for the purposes of requesting pullout or creampie.
-		Fixed 'Suck clit' action being disabled during ongoing cunnilingus.
-		Fixed cum count stats being reset every time you loaded the game.
 	
 	
 	
 	
-	Alleyway attacker:
-		
-		Offer body gives incorrect sex start description
-		
-		Player+Companion loss:
-		
-		Check attraction
-			If only you, companion watches
-			If only companion, you watch
-			If both, threesome:
-				If has cock - you and companion doggy
-					End condition is cumming in both of you - prefers orifice according to fetishes
-				If no cocks at all, or hates receiving cocks - double kneeling oral (anal+pussy)
-					End condition is cumming once
-				If no cock, and one of you has cock - cowgirl + oral
-					Cowgirls cock holder
-					End condition is being filled by cowgirled + orgasming once
-				If no cock, and you both have cocks - DP cowgirl
-					End condition is being filled and orgasming
+	I noticed that attempting to "calm down" while in the "resisting" pace does not decrease arousal if the character has the noncon_sub fetish.
+	 Similarly, you cant deny your partner orgasms if they're in the resisting pace with the noncon_sub fetish. There might be something wonky with how arousal gets applied to non consenting characters.
 	
-	Add a non-slavery way to get NPCs to move in with you.
+	Orgasm cum targets make no sense in threesomes
 	
-	Slaver Alley content (more shops and Alexa interactions).
+	Also for some reason you cant pull down underwear after you unzip a character pants, is that intentional
+	
+	
+	
+	Add wanted board to Enforcer HQ, where can import as attackers
+	
+	Add character import to club
+	
+	Finish bat-morphs
+	
+	The Inspect and Spanking actions still say in the text that they reduce affection, even if the slave has the fetish that cause them to increase.
+	
+	
+	Affecting other cat subspecies:
+		Tigers are slipping past the filters.  I've got all the cat subspecies disabled, but tigers and tigresses are still spawning.
+	
+	if you don't let a partner cum in The Watering Hole, they'll say the sex was disappointing even if they have the self-denial fetish
+	I noticed that those with a fetish or like/love for having their orgasms denied seem to say the same things as anyone else
+	
+	Fix cat icons
+	
+	After companion fucked, ending description is of them patting you on the head
+	
+	Need age settings and potions of age appearance
+	
+	[companion TF]
+	hey, uh, I have forced TF set to 100%, but I'm getting absolutely no TF scenes upon defeat, same with the forced fetish option?
+		I'm just getting the npc telling me to not even think about reporting them to the enforcers and the encounter ends.
+	Also need to change TF scene to prioritise femininity
+	
+	it would be nice to have a chance to inspect a partner in the club before starting to move in on them so you could avoid lesser morphs
+	 if you don't feel like it or think that having sex with someone who literally is only interest in paizuri is not your forte
+	
+	stocks scene, and rewrite Alexa's existing dialogue to make more of an indication that this quest is coming
+	
+	add tail, wing, and arm count to slime and demon TF menu, as well as slime min heights
+
+	There's still slaves using their hands in the stocks and such,
+	 you also might want to take some time to write some hands-free descriptions for teasing such as them simply thrusting their hips back to grind against you instead of just grabbing your penis and rubbing it on themselves
+	
+	also i keep forgetting to mention it but the unique first pregnancy dialogue no longer plays. the "erm...Lilaya...you're the one who got me pregnant" (cant remember the exact wording).
+	 I may be doing something wrong but i havent seen it in months
+	
+	Check: Amber does not have any particular preferences and typically ends up repositioning you for oral sex (giving and/or receiving).
+	
+	Is it a bug if a character rubs their butt against my dick, but then gets upset and stops the sex if I actually start anal
+	
+	Alexa + slave alley plan
+	Alexa:
+		Talk about shop
+		She says business is tough - all the other jobs are well established. Only has 3 slaves for sale
+		Reluctantly asks for help
+		Need to:
+			Advertise store (or hire someone to do it through Finch)
+			Rennovate frontage (or hire)
+			Put posters up at the entrance (need to bribe/sex guards)
+		After a week, Alexa is happy, and can now order slaves for you
+		She has assistants working for her (if sold or freed Scarlett, she's there as a PA. If not, she offers to buy Scarlett back for 5000)
+		She says she owes you a lot, and if you'd like, she'd give you the pleasure of going on a date with you
+		Can go on date to an upmarket restaurant beneath Harpy Nests (turns out Alexa owns it, and it's connected to her nest)
+		Need to go on three successful dates, then Alexa leads you up to her apartment and sex. If Scarlett as PA, you can make Scarlett watch, or punish Scarlett to get Alexa turned on
+	
+	
+	
+	
+	
+	
+	two futas should be able to give each other a footjob
+	
+	
+	The bug where NPCs constantly start/stop sex actions from one turn to the next is still happening.
+	Also titjobs are doing the penetrate, unpenetrate thing over and over.
+	A lot of NPCs will still start and stop a sex action constatly, at least when you're subbing. Might have something to do with them having the butt fetish
+	(hey when those types of things happen to anyone does it start with the dominate person kissing you? since with both vicky and amber before they started doing the same action over and over they started the kissing one)
+	
+	Just found that you can buy a transformative base (Like Kitty's Reward) for $375 (without the discount).
+	 If you add one simple effect to the enchantment, the price skyrockets to $1125. You can add 20 more enchantments to the item, and the price will stay at $1125. ….
+	  So suggestion: Cost accruement on complexity and strength of transformative potion
+	
+	its really hard, almost impossible to get an npc to give you a footjob
+	
+	for kink potions could you set it so a major drain removes fetish and sets it to hate while a major boost sets it to love and then adds the kink
+	 (it's slightly separate cause it's their default state not just the fetishes adjustment which goes back to default once it's removed.)
+	
+	Slavery
+		Make clicking on name/icon the same as clicking on action name
+		Need to change permission screen to assign individuals for fucked by/can fuck
+		Add outside permission content
+		Add crawling content
+		(please add more chastity content I love it, why won't slaves receive extra obedience and penalty affection when forbidden from masturbating,
+			why don't they masturbate when they're disobedient making this kinda pointless as they won't get the extra obedience bonus, why not this be the perfect excuse to put them in chastity so they have no escape and get the obedience bonus)
+		I think the female/futa/herm/whoever has a pussy slaves in your house should try to get you to cum, even after they have cummed already if they have a pregnancy fetish and are not pregnant at the moment.
+	
+	Add pace buttons
+	
+	Need lipple penetration descriptions
+	
+	Rough:
+		Slap breasts
+		Pinch nipples
 	
 	Expand slavery content. (Jobs, permissions, and management improvements.)
 	
-	Add a version where your partner is taking the leading role in nightclub.
-	
-	
-	
 	NPCs to use condoms
-	
+	Need to refuse condoms if impregnation/pregnancy fetishes
 	Broken condom
 	
 	foot content
-		Footjobs, foot worship, foot smothering,  cum on soles as a pull out option
-	
+		Footjobs, foot worship, foot smothering, cum on soles as a pull out option
 	
 	When one NPC displaced clothing, it doesn't append watching NPC's action description
 	
@@ -119,28 +170,28 @@
 	
 	zweihander to take both slots
 	
-	Add character import to club
-	
 	scars!
 	
-	Sex intros for random NPCs
+	Finish alleyway scenes for with companion:
+		Need defeat double TF
+		Threesome:
+			If has cock - you and companion doggy
+				End condition is cumming in both of you - prefers orifice according to fetishes
+			If no cocks at all, or hates receiving cocks - double kneeling oral (anal+pussy)
+				End condition is cumming once
+			If no cock, and one of you has cock - cowgirl + oral
+				Cowgirls cock holder
+				End condition is being filled by cowgirled + orgasming once
+			If no cock, and you both have cocks - DP cowgirl
+				End condition is being filled and orgasming
 	
-	Give control over ages
-		
-	TF fetish NPCs should always let you TF them (NC NPCS)
-		 i try to change someone i meet at the watering hole, but they refuse to take a tf potion despite them having the fetish
+	
 	
 	Kalahari & Kruger drink spiking to give incest fetish for threesome
 	Dom partner
 	
-	There's still slaves using their hands in the stocks and such, you also might want to take some time to write some hands-free descriptions for teasing such as them simply thrusting their hips back to grind against you instead of just grabbing your penis and rubbing it on themselves
-	
 	Dress under jacket not visible
 
-	There is a lot of bugs with strapless strap-on. You can change its size with a potion, like its your penis. When you're forced by npc with strap-on you can ask npc not to cum in you. If npc started to hand job your strapon and then unequips it, npc keeps hand jobbing it even after it is unequipped
-
-	Is it a bug if a character rubs their butt against my dick, but then gets upset and stops the sex if I actually start anal
-	
 	The only issue I've been having is that I have not being able to fuck nipple-vaginas with my cock.
 	 It seems regardless of what position I use they can fuck my nipples but the option to fuck theirs is either greyed out or doesn't exist. I can use tails to do so sometimes but not use a cock.
 

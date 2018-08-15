@@ -46,7 +46,7 @@ public class DominionSuccubusDialogue {
 		public String getContent() {
 			
 			if(Main.game.getActiveNPC().isVisiblyPregnant()){
-				if(Main.game.getActiveNPC().isReactedToPregnancy()) {
+				if(Main.game.getActiveNPC().isCharacterReactedToPregnancy(Main.game.getPlayer())) {
 					return("<p>"
 								+ "Although Dominion's alleyways are eerily quiet for most of the time, you suddenly start to feel a deep, unsettling stillness descending upon you."
 								+ " Stopping in your tracks, you glance back the way you came, before looking all around for any sign of danger."
@@ -209,7 +209,7 @@ public class DominionSuccubusDialogue {
 					@Override
 					public void effects() {
 						if(Main.game.getActiveNPC().isVisiblyPregnant())
-							Main.game.getActiveNPC().setReactedToPregnancy(true);
+							Main.game.getActiveNPC().setCharacterReactedToPregnancy(Main.game.getPlayer(), true);
 					}
 				};
 				
@@ -218,7 +218,7 @@ public class DominionSuccubusDialogue {
 					@Override
 					public void effects() {
 						if(Main.game.getActiveNPC().isVisiblyPregnant())
-							Main.game.getActiveNPC().setReactedToPregnancy(true);
+							Main.game.getActiveNPC().setCharacterReactedToPregnancy(Main.game.getPlayer(), true);
 					}
 				};
 				
@@ -427,7 +427,7 @@ public class DominionSuccubusDialogue {
 					}
 					@Override
 					public void effects() {
-						Main.game.getActiveNPC().getPlayerKnowsAreas().add(CoverableArea.PENIS);
+						Main.game.getActiveNPC().setAreaKnownByCharacter(CoverableArea.PENIS, Main.game.getPlayer(), true);
 						Main.game.getActiveNPC().setPenisType(PenisType.NONE);
 						Main.game.getTextStartStringBuilder().append(
 								"<p>"
@@ -451,7 +451,7 @@ public class DominionSuccubusDialogue {
 					}
 					@Override
 					public void effects() {
-						Main.game.getActiveNPC().getPlayerKnowsAreas().add(CoverableArea.PENIS);
+						Main.game.getActiveNPC().setAreaKnownByCharacter(CoverableArea.PENIS, Main.game.getPlayer(), true);
 						Main.game.getActiveNPC().setPenisType(PenisType.DEMON_COMMON);
 						Main.game.getActiveNPC().setPenisSize(1);
 						Main.game.getActiveNPC().setTesticleSize(TesticleSize.ZERO_VESTIGIAL.getValue());
@@ -482,7 +482,7 @@ public class DominionSuccubusDialogue {
 					}
 					@Override
 					public void effects() {
-						Main.game.getActiveNPC().getPlayerKnowsAreas().add(CoverableArea.PENIS);
+						Main.game.getActiveNPC().setAreaKnownByCharacter(CoverableArea.PENIS, Main.game.getPlayer(), true);
 						Main.game.getActiveNPC().setPenisType(PenisType.DEMON_COMMON);
 						Main.game.getActiveNPC().setPenisSize(6);
 						Main.game.getActiveNPC().setTesticleSize(TesticleSize.ZERO_VESTIGIAL.getValue());
@@ -513,7 +513,7 @@ public class DominionSuccubusDialogue {
 					}
 					@Override
 					public void effects() {
-						Main.game.getActiveNPC().getPlayerKnowsAreas().add(CoverableArea.PENIS);
+						Main.game.getActiveNPC().setAreaKnownByCharacter(CoverableArea.PENIS, Main.game.getPlayer(), true);
 						Main.game.getActiveNPC().setPenisType(PenisType.DEMON_COMMON);
 						Main.game.getActiveNPC().setPenisSize(11);
 						Main.game.getActiveNPC().setTesticleSize(TesticleSize.ZERO_VESTIGIAL.getValue());
@@ -544,7 +544,7 @@ public class DominionSuccubusDialogue {
 					}
 					@Override
 					public void effects() {
-						Main.game.getActiveNPC().getPlayerKnowsAreas().add(CoverableArea.PENIS);
+						Main.game.getActiveNPC().setAreaKnownByCharacter(CoverableArea.PENIS, Main.game.getPlayer(), true);
 						Main.game.getActiveNPC().setPenisType(PenisType.DEMON_COMMON);
 						Main.game.getActiveNPC().setPenisSize(PenisSize.FIVE_ENORMOUS.getMaximumValue());
 						Main.game.getActiveNPC().setTesticleSize(TesticleSize.ZERO_VESTIGIAL.getValue());
@@ -595,7 +595,7 @@ public class DominionSuccubusDialogue {
 					}
 					@Override
 					public void effects() {
-						Main.game.getActiveNPC().getPlayerKnowsAreas().add(CoverableArea.VAGINA);
+						Main.game.getActiveNPC().setAreaKnownByCharacter(CoverableArea.VAGINA, Main.game.getPlayer(), true);
 						Main.game.getActiveNPC().setVaginaType(VaginaType.DEMON_COMMON);
 						Main.game.getTextStartStringBuilder().append(
 								"<p>"
@@ -619,7 +619,7 @@ public class DominionSuccubusDialogue {
 					}
 					@Override
 					public void effects() {
-						Main.game.getActiveNPC().getPlayerKnowsAreas().add(CoverableArea.VAGINA);
+						Main.game.getActiveNPC().setAreaKnownByCharacter(CoverableArea.VAGINA, Main.game.getPlayer(), true);
 						Main.game.getActiveNPC().setVaginaType(VaginaType.NONE);
 						Main.game.getTextStartStringBuilder().append(
 								"<p>"

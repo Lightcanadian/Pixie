@@ -256,7 +256,12 @@ public abstract class AbstractClothingType extends AbstractCoreType {
 				
 				Element clothingElement = (Element) doc.getElementsByTagName("clothing").item(0);
 				
-				Element coreAttributes = (Element) clothingElement.getElementsByTagName("coreAtributes").item(0);
+				Element coreAttributes;
+				if(clothingElement.getElementsByTagName("coreAtributes").getLength()>0) {
+					coreAttributes = (Element) clothingElement.getElementsByTagName("coreAtributes").item(0); // Support for old versions
+				} else {
+					coreAttributes = (Element) clothingElement.getElementsByTagName("coreAttributes").item(0); // Fix typo
+				}
 				
 				List<ItemEffect> defaultEffects = new ArrayList<>();
 				try {
@@ -437,7 +442,7 @@ public abstract class AbstractClothingType extends AbstractCoreType {
 				
 				this.pathNameEquipped = !coreAttributes.getElementsByTagName("imageEquippedName").item(0).hasChildNodes()
 									? null
-									: coreAttributes.getElementsByTagName("imageEquippedName").item(0).getTextContent();
+									: clothingXMLFile.getParentFile().getAbsolutePath() + "/" + coreAttributes.getElementsByTagName("imageEquippedName").item(0).getTextContent();
 				
 				this.effects = defaultEffects;
 

@@ -11,8 +11,6 @@ import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.CoverableArea;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.npc.NPC;
-import com.lilithsthrone.game.character.npc.dominion.DominionAlleywayAttacker;
-import com.lilithsthrone.game.character.npc.dominion.DominionSuccubusAttacker;
 import com.lilithsthrone.game.character.race.Race;
 import com.lilithsthrone.game.character.race.Subspecies;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
@@ -29,7 +27,7 @@ import com.lilithsthrone.utils.Util;
 
 /**
  * @since 0.1.0
- * @version 0.2.9
+ * @version 0.2.10
  * @author Innoxia
  */
 public interface SexManagerInterface {
@@ -85,14 +83,10 @@ public interface SexManagerInterface {
 	}
 	
 	public default boolean isPlayerAbleToStopSex() {
-		return Sex.isDom(Main.game.getPlayer())
-				|| (Sex.isSubHasEqualControl()
-					&& (Sex.getActivePartner().isSlave()
-					|| (!(Sex.getActivePartner() instanceof DominionAlleywayAttacker) //TODO
-							&& !(Sex.getActivePartner() instanceof DominionSuccubusAttacker))));
+		return Sex.isDom(Main.game.getPlayer()) || (Sex.isSubHasEqualControl() && Sex.isConsensual());
 	}
 	
-	public default boolean isPartnerWantingToStopSex() {
+	public default boolean isPartnerWantingToStopSex(GameCharacter partner) {
 		boolean subsSatisfied = true;
 		boolean domsSatisfied = true;
 		boolean subsResisting = true;
@@ -104,7 +98,7 @@ public interface SexManagerInterface {
 		}
 		
 		for(GameCharacter character : Sex.getSubmissiveParticipants().keySet()) {
-			if(Sex.getSexPace(character)!=SexPace.SUB_RESISTING) {
+			if(Sex.getSexPace(character)!=SexPace.SUB_RESISTING && Sex.getSexPositionSlot(character)!=SexPositionSlot.MISC_WATCHING) {
 				subsResisting = false;
 			}
 			if(Sex.getNumberOfOrgasms(character) == 0 && Sex.getSexPositionSlot(character)!=SexPositionSlot.MISC_WATCHING) {
@@ -112,10 +106,10 @@ public interface SexManagerInterface {
 			}
 		}
 		
-		if(Sex.isDom(Sex.getActivePartner()) && (!Sex.isConsensual() || subsResisting)) {
+		if(Sex.isDom(partner) && (!Sex.isConsensual() || subsResisting)) {
 			return domsSatisfied;
 			
-		} else if(!Sex.isDom(Sex.getActivePartner()) && !Sex.isSubHasEqualControl()) {
+		} else if(!Sex.isDom(partner) && !Sex.isSubHasEqualControl()) {
 			return false;
 			
 		} else {
@@ -256,8 +250,10 @@ public interface SexManagerInterface {
 						:"")
 					+ charactersReacting.get(0).getAssRevealDescription(characterBeingRevealed, charactersReacting);
 		}
-		
-		characterBeingRevealed.getPlayerKnowsAreas().add(CoverableArea.ANUS);
+
+		for(GameCharacter character : charactersReacting) {
+			characterBeingRevealed.setAreaKnownByCharacter(CoverableArea.ANUS, character, true);
+		}
 		return reaction;
 	}
 
@@ -272,8 +268,10 @@ public interface SexManagerInterface {
 						:"")
 					+ charactersReacting.get(0).getVaginaRevealDescription(characterBeingRevealed, charactersReacting);
 		}
-		
-		characterBeingRevealed.getPlayerKnowsAreas().add(CoverableArea.VAGINA);
+
+		for(GameCharacter character : charactersReacting) {
+			characterBeingRevealed.setAreaKnownByCharacter(CoverableArea.VAGINA, character, true);
+		}
 		return reaction;
 	}
 
@@ -288,8 +286,10 @@ public interface SexManagerInterface {
 						:"")
 					+ charactersReacting.get(0).getBreastsRevealDescription(characterBeingRevealed, charactersReacting);
 		}
-		
-		characterBeingRevealed.getPlayerKnowsAreas().add(CoverableArea.BREASTS);
+
+		for(GameCharacter character : charactersReacting) {
+			characterBeingRevealed.setAreaKnownByCharacter(CoverableArea.BREASTS, character, true);
+		}
 		return reaction;
 	}
 
@@ -305,7 +305,9 @@ public interface SexManagerInterface {
 					+ charactersReacting.get(0).getPenisRevealDescription(characterBeingRevealed, charactersReacting);
 		}
 		
-		characterBeingRevealed.getPlayerKnowsAreas().add(CoverableArea.PENIS);
+		for(GameCharacter character : charactersReacting) {
+			characterBeingRevealed.setAreaKnownByCharacter(CoverableArea.PENIS, character, true);
+		}
 		return reaction;
 	}
 
@@ -315,9 +317,11 @@ public interface SexManagerInterface {
 		if(!Sex.isMasturbation()) {
 			reaction = charactersReacting.get(0).getMoundRevealDescription(characterBeingRevealed, charactersReacting);
 		}
-		
-		characterBeingRevealed.getPlayerKnowsAreas().add(CoverableArea.PENIS);
-		characterBeingRevealed.getPlayerKnowsAreas().add(CoverableArea.VAGINA);
+
+		for(GameCharacter character : charactersReacting) {
+			characterBeingRevealed.setAreaKnownByCharacter(CoverableArea.PENIS, character, true);
+			characterBeingRevealed.setAreaKnownByCharacter(CoverableArea.VAGINA, character, true);
+		}
 		return reaction;
 	}
 

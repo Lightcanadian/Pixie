@@ -101,7 +101,7 @@ public class Vagina implements BodyPartInterface, Serializable {
 		}
 		
 		String wetnessDescriptor = orificeVagina.getWetness(owner).getDescriptor();
-		if(Main.game.isInSex()) {
+		if(Main.game.isInSex() && Sex.getAllParticipants().contains(owner)) {
 			if(Sex.hasLubricationTypeFromAnyone(owner, SexAreaOrifice.VAGINA)) {
 				wetnessDescriptor = "wet";
 			}
@@ -261,6 +261,7 @@ public class Vagina implements BodyPartInterface, Serializable {
 			}
 
 			this.type = VaginaType.HUMAN;
+			owner.resetAreaKnownByCharacters(CoverableArea.VAGINA);
 			
 			if(type==VaginaType.HUMAN) {
 				this.girlcum.setType(type.getFluidType());

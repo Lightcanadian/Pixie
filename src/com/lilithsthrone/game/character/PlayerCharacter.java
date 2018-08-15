@@ -16,10 +16,9 @@ import org.w3c.dom.NodeList;
 
 import com.lilithsthrone.game.Game;
 import com.lilithsthrone.game.character.attributes.Attribute;
-import com.lilithsthrone.game.character.body.CoverableArea;
-import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.effects.StatusEffect;
 import com.lilithsthrone.game.character.gender.Gender;
+import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.npc.misc.NPCOffspring;
 import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.persona.PersonalityTrait;
@@ -46,7 +45,7 @@ import com.lilithsthrone.world.places.PlaceType;
 
 /**
  * @since 0.1.0
- * @version 0.2.7
+ * @version 0.2.10
  * @author Innoxia
  */
 public class PlayerCharacter extends GameCharacter implements XMLSaving {
@@ -61,6 +60,8 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 
 	private Set<Race> racesDiscoveredFromBook;
 	
+	protected List<String> friendlyOccupants;
+	
 	// Trader buy-back:
 	private SizedStack<ShopTransaction> buybackStack;
 
@@ -70,10 +71,6 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 		super(nameTriplet, "", level, birthday, gender, startingRace, stage, new CharacterInventory(0), startingWorld, startingPlace);
 
 		this.setSexualOrientation(SexualOrientation.AMBIPHILIC);
-		
-		for(CoverableArea ca : CoverableArea.values()) {
-			playerKnowsAreas.add(ca);
-		}
 		
 		title = "The Human";
 		
@@ -97,12 +94,11 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 
 		charactersEncountered = new ArrayList<>();
 
+		friendlyOccupants = new ArrayList<>();
+		
 		this.setAttribute(Attribute.MAJOR_PHYSIQUE, 10f, false);
 		this.setAttribute(Attribute.MAJOR_ARCANE, 0f, false);
 		this.setAttribute(Attribute.MAJOR_CORRUPTION, 0f, false);
-		
-		this.addPerk(Perk.PHYSICAL_BASE);
-		this.addPerk(Perk.ARCANE_BASE);
 	}
 	
 	@Override
@@ -147,6 +143,15 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 			innerElement.appendChild(e);
 			CharacterUtils.addAttribute(doc, e, "questLine", entry.getKey().toString());
 			CharacterUtils.addAttribute(doc, e, "quest", String.valueOf(entry.getValue()));
+		}
+		
+		Element friendlyOccupants = doc.createElement("friendlyOccupants");
+		playerSpecific.appendChild(friendlyOccupants);
+		for(String occupant : this.getFriendlyOccupants()) {
+			Element element = doc.createElement("occupant");
+			friendlyOccupants.appendChild(element);
+			
+			CharacterUtils.addAttribute(doc, element, "id", occupant);
 		}
 		
 //		private SizedStack<ShopTransaction> buybackStack; TODO
@@ -270,6 +275,17 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 			}
 		}
 		
+		try {
+			for(int i=0; i<((Element) playerSpecificElement.getElementsByTagName("friendlyOccupants").item(0)).getElementsByTagName("occupant").getLength(); i++){
+				Element e = ((Element)playerSpecificElement.getElementsByTagName("occupant").item(i));
+				
+				if(!e.getAttribute("id").equals("NOT_SET")) {
+					character.getFriendlyOccupants().add(e.getAttribute("id"));
+					CharacterUtils.appendToImportLog(log, "<br/>Added occupant: "+e.getAttribute("id"));
+				}
+			}
+		} catch(Exception ex) {	
+		}
 		
 //		// Slaves:
 //		
@@ -509,6 +525,10 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 		return isQuestCompleted(QuestLine.SIDE_SLAVERY) || Main.game.isDebugMode();
 	}
 	
+	public boolean isAbleToAccessRoomManagement() {
+		return isHasSlaverLicense() || isQuestCompleted(QuestLine.SIDE_ACCOMMODATION);
+	}
+	
 	public boolean isQuestProgressGreaterThan(QuestLine questLine, Quest quest) {
 		if(!hasQuest(questLine)) {
 			System.err.println("Player does not have Quest: "+quest.toString());
@@ -710,5 +730,20 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 	@Override
 	public boolean isAbleToBeImpregnated() {
 		return true;
+	}
+
+	/**
+	 * Returns a list of NPCs either living in Lilaya's house or in an apartment known to the player.
+	 */
+	public List<String> getFriendlyOccupants() {
+		return friendlyOccupants;
+	}
+	
+	public boolean addFriendlyOccupant(NPC occupant) {
+		return friendlyOccupants.add(occupant.getId());
+	}
+	
+	public boolean removeFriendlyOccupant(GameCharacter occupant) {
+		return friendlyOccupants.remove(occupant.getId());
 	}
 }

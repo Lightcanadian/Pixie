@@ -2,6 +2,7 @@ package com.lilithsthrone.game.dialogue.story;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.AbstractMap.SimpleEntry;
 
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.Weather;
@@ -17,7 +18,7 @@ import com.lilithsthrone.game.character.body.valueEnums.PiercingType;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.markings.TattooCounterType;
 import com.lilithsthrone.game.character.markings.TattooType;
-import com.lilithsthrone.game.character.persona.History;
+import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.character.persona.Name;
 import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.persona.SexualOrientation;
@@ -439,6 +440,8 @@ public class CharacterCreation {
 					Main.game.getPlayerCell().getInventory().addClothing(AbstractClothingType.generateClothing(ClothingType.NECK_HEART_NECKLACE, Colour.CLOTHING_SILVER, false));
 					Main.game.getPlayerCell().getInventory().addClothing(AbstractClothingType.generateClothing(ClothingType.WRIST_BANGLE, Colour.CLOTHING_SILVER, false));
 					Main.game.getPlayerCell().getInventory().addClothing(AbstractClothingType.generateClothing(ClothingType.ANKLE_BRACELET, Colour.CLOTHING_SILVER, false));
+					
+					Main.game.getPlayerCell().getInventory().addClothing(AbstractClothingType.generateClothing(ClothingType.EYES_GLASSES, Colour.CLOTHING_BLACK_STEEL, false));
 				}
 				break;
 				
@@ -1412,7 +1415,7 @@ public class CharacterCreation {
 						+ "</p>"
 						+ "<p>"
 							+ "[prologueMale.speech(Hah! You know Arthur? I'm here by his invitation. He and I go way back,)]"
-							+ " the man cheerly replies, his smile causing your heart to race."
+							+ " the man cheerily replies, his smile causing your heart to race."
 							+ " [prologueMale.speech(I'm [prologueMale.name] by the way, pleased to meet you "+(Main.game.getPlayer().isFeminine()?"Ms. ...?":"Mr. ...?")+")]"
 						+ "</p>"
 						+ "<p>"
@@ -1449,7 +1452,7 @@ public class CharacterCreation {
 						+ "</p>"
 						+ "<p>"
 							+ "[prologueFemale.speech(Oh! You know Arthur? I'm here by his invitation, actually. He and I go way back,)]"
-							+ " the woman cheerly replies, her smile causing your heart to race."
+							+ " the woman cheerily replies, her smile causing your heart to race."
 							+ " [prologueFemale.speech(I'm [prologueFemale.name] by the way, pleased to meet you "+(Main.game.getPlayer().isFeminine()?"Ms. ...?":"Mr. ...?")+")]"
 						+ "</p>"
 						+ "<p>"
@@ -1501,14 +1504,14 @@ public class CharacterCreation {
 								+ "</div>");
 
 			UtilText.nodeContentSB.append("<div class='container-full-width'>");
-			for(History history : History.getAvailableHistories(Main.game.getPlayer())) {
+			for(Occupation history : Occupation.getAvailableHistories(Main.game.getPlayer())) {
 				UtilText.nodeContentSB.append(
 						"<div class='container-full-width'>"
 							+"<div class='container-full-width' style='margin:0;padding:0;'>"
 								+ "<h6 style='color:"+history.getAssociatedPerk().getColour().toWebHexString()+";'>"+Util.capitaliseSentence(history.getName())+"</h6>"
 							+ "</div>"
 							+"<div class='container-full-width' style='margin:0 8px; width: calc(10% - 16px);'>"
-								+ "<div id='HISTORY_" + history + "' class='fetish-icon full" + (Main.game.getPlayer().getHistory()==history
+								+ "<div id='OCCUPATION_" + history + "' class='fetish-icon full" + (Main.game.getPlayer().getHistory()==history
 									? " owned' style='border:2px solid " + Colour.GENERIC_GOOD.toWebHexString() + ";'>"
 									: " unlocked' style='border:2px solid " + Colour.TEXT_GREY.toWebHexString() + ";" + "'>")
 									+ "<div class='fetish-icon-content'>"+history.getAssociatedPerk().getSVGString()+"</div>"
@@ -1530,7 +1533,7 @@ public class CharacterCreation {
 //					UtilText.nodeContentSB.append(
 //							"<div class='container-half-width'>"
 //								+"<div class='container-full-width' style='margin:0 8px; width: calc(25% - 16px);'>"
-//									+ "<div id='HISTORY_" + history + "' class='fetish-icon full" + (Main.game.getPlayer().getHistory()==history
+//									+ "<div id='OCCUPATION_" + history + "' class='fetish-icon full" + (Main.game.getPlayer().getHistory()==history
 //										? " owned' style='border:2px solid " + Colour.GENERIC_GOOD.toWebHexString() + ";'>"
 //										: " unlocked' style='border:2px solid " + Colour.TEXT_GREY.toWebHexString() + ";" + "'>")
 //										+ "<div class='fetish-icon-content'>"+history.getAssociatedPerk().getSVGString()+"</div>"
@@ -1571,8 +1574,8 @@ public class CharacterCreation {
 							Main.game.getPlayer().getVirginityLossMap().replaceAll((k, v) ->
 								(Main.game.getPlayer().getSexualOrientation()==SexualOrientation.GYNEPHILIC
 									|| (Main.game.getPlayer().getSexualOrientation()==SexualOrientation.AMBIPHILIC && !Main.game.getPlayer().isFeminine()))
-									?"your girlfriend"
-									:"your boyfriend");
+									?new SimpleEntry<>("", "your girlfriend")
+									:new SimpleEntry<>("", "your boyfriend"));
 						}
 					};
 				}
@@ -1714,9 +1717,9 @@ public class CharacterCreation {
 						if(!Main.game.getPlayer().hasPenis()) {
 							for(SexAreaOrifice ot : SexAreaOrifice.values()) {
 								SexType st = new SexType(SexParticipantType.NORMAL, SexAreaPenetration.PENIS, ot);
-								Main.game.getPlayer().setVirginityLoss(st, "");
+								Main.game.getPlayer().resetVirginityLoss(st);
 								st = new SexType(SexParticipantType.SELF, SexAreaPenetration.PENIS, ot);
-								Main.game.getPlayer().setVirginityLoss(st, "");
+								Main.game.getPlayer().resetVirginityLoss(st);
 							}
 							Main.game.getPlayer().setPenisVirgin(true);
 							
@@ -1724,9 +1727,9 @@ public class CharacterCreation {
 						if(!Main.game.getPlayer().hasVagina()) {
 							for(SexAreaPenetration pt : SexAreaPenetration.values()) {
 								SexType st = new SexType(SexParticipantType.NORMAL, pt, SexAreaOrifice.VAGINA);
-								Main.game.getPlayer().setVirginityLoss(st, "");
+								Main.game.getPlayer().resetVirginityLoss(st);
 								st = new SexType(SexParticipantType.SELF, pt, SexAreaOrifice.VAGINA);
-								Main.game.getPlayer().setVirginityLoss(st, "");
+								Main.game.getPlayer().resetVirginityLoss(st);
 							}
 							Main.game.getPlayer().setVaginaVirgin(true);
 						}
