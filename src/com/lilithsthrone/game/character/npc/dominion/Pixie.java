@@ -36,14 +36,25 @@ import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
 
 
-
+/**
+ * 
+ * @author LightCanadian
+ *
+ */
 public class Pixie extends NPC {
 	private static final long serialVersionUID = 1L;	
 	
 	private boolean concealed = true;
 	
+	int dom;
+	int maxDom = 1000;
+	
+	//Set max value for dom target
 	private Pixie domTarget;
+	//Set max value for sub target
 	private Pixie subTarget;
+	//Set the actual transformation goal
+	private Pixie goalTarget;
 	
 	
 	public Pixie() {
@@ -117,6 +128,9 @@ public class Pixie extends NPC {
 			
 			initSubTarget();
 			initDomTarget();
+			initGoalBody();
+			
+			dom=maxDom/2;
 		}
 
 	}
@@ -145,13 +159,18 @@ public class Pixie extends NPC {
 		return concealed;
 	}
 	
+	@Override
+	public void hourlyUpdate() {
+		updatGoalBody();
+	}
+	
 	public void setRaceConceal(boolean conceal)	{
 		concealed = conceal;	
 	}
 	
 	private void initSubTarget() {
-		//Height
-		subTarget.setHeight(152);
+		//-----Height-----//
+		subTarget.setHeight(152);//5"0
 		
 		//-----BODY SHAPE-----//
 		this.setMuscle(Muscle.ZERO_SOFT.getMedianValue());
@@ -162,11 +181,14 @@ public class Pixie extends NPC {
 		
 		//-----HORN-----//
 		this.setHornLength(1);
+		
+		//-----Feminity-----//
+		this.setFemininity(80);
 	}
 	
 	private void initDomTarget() {
-		//Height
-		subTarget.setHeight(182);
+		//-----Height-----//
+		subTarget.setHeight(182);//6"0
 		
 		//-----BODY SHAPE-----//
 		this.setMuscle(Muscle.THREE_MUSCULAR.getMedianValue());
@@ -177,6 +199,27 @@ public class Pixie extends NPC {
 		
 		//-----HORN-----//
 		this.setHornLength(6);
+		
+		//-----Feminity-----//
+		this.setFemininity(80);
+	}
+	
+	private void initGoalBody() {
+		//-----Height-----//
+		subTarget.setHeight(164);//5"4
+				
+		//-----BODY SHAPE-----//
+		this.setMuscle(Muscle.ONE_LIGHTLY_MUSCLED.getMedianValue());
+		this.setBodySize(BodySize.TWO_AVERAGE.getMedianValue());
+		
+		//-----BREAST-----//
+		this.setBreastSize(CupSize.C.getMeasurement());
+		
+		//-----HORN-----//
+		this.setHornLength(2);
+		
+		//-----Feminity-----//
+		this.setFemininity(80);
 	}
 	
 	public Pixie getSubTarget() {
@@ -187,5 +230,64 @@ public class Pixie extends NPC {
 		return domTarget;
 	}
 	
+	public void addDom(int value) {
+		if ((dom + value) > maxDom) {
+			dom = maxDom;
+		}else {
+			dom += value;
+		}
+	}
 	
+	public void addSub(int value) {
+		if((dom - value)<0) {
+			dom = 0;
+		}else {
+			dom -= value;
+		}		
+	}
+	
+	public int getDomPercent() {
+		return dom*100/maxDom;
+	}
+	
+	/**
+	 * compare the current body with goal body to see if TF are applicable.
+	 * Also remove TF if goal are reach.
+	 */
+	public void compareGoalBody() {
+		
+		//-----Height-----//
+		if (this.getHeightValue() > goalTarget.getHeightValue()) {
+			//reduce height
+		} else if (this.getHeightValue() < goalTarget.getHeightValue()){
+			//increase height
+		} else {
+			//if an height effect is apply remove it  
+		}
+		
+		//------Body shape------//
+		if (this.getMuscleValue() > goalTarget.getMuscleValue()) {
+			//reduce muscle
+		} else if (this.getMuscleValue() < goalTarget.getMuscleValue()){
+			//increase muscle
+		} else {
+			//if  a muscle effect is apply, remove it
+		}
+		
+		if (this.getBodySizeValue() > goalTarget.getBodySizeValue()) {
+			//reduce bodysize
+		} else if (this.getBodySizeValue() < goalTarget.getBodySizeValue()){
+			//increase bodysize
+		} else {
+			//if a body size apply remove it
+		}
+		
+	}
+	/**
+	 * update goal body based on dom value
+	 */
+	private void updatGoalBody() {
+		int absolutHeight = subTarget.getHeightValue() + (getDomPercent()*(domTarget.getHeightValue() - subTarget.getHeightValue())/100);
+		//if(goalTarget.getHeightValue() > (105*));
+	}
 }
