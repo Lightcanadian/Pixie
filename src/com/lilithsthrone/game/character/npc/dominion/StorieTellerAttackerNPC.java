@@ -1,6 +1,6 @@
 package com.lilithsthrone.game.character.npc.dominion;
 import com.lilithsthrone.game.character.gender.Gender;
-import com.lilithsthrone.game.character.persona.History;
+import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.dialogue.DialogueNodeOld;
 import com.lilithsthrone.game.dialogue.npcDialogue.dominion.AlleywayAttackerDialogue;
 import com.lilithsthrone.game.dialogue.npcDialogue.dominion.AlleywayProstituteDialogue;
@@ -15,8 +15,6 @@ import com.lilithsthrone.world.places.PlaceType;
  *If none is set, regular dialogue are returned.
  */
 public class StorieTellerAttackerNPC extends DominionAlleywayAttacker {
-	
-	private static final long serialVersionUID = 1L;
 	
 	private DialogueNodeOld victoryCombatDialogue;
 	private DialogueNodeOld defeatCombatDialogue;
@@ -33,7 +31,7 @@ public class StorieTellerAttackerNPC extends DominionAlleywayAttacker {
 	
 	@Override
 	public Response endCombat(boolean applyEffects, boolean victory) {
-		if(this.getHistory()==History.NPC_PROSTITUTE) {
+		if(this.getHistory()==Occupation.NPC_PROSTITUTE) {
 			if (victory) {
 				if(victoryProstituteDialogue == null) {
 					return new Response("", "", AlleywayProstituteDialogue.AFTER_COMBAT_VICTORY);
@@ -72,7 +70,7 @@ public class StorieTellerAttackerNPC extends DominionAlleywayAttacker {
 				|| pt == PlaceType.DOMINION_CANAL
 				|| pt == PlaceType.DOMINION_ALLEYS_CANAL_CROSSING
 				|| pt == PlaceType.DOMINION_CANAL_END) {
-			if(this.getHistory()==History.NPC_PROSTITUTE) {
+			if(this.getHistory()==Occupation.NPC_PROSTITUTE) {
 				this.setPlayerKnowsName(true);
 				if(alleyEncounterProstituteDialogue == null) {
 					return AlleywayProstituteDialogue.ALLEY_PROSTITUTE;

@@ -12,7 +12,7 @@ import com.lilithsthrone.game.sex.managers.universal.SMStanding;
 import com.lilithsthrone.game.character.gender.GenderPreference;
 import com.lilithsthrone.game.character.npc.dominion.Pixie;
 import com.lilithsthrone.game.character.npc.dominion.StorieTellerAttackerNPC;
-import com.lilithsthrone.game.character.persona.History;
+import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
@@ -207,7 +207,7 @@ public class PixieDialogue {
 			Main.game.getActiveNPC().setLevel(Main.game.getPlayer().getLevel()+1);
 			//sometime the NPC doesn't have full health after changing their lvl for some reason
 			Main.game.getActiveNPC().setHealthPercentage(100);
-			Main.game.getActiveNPC().setHistory(History.NPC_MUGGER);
+			Main.game.getActiveNPC().setHistory(Occupation.NPC_MUGGER);
 		}
 		
 		private Pixie getPixie() {

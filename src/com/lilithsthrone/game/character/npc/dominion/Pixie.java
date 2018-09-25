@@ -24,7 +24,7 @@ import com.lilithsthrone.game.character.persona.PersonalityTrait;
 import com.lilithsthrone.game.character.persona.PersonalityWeight;
 import com.lilithsthrone.game.character.persona.SexualOrientation;
 import com.lilithsthrone.game.character.race.RaceStage;
-import com.lilithsthrone.game.character.race.RacialBody;
+import com.lilithsthrone.game.character.race.Subspecies;
 import com.lilithsthrone.game.dialogue.DialogueNodeOld;
 import com.lilithsthrone.game.dialogue.npcDialogue.dominion.PixieDialogue;
 import com.lilithsthrone.game.inventory.CharacterInventory;
@@ -41,8 +41,7 @@ import com.lilithsthrone.world.places.PlaceType;
  * @author LightCanadian
  *
  */
-public class Pixie extends NPC {
-	private static final long serialVersionUID = 1L;	
+public class Pixie extends NPC {	
 	
 	private boolean concealed = true;
 	
@@ -62,11 +61,14 @@ public class Pixie extends NPC {
 	}
 	
 	public Pixie(boolean isImported){
-		super(new NameTriplet("Pixel","Pixie","Pixie"), "A young succubi that you found in an alley after she was abandon by her mother.",
-				0, Main.game.getDateNow().getMonth(), Main.game.getDateNow().getDayOfMonth(), 
-				1, Gender.F_P_V_B_FUTANARI, RacialBody.HUMAN, RaceStage.PARTIAL,
-				new CharacterInventory(0), WorldType.DOMINION, PlaceType.DOMINION_BACK_ALLEYS, true);
-		
+		super(isImported,new NameTriplet("Pixel", "Pixie", "Pixie"),"A young succubi that you found in an alley after she was abandon by her mother.",
+				0, Main.game.getDateNow().getMonth(),Main.game.getDateNow().getDayOfMonth(),1,
+				Gender.F_P_V_B_FUTANARI,Subspecies.HUMAN,RaceStage.PARTIAL,
+				new CharacterInventory(0),WorldType.DOMINION,PlaceType.DOMINION_BACK_ALLEYS,true);
+		}
+	
+	@Override
+	public void setStartingBody(boolean setPersona) {
 		this.setPersonality(Util.newHashMapOfValues(
 				new Value<>(PersonalityTrait.AGREEABLENESS, PersonalityWeight.HIGH),
 				new Value<>(PersonalityTrait.CONSCIENTIOUSNESS, PersonalityWeight.LOW),
@@ -74,7 +76,7 @@ public class Pixie extends NPC {
 				new Value<>(PersonalityTrait.NEUROTICISM, PersonalityWeight.HIGH),
 				new Value<>(PersonalityTrait.ADVENTUROUSNESS, PersonalityWeight.AVERAGE)));
 		
-		if(!isImported) {			
+		if(!setPersona) {			
 			//-----CORE-----/
 			this.setHeight(152);//Short(about 5 feet)
 			this.setFemininity(60);//low feminity at the beginning
@@ -126,13 +128,8 @@ public class Pixie extends NPC {
 			//-----LOCATION-----//
 			//this.setLocation(Main.game.getPlayer().getLocation());//For debuggin she spawn in our room at the beginning
 			
-			initSubTarget();
-			initDomTarget();
-			initGoalBody();
-			
 			dom=maxDom/2;
 		}
-
 	}
 	
 	@Override
@@ -166,6 +163,12 @@ public class Pixie extends NPC {
 	
 	public void setRaceConceal(boolean conceal)	{
 		concealed = conceal;	
+	}
+	
+	public void initRef() {
+		initSubTarget();
+		initDomTarget();
+		initGoalBody();
 	}
 	
 	private void initSubTarget() {
@@ -287,7 +290,7 @@ public class Pixie extends NPC {
 	 * update goal body based on dom value
 	 */
 	private void updatGoalBody() {
-		int absolutHeight = subTarget.getHeightValue() + (getDomPercent()*(domTarget.getHeightValue() - subTarget.getHeightValue())/100);
+		//int absolutHeight = subTarget.getHeightValue() + (getDomPercent()*(domTarget.getHeightValue() - subTarget.getHeightValue())/100);
 		//if(goalTarget.getHeightValue() > (105*));
 	}
 }
